@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
-import img1 from "../../images/closet-and-logo.png";
+import img1 from "../../images/closet-and-logo-2.png";
 import img2 from "../../images/bedford-ave.jpg";
 
 export default function Slideshow() {

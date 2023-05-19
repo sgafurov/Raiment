@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
@@ -9,8 +9,26 @@ import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 
 export default function Products() {
+  const [image, setImage] = useState(null);
+
   return (
     <div>
+      <h1>UPLOAD</h1>
+      <input
+        type="file"
+        name="myImage"
+        onChange={(event) => {
+          setImage(event.target.files[0]);
+        }}
+      />
+      {image && (
+        <img
+          alt=""
+          width={"250px"}
+          src={window.URL.createObjectURL(image)}
+        />
+      )}
+
       <h3>Showing results for "vintage" near 11215</h3>
       <Container>
         <Row>
