@@ -31,5 +31,3 @@ export default function Slideshow() {
     </Carousel>
   );
 }
-
-// render(<ControlledCarousel />);
