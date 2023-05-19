@@ -1,4 +1,4 @@
-import Landing from "./components/Landing";
+import Landing from "./components/landing/Landing";
 import Login from "./components/account/login";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
