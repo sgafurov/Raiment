@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Landing from "./components/Landing";
 import 'bootstrap/dist/css/bootstrap.min.css';
