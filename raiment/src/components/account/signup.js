@@ -3,20 +3,24 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
 
-export default function Login() {
+export default function SignUp() {
   let navigate = useNavigate();
+
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const usernameRef = useRef(null);
 
-  const signIn = (e) => {
+  const signUp = (e) => {
     e.preventDefault();
     auth
-      .signInWithEmailAndPassword(
+      .createUserWithEmailAndPassword(
         emailRef.current.value,
         passwordRef.current.value
       )
       .then((res) => {
+        updateProfile(res.user, { displayName: usernameRef.current.value });
         console.log(res);
       })
       .catch((err) => {
@@ -43,18 +47,28 @@ export default function Login() {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit" onClick={signIn}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="username"
+            placeholder="Enter username"
+            ref={usernameRef}
+          />
+          <Form.Text className="text-muted"></Form.Text>
+        </Form.Group>
+
+        <Button variant="primary" type="submit" onClick={signUp}>
           Submit
         </Button>
       </Form>
       <Form.Label>
-        No account?{" "}
+        Already have an account?
         <Button
           onClick={() => {
-            navigate("/signup");
+            navigate("/login");
           }}
         >
-          Sign up
+          Log in
         </Button>
       </Form.Label>
     </>

@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import Products from "./components/Products";
+import SignUp from "./components/account/signup";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Landing />} />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/products" element={<Products />} />
         </Routes>
       </Router>
