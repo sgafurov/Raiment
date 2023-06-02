@@ -3,8 +3,11 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { setIsLoggedIn } from "../../store/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
+  let dispatch = useDispatch();
   let navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -18,12 +21,22 @@ export default function Login() {
       )
       .then((res) => {
         console.log(res);
-        localStorage.setItem("userInfo",JSON.stringify({isLoggedIn: true, username: res.user.displayName, email: res.user.email}))
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            isLoggedIn: true,
+            username: res.user.displayName,
+            email: res.user.email,
+          })
+        );
+        dispatch(setIsLoggedIn(true));
       })
       .catch((err) => {
         console.log(err);
         alert(err);
       });
+
+    navigate("/dashboard");
   };
 
   return (
