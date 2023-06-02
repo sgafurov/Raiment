@@ -18,6 +18,7 @@ export default function Login() {
       )
       .then((res) => {
         console.log(res);
+        localStorage.setItem("userInfo",JSON.stringify({isLoggedIn: true, username: res.user.displayName, email: res.user.email}))
       })
       .catch((err) => {
         console.log(err);
