@@ -1,5 +1,51 @@
-import React, { useState } from "react";
-import { BASE_URL } from "../constants";
+import React, { useState } from 'react';
+import 'firebase/compat/storage';
+import { storage } from '../firebase';
+
+const Upload = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  const handleImageSelect = (e) => {
+    setSelectedImage(e.target.files[0]);
+  };
+
+  const handleImageUpload = () => {
+    if (selectedImage) {
+      const storageRef = storage.ref();
+      const imageRef = storageRef.child(selectedImage.name);
+      const uploadTask = imageRef.put(selectedImage);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setUploadProgress(progress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          // Upload complete, do something here (e.g., show success message)
+          console.log('Upload complete');
+        }
+      );
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleImageSelect} />
+      <button onClick={handleImageUpload}>Upload</button>
+      {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+    </div>
+  );
+};
+
+export default Upload;
+
 
 // export default function Upload() {
 //   const [selectedImage, setSelectedImage] = useState("");
@@ -45,6 +91,7 @@ import { BASE_URL } from "../constants";
 // }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
+
 // export default function Upload() {
 //   const [previewImage, setPreviewImage] = useState(null);
 //   const [uploadedImage, setUploadedImage] = useState(null);
@@ -84,6 +131,7 @@ import { BASE_URL } from "../constants";
 // }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // export default function Upload() {
 //   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -148,75 +196,77 @@ import { BASE_URL } from "../constants";
 //   );
 // }
 
-export default function Upload() {
-  async function postImage({ image }) {
-    const formData = new FormData();
-    formData.append("image", image);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // const result = await axios.post("/images", formData, {
-    //   headers: { "Content-Type": "multipart/form-data" },
-    // });
-    // return result.data;
+// export default function Upload() {
+//   async function postImage({ image }) {
+//     const formData = new FormData();
+//     formData.append("image", image);
 
-    try {
-      const res = await fetch(`${BASE_URL}/product/post`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          // Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: formData,
-      });
+//     // const result = await axios.post("/images", formData, {
+//     //   headers: { "Content-Type": "multipart/form-data" },
+//     // });
+//     // return result.data;
 
-      const resObject = await res.json(); // or res.data ??
-      console.log("resObject from upload.js", resObject);
+//     try {
+//       const res = await fetch(`${BASE_URL}/product/post`, {
+//         method: "POST",
+//         mode: "cors",
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//           // Authorization: `Bearer ${localStorage.getItem("token")}`,
+//         },
+//         body: formData,
+//       });
 
-      if (resObject.status === 400) {
-        throw resObject;
-      }
+//       const resObject = await res.json(); // or res.data ??
+//       console.log("resObject from upload.js", resObject);
 
-      if (resObject.status === 403) {
-        throw resObject;
-      }
+//       if (resObject.status === 400) {
+//         throw resObject;
+//       }
 
-      alert("image uploaded");
-    } catch (err) {
-      console.log("error line 89 of review form", err);
-      if (err.status === 400 || err.status === 403) {
-        alert(err.message);
-      }
-    }
-  }
+//       if (resObject.status === 403) {
+//         throw resObject;
+//       }
 
-  const [file, setFile] = useState();
-  const [images, setImages] = useState([]);
+//       alert("image uploaded");
+//     } catch (err) {
+//       console.log("error line 89 of review form", err);
+//       if (err.status === 400 || err.status === 403) {
+//         alert(err.message);
+//       }
+//     }
+//   }
 
-  const submit = async (event) => {
-    event.preventDefault();
-    const result = await postImage({ image: file });
-    setImages([result.image, ...images]);
-  };
+//   const [file, setFile] = useState();
+//   const [images, setImages] = useState([]);
 
-  const fileSelected = (event) => {
-    const file = event.target.files[0];
-    setFile(file);
-  };
+//   const submit = async (event) => {
+//     event.preventDefault();
+//     const result = await postImage({ image: file });
+//     setImages([result.image, ...images]);
+//   };
 
-  return (
-    <div className="App">
-      <form onSubmit={submit}>
-        <input onChange={fileSelected} type="file" accept="image/*"></input>
-        <button type="submit">Submit</button>
-      </form>
+//   const fileSelected = (event) => {
+//     const file = event.target.files[0];
+//     setFile(file);
+//   };
 
-      {images.map((image) => (
-        <div key={image}>
-          <img src={image} alt=""></img>
-        </div>
-      ))}
+//   return (
+//     <div className="App">
+//       <form onSubmit={submit}>
+//         <input onChange={fileSelected} type="file" accept="image/*"></input>
+//         <button type="submit">Submit</button>
+//       </form>
 
-      <img src="/images/9fa06d3c5da7aec7f932beb5b3e60f1d" alt=""></img>
-    </div>
-  );
-}
+//       {images.map((image) => (
+//         <div key={image}>
+//           <img src={image} alt=""></img>
+//         </div>
+//       ))}
+
+//       <img src="/images/9fa06d3c5da7aec7f932beb5b3e60f1d" alt=""></img>
+//     </div>
+//   );
+// }

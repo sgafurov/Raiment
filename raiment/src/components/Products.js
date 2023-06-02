@@ -8,12 +8,9 @@ import Col from "react-bootstrap/Col";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
-import Upload from "./Upload";
-
 export default function Products() {
   return (
     <div>
-      <Upload/>
 
       {/* //////////////////////////////////// */}
       <h3>Showing results for "vintage" near 11215</h3>

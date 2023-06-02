@@ -5,6 +5,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Logo from "../images/logo.png";
+import ProfileIcon from "../images/profile-icon.png";
 import { Link } from "react-router-dom";
 
 export default function NavigationBar() {
@@ -23,9 +24,12 @@ export default function NavigationBar() {
             <Nav.Link as={Link} to="/products">
               Products
             </Nav.Link>
-            <Nav.Link as={Link} to="/login">
-              Account
+            <Nav.Link as={Link} to="/upload">
+              Upload
             </Nav.Link>
+            {/* <Nav.Link as={Link} to="/login">
+              Account
+            </Nav.Link> */}
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -47,6 +51,9 @@ export default function NavigationBar() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
+          <Nav.Link as={Link} to="/login">
+            <img src={ProfileIcon} alt="Profile icon" height={70} />
+          </Nav.Link>
         </Navbar.Collapse>
       </Container>
     </Navbar>

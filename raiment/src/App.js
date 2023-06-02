@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import Products from "./components/Products";
 import SignUp from "./components/account/signup";
+import Upload from "./components/Upload";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/products" element={<Products />} />
+          <Route exact path="/upload" element={<Upload />} />
         </Routes>
       </Router>
     </div>
