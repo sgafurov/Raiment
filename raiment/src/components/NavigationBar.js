@@ -6,9 +6,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Logo from "../images/logo.png";
 import ProfileIcon from "../images/profile-icon.png";
+import LogoutIcon from "../images/logout-icon.png";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../store/userSlice";
 
 export default function NavigationBar() {
+  const { isLoggedIn } = useSelector((state) => state.userSlice);
+  let dispatch = useDispatch();
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -27,9 +33,6 @@ export default function NavigationBar() {
             <Nav.Link as={Link} to="/upload">
               Upload
             </Nav.Link>
-            {/* <Nav.Link as={Link} to="/login">
-              Account
-            </Nav.Link> */}
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -51,9 +54,22 @@ export default function NavigationBar() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-          <Nav.Link as={Link} to="/login">
-            <img src={ProfileIcon} alt="Profile icon" height={70} />
-          </Nav.Link>
+          {isLoggedIn ? (
+            <Nav.Link
+              as={Link}
+              to="/"
+              onClick={() => {
+                localStorage.clear();
+                dispatch(logoutUser());
+              }}
+            >
+              <img src={LogoutIcon} alt="Log out icon" height={30} />
+            </Nav.Link>
+          ) : (
+            <Nav.Link as={Link} to="/login">
+              <img src={ProfileIcon} alt="Profile icon" height={70} />
+            </Nav.Link>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
