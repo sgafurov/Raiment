@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import { setIsLoggedIn } from "../../store/userSlice";
+import { setUserInfo } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 
 export default function Login() {
@@ -21,22 +21,28 @@ export default function Login() {
       )
       .then((res) => {
         console.log(res);
+        // this dispatch is needed here. allows state to be updated before app.js can update it
+        dispatch(
+          setUserInfo({
+            username: res.user.displayName,
+            email: res.user.email,
+            isLoggedIn: true,
+          })
+        );
         localStorage.setItem(
           "userInfo",
           JSON.stringify({
-            isLoggedIn: true,
             username: res.user.displayName,
             email: res.user.email,
+            isLoggedIn: true,
           })
         );
-        dispatch(setIsLoggedIn(true));
+        navigate("/user-dashboard");
       })
       .catch((err) => {
         console.log(err);
         alert(err);
       });
-
-    navigate("/dashboard");
   };
 
   return (

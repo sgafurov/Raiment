@@ -9,14 +9,30 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect } from "react";
 import { setUserInfo } from "../src/store/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import UserDashboard from "./components/UserDashboard";
 
 function App() {
   let dispatch = useDispatch();
+  const { username, email, isLoggedIn } = useSelector(
+    (state) => state.userSlice
+  );
 
   useEffect(() => {
     if (localStorage.getItem("userInfo")) {
-      dispatch(setUserInfo(JSON.parse(localStorage.getItem("userInfo"))));
+      dispatch(
+        setUserInfo({
+          username: localStorage.getItem("userInfo").username,
+          email: localStorage.getItem("userInfo").email,
+          isLoggedIn: true
+        })
+      );
+      console.log(
+        "userSlice being updated from App.js level",
+        username,
+        email,
+        isLoggedIn
+      );
     }
   }, []);
 
@@ -28,6 +44,7 @@ function App() {
           <Route exact path="/" element={<Landing />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
+          <Route exact path="/user-dashboard" element={<UserDashboard />} />
           <Route exact path="/products" element={<Products />} />
           <Route exact path="/upload" element={<Upload />} />
         </Routes>

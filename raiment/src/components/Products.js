@@ -11,8 +11,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 export default function Products() {
   return (
     <div>
-
-      {/* //////////////////////////////////// */}
       <h3>Showing results for "vintage" near 11215</h3>
       <Container>
         <Row>
