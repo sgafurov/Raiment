@@ -11,17 +11,21 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+import { selectUser } from "../store/userSlice";
 
 export default function NavigationBar() {
   const { isLoggedIn } = useSelector((state) => state.userSlice);
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear();
-    dispatch(logoutUser());
-    navigate("/");
-  };
+  const user = useSelector(selectUser);
+
+  // const logout = () => {
+  //   localStorage.clear();
+  //   dispatch(logoutUser());
+  //   navigate("/");
+  // };
 
   return (
     <Navbar bg="light" expand="lg">
@@ -38,7 +42,7 @@ export default function NavigationBar() {
             <Nav.Link as={Link} to="/products">
               Products
             </Nav.Link>
-            {isLoggedIn ? (
+            {user ? (
               <>
                 <Nav.Link as={Link} to="/upload">
                   Upload
@@ -96,18 +100,21 @@ export default function NavigationBar() {
               <img src={ProfileIcon} alt="Profile icon" height={70} />
             </Nav.Link>
           )} */}
-          {isLoggedIn ? (
+          {user ? (
             <div className="nav-buttons-logged-in">
-              <Nav.Link as={Link} to="/user-dashboard">
-                PROFILE
-              </Nav.Link>
-              <Nav.Link as={Link} to="/" onClick={logout}>
-                LOGOUT
+              <Nav.Link
+                as={Link}
+                to="/"
+                onClick={() => {
+                  auth.signOut();
+                }}
+              >
+                <img src={LogoutIcon} alt="Log out icon" height={30} />
               </Nav.Link>
             </div>
           ) : (
             <Nav.Link as={Link} to="/login">
-              Login
+              <img src={ProfileIcon} alt="Profile icon" height={70} />
             </Nav.Link>
           )}
         </Navbar.Collapse>

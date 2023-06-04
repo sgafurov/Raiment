@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import 'firebase/compat/storage';
-import { storage } from '../firebase';
+import React, { useState } from "react";
+import "firebase/compat/storage";
+import { storage } from "../firebase";
 
 const Upload = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -8,6 +8,7 @@ const Upload = () => {
 
   const handleImageSelect = (e) => {
     setSelectedImage(e.target.files[0]);
+    console.log("selected image", e.target);
   };
 
   const handleImageUpload = () => {
@@ -17,7 +18,7 @@ const Upload = () => {
       const uploadTask = imageRef.put(selectedImage);
 
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -28,8 +29,7 @@ const Upload = () => {
           console.log(error);
         },
         () => {
-          // Upload complete, do something here (e.g., show success message)
-          console.log('Upload complete');
+          console.log("Upload complete");
         }
       );
     }
@@ -45,7 +45,6 @@ const Upload = () => {
 };
 
 export default Upload;
-
 
 // export default function Upload() {
 //   const [selectedImage, setSelectedImage] = useState("");

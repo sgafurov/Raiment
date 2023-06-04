@@ -8,24 +8,18 @@ export default function UserDashboard() {
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear();
-    dispatch(logoutUser());
-    navigate("/");
-  };
-
   return (
     <div>
-      {isLoggedIn ? (
+      <h1>User Dashboard</h1>
+      {/* {isLoggedIn ? (
         <>
           <h1>User Dashboard</h1>
-          <button onClick={logout}>Logout</button>
         </>
       ) : (
         <>
           <h1>You have to login</h1>
         </>
-      )}
+      )} */}
     </div>
   );
 }

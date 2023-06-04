@@ -1,7 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-import "firebase/compat/storage"
+import "firebase/compat/storage";
 // import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
@@ -20,8 +20,11 @@ const auth = firebase.auth();
 
 // const storage = getStorage(firebaseApp);
 // "gs://raiment-497.appspot.com"
-firebase.initializeApp(firebaseConfig);
-const storage = firebase.storage();
+
+// firebase.initializeApp(firebaseConfig);
+// const storage = firebase.storage();
+
+const storage = firebaseApp.storage();
 
 export { auth, storage };
 export default db;
