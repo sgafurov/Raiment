@@ -4,9 +4,12 @@ import Form from "react-bootstrap/Form";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
+import { login } from "../../store/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function SignUp() {
   let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -14,14 +17,21 @@ export default function SignUp() {
 
   const signUp = (e) => {
     e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const username = usernameRef.current.value;
     auth
-      .createUserWithEmailAndPassword(
-        emailRef.current.value,
-        passwordRef.current.value
-      )
+      .createUserWithEmailAndPassword(email, password)
       .then((res) => {
-        updateProfile(res.user, { displayName: usernameRef.current.value });
-        console.log(res);
+        updateProfile(res.user, { displayName: username });
+        // this dispatch is needed here. allows state to be updated before app.js can update it
+        dispatch(
+          login({
+            uid: res.user.uid,
+            email: res.user.email,
+            username: username,
+          })
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +44,12 @@ export default function SignUp() {
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" ref={emailRef} />
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            ref={emailRef}
+            required
+          />
           <Form.Text className="text-muted"></Form.Text>
         </Form.Group>
 
@@ -44,6 +59,7 @@ export default function SignUp() {
             type="password"
             placeholder="Password"
             ref={passwordRef}
+            required
           />
         </Form.Group>
 
@@ -53,6 +69,7 @@ export default function SignUp() {
             type="username"
             placeholder="Enter username"
             ref={usernameRef}
+            required
           />
           <Form.Text className="text-muted"></Form.Text>
         </Form.Group>

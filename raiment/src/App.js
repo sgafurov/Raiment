@@ -35,6 +35,7 @@ function App() {
           login({
             uid: userAuth.uid,
             email: userAuth.email,
+            username: userAuth.displayName
           })
         );
       } else {
