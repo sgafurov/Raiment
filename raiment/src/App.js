@@ -4,25 +4,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import Products from "./components/Products";
 import SignUp from "./components/account/SignUp";
-import Upload from "./components/Upload";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect } from "react";
-import userSlice, {
-  setUserInfo,
-  login,
-  logout,
-  selectUser,
-} from "../src/store/userSlice";
+import { login, logout, selectUser } from "../src/store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import UserDashboard from "./components/UserDashboard";
 import { auth } from "./firebase";
+import CreateListing from "./components/listing/CreateListing";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   let dispatch = useDispatch();
-  // const { username, email, isLoggedIn } = useSelector(
-  //   (state) => state.userSlice
-  // );
 
   const user = useSelector(selectUser);
 
@@ -35,7 +27,7 @@ function App() {
           login({
             uid: userAuth.uid,
             email: userAuth.email,
-            username: userAuth.displayName
+            username: userAuth.displayName,
           })
         );
       } else {
@@ -44,24 +36,6 @@ function App() {
     });
     return unsubscribe; // good practice. prevents memory leaks. unsubscribes and cleans up the listener when component unmounts
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("userInfo")) {
-  //     dispatch(
-  //       setUserInfo({
-  //         username: localStorage.getItem("userInfo").username,
-  //         email: localStorage.getItem("userInfo").email,
-  //         isLoggedIn: true,
-  //       })
-  //     );
-  //     console.log(
-  //       "userSlice being updated from App.js level",
-  //       username,
-  //       email,
-  //       isLoggedIn
-  //     );
-  //   }
-  // }, []);
 
   return (
     <div className="App">
@@ -89,7 +63,11 @@ function App() {
             path="/products"
             element={user ? <Products /> : <Login />}
           />
-          <Route exact path="/upload" element={user ? <Upload /> : <Login />} />
+          <Route
+            exact
+            path="/upload"
+            element={user ? <CreateListing /> : <Login />}
+          />
         </Routes>
       </Router>
     </div>
