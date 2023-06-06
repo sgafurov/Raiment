@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import { login } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 
 export default function SignUp() {
   let navigate = useNavigate();
@@ -18,36 +18,75 @@ export default function SignUp() {
 
   function writeUserData(userId, username, email) {
     const db = getDatabase();
-    set(ref(db, "users/" + userId), {
+    // set(ref(db, "users/" + userId), {
+    set(ref(db, "users/" + username), {
+      userId: userId,
       username: username,
       email: email,
     });
   }
 
-  const signUp = (e) => {
+  async function checkUsernameExists(username) {
+    const db = getDatabase();
+    // const userRef = ref(db, "users/" + uid);
+    const userRef = ref(db, "users/" + username);
+
+    // onValue(userRef, (snapshot) => {
+    //   const data = snapshot.val();
+    //   console.log("snapshot data", data);
+    //   console.log("username we are comparing", username);
+    //   console.log("are they equal?", data.username === username);
+    //   if (data.username === username) {
+    //     return true;
+    //   }
+    // });
+
+    return new Promise((resolve) => {
+      onValue(userRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log("snapshot data", data);
+        console.log("username we are comparing", username);
+        console.log("are they equal?", data?.username === username);
+        resolve(data?.username === username);
+      });
+    });
+  }
+
+  const signUp = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const username = usernameRef.current.value;
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
-        updateProfile(res.user, { displayName: username });
-        // this dispatch is needed here. allows state to be updated before app.js can update it
-        dispatch(
-          login({
-            uid: res.user.uid,
-            email: res.user.email,
-            username: username,
-          })
-        );
-        // add user to DB
-        writeUserData(res.user.uid, username, res.user.email);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert(err);
-      });
+    let username = usernameRef.current.value.trim().toLowerCase();
+    username = username.replace(/[^a-zA-Z0-9]/g, "");
+    console.log("updated username", username);
+
+    const usernameExists = await checkUsernameExists(username);
+    if (usernameExists === true) {
+      alert("This username is already taken. Please choose another one");
+      return;
+    } else {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((res) => {
+          updateProfile(res.user, { displayName: username });
+
+          // this dispatch is needed here. allows state to be updated before app.js can update it
+          dispatch(
+            login({
+              uid: res.user.uid,
+              email: res.user.email,
+              username: username,
+            })
+          );
+
+          // add user to DB
+          writeUserData(res.user.uid, username, res.user.email);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert(err);
+        });
+    }
   };
 
   return (
