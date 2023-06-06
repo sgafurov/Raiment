@@ -41,7 +41,13 @@ export default function SignUp() {
 
   return (
     <>
-      <Form>
+      <Form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -57,7 +63,7 @@ export default function SignUp() {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Enter password"
             ref={passwordRef}
             required
           />
@@ -79,13 +85,15 @@ export default function SignUp() {
         </Button>
       </Form>
       <Form.Label>
-        Already have an account?
         <Button
           onClick={() => {
             navigate("/login");
           }}
+          style={{ background: "none", border: "none" }}
         >
-          Log in
+          <span style={{ color: "black" }}>
+            Already have an account? Log in
+          </span>
         </Button>
       </Form.Label>
     </>

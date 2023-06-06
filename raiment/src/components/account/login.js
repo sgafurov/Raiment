@@ -43,7 +43,13 @@ export default function Login() {
 
   return (
     <>
-      <Form>
+      <Form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="Enter email" ref={emailRef} />
@@ -54,7 +60,7 @@ export default function Login() {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Enter password"
             ref={passwordRef}
           />
         </Form.Group>
@@ -64,13 +70,13 @@ export default function Login() {
         </Button>
       </Form>
       <Form.Label>
-        No account?{" "}
         <Button
           onClick={() => {
             navigate("/signup");
           }}
+          style={{ background: "none", border: "none" }}
         >
-          Sign up
+          <span style={{ color: "black" }}>New user? Sign up</span>
         </Button>
       </Form.Label>
     </>
