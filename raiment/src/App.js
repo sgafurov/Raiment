@@ -31,6 +31,7 @@ function App() {
           })
         );
       } else {
+        localStorage.clear();
         dispatch(logout());
       }
     });
