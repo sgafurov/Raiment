@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import { login } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
+import { getDatabase, ref, set } from "firebase/database";
 
 export default function SignUp() {
   let navigate = useNavigate();
@@ -14,6 +15,14 @@ export default function SignUp() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const usernameRef = useRef(null);
+
+  function writeUserData(userId, username, email) {
+    const db = getDatabase();
+    set(ref(db, "users/" + userId), {
+      username: username,
+      email: email,
+    });
+  }
 
   const signUp = (e) => {
     e.preventDefault();
@@ -32,6 +41,8 @@ export default function SignUp() {
             username: username,
           })
         );
+        // add user to DB
+        writeUserData(res.user.uid, username, res.user.email);
       })
       .catch((err) => {
         console.log(err);

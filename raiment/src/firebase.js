@@ -2,6 +2,8 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
+import "firebase/database";
+import { getDatabase } from "firebase/database";
 // import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
@@ -15,16 +17,14 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-const db = firebaseApp.firestore();
+// const db = firebaseApp.firestore();
 const auth = firebase.auth();
 
 // const storage = getStorage(firebaseApp);
 // "gs://raiment-497.appspot.com"
-
-// firebase.initializeApp(firebaseConfig);
-// const storage = firebase.storage();
-
 const storage = firebaseApp.storage();
 
+export const db = getDatabase(firebaseApp); // this one works without errors
+
 export { auth, storage };
-export default db;
+// export default db;
