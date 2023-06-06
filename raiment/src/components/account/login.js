@@ -66,7 +66,7 @@ export default function Login() {
         </Form.Group>
 
         <Button variant="primary" type="submit" onClick={signIn}>
-          Submit
+          Log in
         </Button>
       </Form>
       <Form.Label>

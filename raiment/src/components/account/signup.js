@@ -131,7 +131,7 @@ export default function SignUp() {
         </Form.Group>
 
         <Button variant="primary" type="submit" onClick={signUp}>
-          Submit
+          Sign up
         </Button>
       </Form>
       <Form.Label>
