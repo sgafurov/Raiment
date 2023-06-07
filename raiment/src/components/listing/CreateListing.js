@@ -6,15 +6,25 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { storage } from "../../firebase";
+import { getDatabase, ref, set } from "firebase/database";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
+import uuid from "react-uuid";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
-  // const [item, setItem] = useState({ title: "", description: "", images: [] });
+  let navigate = useNavigate();
+  const user = useSelector(selectUser);
+
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
+  const priceRef = useRef(null);
+  const sizeRef = useRef(null);
 
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imageArray, setImageArray] = useState([]);
   const [imageURLArray, setImageURLArray] = useState([]);
+  const [imageJSONArray, setImageJSONArray] = useState([]);
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
@@ -26,9 +36,6 @@ export default function CreateListing() {
     // localStorage.setItem("imageURLArray", JSON.stringify(imageURLArray));
   }, [imageURLArray, imageArray]);
 
-  // submit listing
-  const handleSubmit = () => {};
-
   const handleImageSelect1 = (e) => {
     setImage1(e.target.files[0]);
     // overwrite image when new one is chosen
@@ -39,6 +46,11 @@ export default function CreateListing() {
         return updatedArray;
       });
       setImageArray((prevImageArray) => {
+        const updatedArray = [...prevImageArray];
+        updatedArray[0] = e.target.files[0];
+        return updatedArray;
+      });
+      setImageJSONArray((prevImageArray) => {
         const updatedArray = [...prevImageArray];
         updatedArray[0] = e.target.files[0];
         return updatedArray;
@@ -127,10 +139,18 @@ export default function CreateListing() {
   };
 
   const handleImageUpload = (e) => {
-    e.preventDefault(); //prevents page from refreshing and removing images
+    e.preventDefault(); // prevents page from refreshing and removing images
     console.log("inside handleImageUpload", imageArray);
     if (imageArray.length > 0) {
       for (let i = 0; i < imageArray.length; i++) {
+        let newObject = {
+          name: imageArray[i].name,
+          lastModified: imageArray[i].lastModified,
+          size: imageArray[i].size,
+          type: imageArray[i].type,
+        };
+        setImageJSONArray((prev) => [...prev, newObject]);
+
         const storageRef = storage.ref();
         const imageRef = storageRef.child(imageArray[i].name);
         const uploadTask = imageRef.put(imageArray[i]);
@@ -154,6 +174,51 @@ export default function CreateListing() {
     }
   };
 
+  function writeListingData(title, description, price, size, imageJSONArray) {
+    // console.log("adding listing to DB", item);
+    console.log("user.username", user.username);
+    console.log(
+      "contents of the listing",
+      title,
+      description,
+      price,
+      size,
+      //   imageArray,
+      imageJSONArray
+    );
+
+    const db = getDatabase();
+
+    set(ref(db, "listings/" + user.username), {
+      listingId: uuid(),
+      username: user.username,
+      title: title,
+      description: description,
+      price: price,
+      size: size,
+      images: {
+        0: imageJSONArray[0],
+        1: imageJSONArray[1],
+        2: imageJSONArray[2],
+        3: imageJSONArray[3],
+      },
+      createdAt: new Date(),
+    });
+  }
+
+  // submit listing
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    writeListingData(
+      titleRef.current.value,
+      descriptionRef.current.value,
+      priceRef.current.value,
+      sizeRef.current.value,
+      //   imageArray
+      imageJSONArray
+    );
+  };
+
   return (
     <div>
       <h1>List an item</h1>
@@ -166,17 +231,23 @@ export default function CreateListing() {
       >
         <Form.Group className="mb-3" controlId="formItemTitle">
           <Form.Label>Title</Form.Label>
-          <Form.Control type="text" ref={titleRef} style={{ width: "200px" }} />
+          <Form.Control type="text" ref={titleRef} />
           <Form.Text className="text-muted"></Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formItemDescription">
           <Form.Label>Description</Form.Label>
-          <Form.Control
-            type="text"
-            ref={descriptionRef}
-            style={{ width: "200px" }}
-          />
+          <Form.Control type="text" ref={descriptionRef} />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formItemPrice">
+          <Form.Label>Price</Form.Label>
+          <Form.Control type="text" ref={priceRef} />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formItemSize">
+          <Form.Label>Size</Form.Label>
+          <Form.Control type="text" ref={sizeRef} />
         </Form.Group>
 
         <Container>
@@ -247,11 +318,16 @@ export default function CreateListing() {
           </Row>
         </Container>
         <br />
-        <button onClick={handleImageUpload}>Upload Images</button>
+        <Button
+          style={{ background: "grey", border: "none" }}
+          onClick={handleImageUpload}
+        >
+          Upload Images
+        </Button>
         {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
         <br />
         <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Submit
+          Create listing
         </Button>
       </Form>
     </div>
