@@ -24,7 +24,10 @@ const auth = firebase.auth();
 // "gs://raiment-497.appspot.com"
 const storage = firebaseApp.storage();
 
+
 export const db = getDatabase(firebaseApp); // this one works without errors
+// export const db = firebase.database(); 
+
 
 export { auth, storage };
 // export default db;

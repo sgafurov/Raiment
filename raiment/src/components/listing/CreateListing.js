@@ -10,10 +10,8 @@ import { getDatabase, ref, set } from "firebase/database";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import uuid from "react-uuid";
-import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
-  let navigate = useNavigate();
   const user = useSelector(selectUser);
 
   const titleRef = useRef(null);
