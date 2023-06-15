@@ -161,7 +161,8 @@ export default function UserDashboard() {
                       <Card.Title>{posts[key].title}</Card.Title>
                       <Card.Text>{posts[key].description}</Card.Text>
                       <Card.Text>${posts[key].price}</Card.Text>
-                      <Card.Text>Size {posts[key].size}</Card.Text>
+                      <Card.Text>size {posts[key].size}</Card.Text>
+                      <Card.Text>zip code {posts[key].zipcode}</Card.Text>
                     </Card.Body>
                   )}
                 </Card>

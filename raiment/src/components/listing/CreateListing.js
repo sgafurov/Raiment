@@ -18,6 +18,7 @@ export default function CreateListing() {
   const descriptionRef = useRef(null);
   const priceRef = useRef(null);
   const sizeRef = useRef(null);
+  const zipcodeRef = useRef(null);
 
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imageArray, setImageArray] = useState([]);
@@ -61,14 +62,7 @@ export default function CreateListing() {
       setImageArray((prevImageArray) => [...prevImageArray, e.target.files[0]]);
     }
   };
-  // original
-  //   const handleImageSelect2 = (e) => {
-  //     setImage2(e.target.files[0]);
-  //     setImageURLArray((prevImageArray) => [
-  //       ...prevImageArray,
-  //       URL.createObjectURL(e.target.files[0]),
-  //     ]);
-  //   };
+ 
   const handleImageSelect2 = (e) => {
     setImage2(e.target.files[0]);
     // overwrite image when new one is chosen
@@ -91,6 +85,7 @@ export default function CreateListing() {
       setImageArray((prevImageArray) => [...prevImageArray, e.target.files[0]]);
     }
   };
+
   const handleImageSelect3 = (e) => {
     setImage3(e.target.files[0]);
     // overwrite image when new one is chosen
@@ -113,6 +108,7 @@ export default function CreateListing() {
       setImageArray((prevImageArray) => [...prevImageArray, e.target.files[0]]);
     }
   };
+
   const handleImageSelect4 = (e) => {
     setImage4(e.target.files[0]);
     // overwrite image when new one is chosen
@@ -172,8 +168,7 @@ export default function CreateListing() {
     }
   };
 
-  function writeListingData(title, description, price, size, imageJSONArray) {
-    // console.log("adding listing to DB", item);
+  function writeListingData(title, description, price, size, zipcode, imageJSONArray) {
     console.log("user.username", user.username);
     console.log(
       "contents of the listing",
@@ -181,7 +176,7 @@ export default function CreateListing() {
       description,
       price,
       size,
-      //   imageArray,
+      zipcode,
       imageJSONArray
     );
 
@@ -200,6 +195,7 @@ export default function CreateListing() {
       description: description,
       price: price,
       size: size,
+      zipcode: zipcode,
       images: images,
       createdAt: new Date(),
     });
@@ -213,7 +209,7 @@ export default function CreateListing() {
       descriptionRef.current.value,
       priceRef.current.value,
       sizeRef.current.value,
-      //   imageArray
+      zipcodeRef.current.value,
       imageJSONArray
     );
   };
@@ -247,6 +243,11 @@ export default function CreateListing() {
         <Form.Group className="mb-3" controlId="formItemSize">
           <Form.Label>Size</Form.Label>
           <Form.Control type="text" ref={sizeRef} />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formItemZipCode">
+          <Form.Label>Zip Code</Form.Label>
+          <Form.Control type="text" ref={zipcodeRef} />
         </Form.Group>
 
         <Container>
