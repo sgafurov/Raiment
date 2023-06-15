@@ -187,6 +187,12 @@ export default function CreateListing() {
 
     const db = getDatabase();
     const randomID = uuid();
+    const images = {
+      0: imageJSONArray[0] ? imageJSONArray[0] : null,
+      1: imageJSONArray[1] ? imageJSONArray[1] : null,
+      2: imageJSONArray[2] ? imageJSONArray[2] : null,
+      3: imageJSONArray[3] ? imageJSONArray[3] : null,
+    };
     set(ref(db, "listings/" + user.username + "/" + randomID), {
       listingId: randomID,
       username: user.username,
@@ -194,12 +200,7 @@ export default function CreateListing() {
       description: description,
       price: price,
       size: size,
-      images: {
-        0: imageJSONArray[0],
-        1: imageJSONArray[1],
-        2: imageJSONArray[2],
-        3: imageJSONArray[3],
-      },
+      images: images,
       createdAt: new Date(),
     });
   }
