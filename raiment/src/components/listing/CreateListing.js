@@ -186,9 +186,9 @@ export default function CreateListing() {
     );
 
     const db = getDatabase();
-
-    set(ref(db, "listings/" + user.username), {
-      listingId: uuid(),
+    const randomID = uuid();
+    set(ref(db, "listings/" + user.username + "/" + randomID), {
+      listingId: randomID,
       username: user.username,
       title: title,
       description: description,
