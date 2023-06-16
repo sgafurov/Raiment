@@ -67,7 +67,13 @@ export default function Products() {
     }
   }, [triggerUseEffect]);
 
-  
+  const handleChange = (e) => {
+    e.preventDefault();
+    const userInput = inputRef.current.value;
+    if (userInput === "") {
+      setTriggerUseEffect(true);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
