@@ -17,6 +17,7 @@ export default function Products() {
   const [posts, setPosts] = useState({});
   const [keys, setKeys] = useState([]);
   const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({});
+  const [triggerUseEffect, setTriggerUseEffect] = useState(true);
 
   useEffect(() => {
     console.log("posts useState", posts);
@@ -24,46 +25,103 @@ export default function Products() {
     console.log("imagesLinkedToPosts useState", imagesLinkedToPosts);
   }, [posts, keys, imagesLinkedToPosts]);
 
+  useEffect(() => {
+    if (triggerUseEffect) {
+      const db = firebase.database();
+
+      var usernames = [];
+      const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
+      onValue(listingsRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log("listings data", data);
+        usernames = Object.keys(data); // top level of keys are the usernames
+        console.log("keys/usernames", usernames);
+      });
+
+      var postKeysArray = [];
+      for (let i = 0; i < usernames.length; i++) {
+        const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
+        onValue(postsRef, (snapshot) => {
+          const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
+          console.log(`${usernames[i]}'s posts`, data);
+          var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
+          console.log("keys for the posts", postKeys);
+          postKeys.forEach((value) => {
+            postKeysArray.push(value);
+          });
+          for (let i = 0; i < postKeys.length; i++) {
+            // access post the object linked to each key
+            const obj = data[postKeys[i]];
+            console.log("obj", obj);
+            const names = obj.images.map((image) => image.name);
+            console.log("obj images names", names);
+            setPosts((prevPosts) => {
+              return { ...prevPosts, [postKeys[i]]: obj };
+            });
+            getImageUrl(names, postKeys[i]);
+          }
+        });
+      }
+      setKeys(postKeysArray);
+    }
+  }, [triggerUseEffect]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("inputRef", inputRef.current.value)
+    console.log("inputRef", inputRef.current.value);
+    const userInput = inputRef.current.value;
+    if (userInput) {
+      setTriggerUseEffect(false); // dont show useEffect. Show the filtered posts instead.
 
-    const db = firebase.database();
+      const db = firebase.database();
 
-    var usernames = [];
-    const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
-    onValue(listingsRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log("listings data", data);
-      usernames = Object.keys(data); // top level of keys are the usernames
-      console.log("keys/usernames", usernames);
-    });
-
-    var postKeysArray = [];
-    for (let i = 0; i < usernames.length; i++) {
-      const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
-      onValue(postsRef, (snapshot) => {
-        const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
-        console.log(`${usernames[i]}'s posts`, data);
-        var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
-        console.log("keys for the posts", postKeys);
-        postKeys.forEach((value) => {
-          postKeysArray.push(value);
-        });
-        for (let i = 0; i < postKeys.length; i++) {
-          // access post the object linked to each key
-          const obj = data[postKeys[i]];
-          console.log("obj", obj);
-          const names = obj.images.map((image) => image.name);
-          console.log("obj images names", names);
-          setPosts((prevPosts) => {
-            return { ...prevPosts, [postKeys[i]]: obj };
-          });
-          getImageUrl(names, postKeys[i]);
-        }
+      var usernames = [];
+      const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
+      onValue(listingsRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log("listings data", data);
+        usernames = Object.keys(data); // top level of keys are the usernames
+        console.log("keys/usernames", usernames);
       });
+
+      var postKeysArray = [];
+      for (let i = 0; i < usernames.length; i++) {
+        const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
+        onValue(postsRef, (snapshot) => {
+          const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
+          console.log(`${usernames[i]}'s posts`, data);
+          var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
+          console.log("keys for the posts", postKeys);
+
+          for (let i = 0; i < postKeys.length; i++) {
+            // access post the object linked to each key
+            const obj = data[postKeys[i]];
+            console.log("obj", obj);
+            const names = obj.images.map((image) => image.name);
+            console.log("obj images names", names);
+            console.log(
+              "obj.title.includes(userInput)",
+              obj.title,
+              obj.title.includes(userInput)
+            );
+            // if the post's title or description contains the userinput
+            if (
+              obj.title.includes(userInput) ||
+              obj.description.includes(userInput)
+            ) {
+              setPosts((prevPosts) => {
+                return { ...prevPosts, [postKeys[i]]: obj };
+              });
+              getImageUrl(names, postKeys[i]);
+              postKeysArray.push(postKeys[i]);
+            }
+          }
+        });
+      }
+      setKeys(postKeysArray);
+    } else {
+      alert("Enter a search value");
     }
-    setKeys(postKeysArray);
   };
 
   const getImageUrl = async (names, postKey) => {
