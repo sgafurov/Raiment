@@ -28,43 +28,46 @@ export default function Products() {
   useEffect(() => {
     if (triggerUseEffect) {
       const db = firebase.database();
-
       var usernames = [];
+
       const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
       onValue(listingsRef, (snapshot) => {
         const data = snapshot.val();
         console.log("listings data", data);
         usernames = Object.keys(data); // top level of keys are the usernames
         console.log("keys/usernames", usernames);
-      });
 
-      var postKeysArray = [];
-      for (let i = 0; i < usernames.length; i++) {
-        const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
-        onValue(postsRef, (snapshot) => {
-          const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
-          console.log(`${usernames[i]}'s posts`, data);
-          var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
-          console.log("keys for the posts", postKeys);
-          postKeys.forEach((value) => {
-            postKeysArray.push(value);
-          });
-          for (let i = 0; i < postKeys.length; i++) {
-            // access post the object linked to each key
-            const obj = data[postKeys[i]];
-            console.log("obj", obj);
-            const names = obj.images.map((image) => image.name);
-            console.log("obj images names", names);
-            setPosts((prevPosts) => {
-              return { ...prevPosts, [postKeys[i]]: obj };
+        var postKeysArray = [];
+        for (let i = 0; i < usernames.length; i++) {
+          const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
+          onValue(postsRef, (snapshot) => {
+            const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
+            console.log(`${usernames[i]}'s posts`, data);
+            var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
+            console.log("keys for the posts", postKeys);
+            postKeys.forEach((value) => {
+              postKeysArray.push(value);
             });
-            getImageUrl(names, postKeys[i]);
-          }
-        });
-      }
-      setKeys(postKeysArray);
+
+            for (let i = 0; i < postKeys.length; i++) {
+              // access post the object linked to each key
+              const obj = data[postKeys[i]];
+              console.log("obj", obj);
+              const names = obj.images.map((image) => image.name);
+              console.log("obj images names", names);
+              setPosts((prevPosts) => {
+                return { ...prevPosts, [postKeys[i]]: obj };
+              });
+              getImageUrl(names, postKeys[i]);
+            }
+          });
+        }
+        setKeys(postKeysArray);
+      });
     }
   }, [triggerUseEffect]);
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -153,6 +156,7 @@ export default function Products() {
           className="me-2"
           aria-label="Search"
           ref={inputRef}
+          onChange={handleChange}
         />
         <Button variant="primary" type="submit" onClick={handleSubmit}>
           Search
@@ -186,7 +190,11 @@ export default function Products() {
           </Col>
         </Row>
       </Container>
-      <h3>Showing results for "" near zipcode</h3>
+      {triggerUseEffect ? (
+        <h3>Showing all listings</h3>
+      ) : (
+        <h3>Showing results for {inputRef.current.value}</h3>
+      )}
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <Container>
           <Row>
