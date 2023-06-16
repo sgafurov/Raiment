@@ -54,7 +54,7 @@ export default function NavigationBar() {
               </NavDropdown.Item>
             </NavDropdown> */}
           </Nav>
-          <Form className="d-flex">
+          {/* <Form className="d-flex">
             <Form.Control
               type="search"
               placeholder="Search for an item"
@@ -62,7 +62,7 @@ export default function NavigationBar() {
               aria-label="Search"
             />
             <Button variant="outline-success">Search</Button>
-          </Form>
+          </Form> */}
           {user ? (
             <div className="nav-buttons-logged-in">
               <Nav.Link

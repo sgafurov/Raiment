@@ -1,17 +1,105 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-
+import Carousel from "react-bootstrap/Carousel";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import Dropdown from "react-bootstrap/Dropdown";
+import Form from "react-bootstrap/Form";
+import { ref, startAt, onValue, equalTo } from "firebase/database";
+import firebase from "firebase/compat/app";
+import "firebase/compat/database";
+import { storage } from "../firebase";
 
 export default function Products() {
+  const inputRef = useRef(null);
+  const [posts, setPosts] = useState({});
+  const [keys, setKeys] = useState([]);
+  const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({});
+
+  useEffect(() => {
+    console.log("posts useState", posts);
+    console.log("keys useState", keys);
+    console.log("imagesLinkedToPosts useState", imagesLinkedToPosts);
+  }, [posts, keys, imagesLinkedToPosts]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("inputRef", inputRef.current.value)
+
+    const db = firebase.database();
+
+    var usernames = [];
+    const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
+    onValue(listingsRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log("listings data", data);
+      usernames = Object.keys(data); // top level of keys are the usernames
+      console.log("keys/usernames", usernames);
+    });
+
+    var postKeysArray = [];
+    for (let i = 0; i < usernames.length; i++) {
+      const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
+      onValue(postsRef, (snapshot) => {
+        const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
+        console.log(`${usernames[i]}'s posts`, data);
+        var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
+        console.log("keys for the posts", postKeys);
+        postKeys.forEach((value) => {
+          postKeysArray.push(value);
+        });
+        for (let i = 0; i < postKeys.length; i++) {
+          // access post the object linked to each key
+          const obj = data[postKeys[i]];
+          console.log("obj", obj);
+          const names = obj.images.map((image) => image.name);
+          console.log("obj images names", names);
+          setPosts((prevPosts) => {
+            return { ...prevPosts, [postKeys[i]]: obj };
+          });
+          getImageUrl(names, postKeys[i]);
+        }
+      });
+    }
+    setKeys(postKeysArray);
+  };
+
+  const getImageUrl = async (names, postKey) => {
+    try {
+      for (let i = 0; i < names.length; i++) {
+        const imageRef = storage.ref().child(names[i]);
+        const url = await imageRef.getDownloadURL();
+        console.log("getting image url for", names[i]);
+        names[i] = url; // overwrite the names array with the image url instead of image name
+      }
+      console.log("urlArray", names);
+      setImagesLinkedToPosts((prevArray) => {
+        return { ...prevArray, [postKey]: names };
+      });
+    } catch (error) {
+      console.log("Error getting image URL:", error);
+    }
+  };
+
   return (
     <div>
-      <h3>Showing results for "vintage" near 11215</h3>
+      <Form
+        className="d-flex align-items-center"
+        style={{ maxWidth: "300px", margin: "20px auto" }}
+      >
+        <Form.Control
+          type="search"
+          placeholder="Search for an item"
+          className="me-2"
+          aria-label="Search"
+          ref={inputRef}
+        />
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
+          Search
+        </Button>
+      </Form>
       <Container>
         <Row>
           <Col>
@@ -40,48 +128,53 @@ export default function Products() {
           </Col>
         </Row>
       </Container>
-      <Container>
-        <Row>
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src="holder.js/100px180" />
-              <Card.Body>
-                <Card.Title>Vintage Tee</Card.Title>
-                <Card.Text>$17 from MikesCloset</Card.Text>
-                <Card.Text>Size L</Card.Text>
-                <Card.Text>Vintage tee in good condition</Card.Text>
-                <Button variant="primary">Add to cart</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src="holder.js/100px180" />
-              <Card.Body>
-                <Card.Title>Levi Jeans</Card.Title>
-                <Card.Text>$25 from AmyLee</Card.Text>
-                <Card.Text>Size 33</Card.Text>
-                <Card.Text>Women's vintage Levi jeans</Card.Text>
-                <Button variant="primary">Add to cart</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src="holder.js/100px180" />
-              <Card.Body>
-                <Card.Title>Vintage jacket</Card.Title>
-                <Card.Text>$40 from tony444</Card.Text>
-                <Card.Text>Size M</Card.Text>
-                <Card.Text>Used jacket in good condition</Card.Text>
-                <Button variant="primary">Add to cart</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      <h3>Showing results for "" near zipcode</h3>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <Container>
+          <Row>
+            {keys &&
+              keys.map((key, index) => {
+                const carouselKey = `carousel-${key}`; // Unique key for each Carousel
+                const cardKey = `card-${key}`; // Unique key for each Card
+                return (
+                  <Col className="d-flex justify-content-center">
+                    <div key={index}>
+                      <Card style={{ width: "18rem" }} key={cardKey}>
+                        {imagesLinkedToPosts[key] && (
+                          <Carousel key={carouselKey} interval={null}>
+                            {imagesLinkedToPosts[key].map((url, index) => {
+                              const imageKey = `image-${index}-${key}`;
+                              return (
+                                <Carousel.Item key={imageKey}>
+                                  <img
+                                    className="d-block w-100"
+                                    src={url}
+                                    alt=""
+                                  />
+                                </Carousel.Item>
+                              );
+                            })}
+                          </Carousel>
+                        )}
+                        {posts[key] && (
+                          <Card.Body key={cardKey}>
+                            <Card.Title>{posts[key].title}</Card.Title>
+                            <Card.Text>{posts[key].description}</Card.Text>
+                            <Card.Text>${posts[key].price}</Card.Text>
+                            <Card.Text>size {posts[key].size}</Card.Text>
+                            <Card.Text>zip code {posts[key].zipcode}</Card.Text>
+                            <Card.Text>user {posts[key].username}</Card.Text>
+                            <Button variant="primary">Add to cart</Button>
+                          </Card.Body>
+                        )}
+                      </Card>
+                    </div>
+                  </Col>
+                );
+              })}
+          </Row>
+        </Container>
+      </div>
     </div>
   );
 }

@@ -91,28 +91,14 @@ export default function UserDashboard() {
     // };
 
     const getImageUrl = async (names, postKey) => {
-      // let urlArray = [];
       try {
         for (let i = 0; i < names.length; i++) {
           const imageRef = storage.ref().child(names[i]);
           const url = await imageRef.getDownloadURL();
           console.log("getting image url for", names[i]);
-          // urlArray[i] = url;
           names[i] = url;
         }
-        // console.log("urlArray", urlArray);
-        console.log("urlArray", names);
-
-        // setImagesLinkedToPosts((prevArray) => {
-        //   const updatedArray = [...prevArray];
-        //   updatedArray[postKey] = urlArray;
-        //   return updatedArray;
-        // });
-        // setImagesLinkedToPosts((prevArray) => {
-        //   const updatedArray = [...prevArray];
-        //   updatedArray[postKey] = names;
-        //   return updatedArray;
-        // });
+        console.log("names urlArray", names);
         setImagesLinkedToPosts((prevArray) => {
           return { ...prevArray, [postKey]: names };
         });
