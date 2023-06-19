@@ -298,7 +298,7 @@ export default function CreateListing() {
           <Row>
             <Col>
               <Card style={{ width: "15rem" }}>
-                {image1 != null ? (
+                {image1 !== null ? (
                   <Card.Img variant="top" src={imageURLArray[0]} />
                 ) : (
                   <Card.Text>No image available</Card.Text>
@@ -309,7 +309,7 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image1 !== null && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
             </Col>
 
             <Col>
@@ -325,7 +325,7 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image2 !== null && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
             </Col>
 
             <Col>
@@ -341,7 +341,7 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image3 !== null && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
             </Col>
 
             <Col>
@@ -357,7 +357,7 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image4 !== null  && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
             </Col>
           </Row>
         </Container>
