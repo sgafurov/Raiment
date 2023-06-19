@@ -8,6 +8,10 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import Card from "react-bootstrap/Card";
 import Carousel from "react-bootstrap/Carousel";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 export default function UserDashboard() {
   const user = useSelector(selectUser);
@@ -123,38 +127,49 @@ export default function UserDashboard() {
       <h1>{`Hi ${user.username}!`}</h1>
       <h3>My posts</h3>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {keys &&
-          keys.map((key, index) => {
-            const carouselKey = `carousel-${key}`; // Unique key for each Carousel
-            const cardKey = `card-${key}`; // Unique key for each Card
-            return (
-              <div key={index}>
-                <Card style={{ width: "18rem" }} key={cardKey}>
-                  {imagesLinkedToPosts[key] && (
-                    <Carousel key={carouselKey} interval={null}>
-                      {imagesLinkedToPosts[key].map((url, index) => {
-                        const imageKey = `image-${index}-${key}`;
-                        return (
-                          <Carousel.Item key={imageKey}>
-                            <img className="d-block w-100" src={url} alt="" />
-                          </Carousel.Item>
-                        );
-                      })}
-                    </Carousel>
-                  )}
-                  {posts[key] && (
-                    <Card.Body key={cardKey}>
-                      <Card.Title>{posts[key].title}</Card.Title>
-                      <Card.Text>{posts[key].description}</Card.Text>
-                      <Card.Text>${posts[key].price}</Card.Text>
-                      <Card.Text>size {posts[key].size}</Card.Text>
-                      <Card.Text>zip code {posts[key].zipcode}</Card.Text>
-                    </Card.Body>
-                  )}
-                </Card>
-              </div>
-            );
-          })}
+        <Container>
+          <Row>
+            {keys &&
+              keys.map((key, index) => {
+                const carouselKey = `carousel-${key}`; // Unique key for each Carousel
+                const cardKey = `card-${key}`; // Unique key for each Card
+                return (
+                  <Col className="d-flex justify-content-center">
+                  <div key={index}>
+                    <Card style={{ width: "18rem" }} key={cardKey}>
+                      {imagesLinkedToPosts[key] && (
+                        <Carousel key={carouselKey} interval={null}>
+                          {imagesLinkedToPosts[key].map((url, index) => {
+                            const imageKey = `image-${index}-${key}`;
+                            return (
+                              <Carousel.Item key={imageKey}>
+                                <img
+                                  className="d-block w-100"
+                                  src={url}
+                                  alt=""
+                                />
+                              </Carousel.Item>
+                            );
+                          })}
+                        </Carousel>
+                      )}
+                      {posts[key] && (
+                        <Card.Body key={cardKey}>
+                          <Card.Title>{posts[key].title}</Card.Title>
+                          <Card.Text>{posts[key].description}</Card.Text>
+                          <Card.Text>${posts[key].price}</Card.Text>
+                          <Card.Text>size {posts[key].size}</Card.Text>
+                          <Card.Text>zip code {posts[key].zipcode}</Card.Text>
+                          <Button>Edit</Button> <Button>Delete</Button>
+                        </Card.Body>
+                      )}
+                    </Card>
+                  </div>
+                  </Col>
+                );
+              })}
+          </Row>
+        </Container>
       </div>
     </div>
   );
