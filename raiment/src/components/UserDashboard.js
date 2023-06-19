@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { storage } from "../firebase";
-import { ref, get, off } from "firebase/database";
+import { ref, get, off, remove } from "firebase/database";
 // import { db } from "../firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
@@ -18,6 +18,11 @@ export default function UserDashboard() {
   const [posts, setPosts] = useState({}); // used to be empty array
   const [keys, setKeys] = useState([]);
   const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({}); // used to be empty array
+
+  useEffect(() => {
+    console.log("imagesLinkedToPosts", imagesLinkedToPosts);
+    console.log("posts", posts);
+  }, [imagesLinkedToPosts, posts]);
 
   useEffect(() => {
     const db = firebase.database();
@@ -117,10 +122,20 @@ export default function UserDashboard() {
     };
   }, []);
 
-  useEffect(() => {
-    console.log("imagesLinkedToPosts", imagesLinkedToPosts);
-    console.log("posts", posts);
-  }, [imagesLinkedToPosts, posts]);
+  function handleDelete(key) {
+    if (window.confirm("Are you sure you want to delete this listing?")) {
+      const db = firebase.database();
+      const dataRef = ref(db, `listings/${user.username}/${key}`);
+      remove(dataRef)
+        .then(() => {
+          console.log("Item removed successfully.");
+        })
+        .catch((error) => {
+          console.error("Error removing item:", error);
+        });
+      window.location.reload();
+    }
+  }
 
   return (
     <div>
@@ -135,36 +150,39 @@ export default function UserDashboard() {
                 const cardKey = `card-${key}`; // Unique key for each Card
                 return (
                   <Col className="d-flex justify-content-center">
-                  <div key={index}>
-                    <Card style={{ width: "18rem" }} key={cardKey}>
-                      {imagesLinkedToPosts[key] && (
-                        <Carousel key={carouselKey} interval={null}>
-                          {imagesLinkedToPosts[key].map((url, index) => {
-                            const imageKey = `image-${index}-${key}`;
-                            return (
-                              <Carousel.Item key={imageKey}>
-                                <img
-                                  className="d-block w-100"
-                                  src={url}
-                                  alt=""
-                                />
-                              </Carousel.Item>
-                            );
-                          })}
-                        </Carousel>
-                      )}
-                      {posts[key] && (
-                        <Card.Body key={cardKey}>
-                          <Card.Title>{posts[key].title}</Card.Title>
-                          <Card.Text>{posts[key].description}</Card.Text>
-                          <Card.Text>${posts[key].price}</Card.Text>
-                          <Card.Text>size {posts[key].size}</Card.Text>
-                          <Card.Text>zip code {posts[key].zipcode}</Card.Text>
-                          <Button>Edit</Button> <Button>Delete</Button>
-                        </Card.Body>
-                      )}
-                    </Card>
-                  </div>
+                    <div key={index}>
+                      <Card style={{ width: "18rem" }} key={cardKey}>
+                        {imagesLinkedToPosts[key] && (
+                          <Carousel key={carouselKey} interval={null}>
+                            {imagesLinkedToPosts[key].map((url, index) => {
+                              const imageKey = `image-${index}-${key}`;
+                              return (
+                                <Carousel.Item key={imageKey}>
+                                  <img
+                                    className="d-block w-100"
+                                    src={url}
+                                    alt=""
+                                  />
+                                </Carousel.Item>
+                              );
+                            })}
+                          </Carousel>
+                        )}
+                        {posts[key] && (
+                          <Card.Body key={cardKey}>
+                            <Card.Title>{posts[key].title}</Card.Title>
+                            <Card.Text>{posts[key].description}</Card.Text>
+                            <Card.Text>${posts[key].price}</Card.Text>
+                            <Card.Text>size {posts[key].size}</Card.Text>
+                            <Card.Text>zip code {posts[key].zipcode}</Card.Text>
+                            <Button>Edit</Button>{" "}
+                            <Button onClick={() => handleDelete(key)}>
+                              Delete
+                            </Button>
+                          </Card.Body>
+                        )}
+                      </Card>
+                    </div>
                   </Col>
                 );
               })}
