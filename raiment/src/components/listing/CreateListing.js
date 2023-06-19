@@ -62,7 +62,7 @@ export default function CreateListing() {
       setImageArray((prevImageArray) => [...prevImageArray, e.target.files[0]]);
     }
   };
- 
+
   const handleImageSelect2 = (e) => {
     setImage2(e.target.files[0]);
     // overwrite image when new one is chosen
@@ -168,7 +168,14 @@ export default function CreateListing() {
     }
   };
 
-  function writeListingData(title, description, price, size, zipcode, imageJSONArray) {
+  function writeListingData(
+    title,
+    description,
+    price,
+    size,
+    zipcode,
+    imageJSONArray
+  ) {
     console.log("user.username", user.username);
     console.log(
       "contents of the listing",
@@ -204,6 +211,15 @@ export default function CreateListing() {
   // submit listing
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !titleRef.current.value ||
+      !descriptionRef.current.value ||
+      !priceRef.current.value ||
+      !sizeRef.current.value ||
+      !zipcodeRef.current.value
+    ) {
+      return;
+    }
     writeListingData(
       titleRef.current.value,
       descriptionRef.current.value,
@@ -212,6 +228,26 @@ export default function CreateListing() {
       zipcodeRef.current.value,
       imageJSONArray
     );
+  };
+
+  const handlePriceInput = () => {
+    if (
+      !/^\d*\.?\d+$/.test(priceRef.current.value) ||
+      parseFloat(priceRef.current.value) <= 0
+    ) {
+      priceRef.current.value = priceRef.current.value.replace(/[^0-9.]/g, '');
+      return;
+    }
+  };
+
+  const handleZipcodeInput = () => {
+    if (
+      !/^\d*\.?\d+$/.test(zipcodeRef.current.value) ||
+      parseFloat(zipcodeRef.current.value) <= 0
+    ) {
+      zipcodeRef.current.value = zipcodeRef.current.value.replace(/[^0-9]/g, '');
+      return;
+    }
   };
 
   return (
@@ -237,7 +273,11 @@ export default function CreateListing() {
 
         <Form.Group className="mb-3" controlId="formItemPrice">
           <Form.Label>Price</Form.Label>
-          <Form.Control type="text" ref={priceRef} />
+          <Form.Control
+            type="text"
+            ref={priceRef}
+            onChange={handlePriceInput}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formItemSize">
@@ -247,7 +287,11 @@ export default function CreateListing() {
 
         <Form.Group className="mb-3" controlId="formItemZipCode">
           <Form.Label>Zip Code</Form.Label>
-          <Form.Control type="text" ref={zipcodeRef} />
+          <Form.Control
+            type="text"
+            ref={zipcodeRef}
+            onChange={handleZipcodeInput}
+          />
         </Form.Group>
 
         <Container>
