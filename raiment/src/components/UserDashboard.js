@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { storage } from "../firebase";
-import { ref, get, off, remove } from "firebase/database";
+import { ref, get, off, remove, update } from "firebase/database";
 // import { db } from "../firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
@@ -12,8 +12,10 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useNavigate } from "react-router-dom";
 
 export default function UserDashboard() {
+  let navigate = useNavigate();
   const user = useSelector(selectUser);
   const [posts, setPosts] = useState({}); // used to be empty array
   const [keys, setKeys] = useState([]);
@@ -69,11 +71,6 @@ export default function UserDashboard() {
           console.log("posts", posts);
           const names = obj.images.map((image) => image.name);
           console.log("names", names);
-          // for (let i = 0; i < names.length; i++) {
-          //   console.log("names[i]", names[i]);
-          //   // maybe i call getImageUrl() with names variable and iterate through names in the function itself ???
-          //   getImageUrl(names[i], i);
-          // }
           getImageUrl(names, keys[i]);
         }
         console.log("imagesLinkedToPosts", imagesLinkedToPosts);
@@ -81,23 +78,6 @@ export default function UserDashboard() {
       .catch((error) => {
         console.log("Error fetching data:", error);
       });
-
-    // accepts an additional index parameter. Index is used to update the correct position in the imageURLs state array, ensuring that the URLs are stored in the correct order.
-    // ensures that each URL is stored in the corresponding position in the imageURLs state array. As a result, the images are rendered only once, and in the correct order.
-    // const getImageUrl = async (name, index, postKey) => {
-    //   try {
-    //     const imageRef = storage.ref().child(name);
-    //     const url = await imageRef.getDownloadURL();
-    //     console.log("getting image url for", name);
-    //     setImageURLs((prevArray) => {
-    //       const updatedArray = [...prevArray];
-    //       updatedArray[index] = url;
-    //       return updatedArray;
-    //     });
-    //   } catch (error) {
-    //     console.log("Error getting image URL:", error);
-    //   }
-    // };
 
     const getImageUrl = async (names, postKey) => {
       try {
@@ -135,6 +115,10 @@ export default function UserDashboard() {
         });
       window.location.reload();
     }
+  }
+
+  function handleEdit(key) {
+    navigate(`/edit-listing/${key}`);
   }
 
   return (
@@ -175,7 +159,9 @@ export default function UserDashboard() {
                             <Card.Text>${posts[key].price}</Card.Text>
                             <Card.Text>size {posts[key].size}</Card.Text>
                             <Card.Text>zip code {posts[key].zipcode}</Card.Text>
-                            <Button>Edit</Button>{" "}
+                            <Button onClick={() => handleEdit(key)}>
+                              Edit
+                            </Button>{" "}
                             <Button onClick={() => handleDelete(key)}>
                               Delete
                             </Button>

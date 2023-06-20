@@ -12,6 +12,7 @@ import { auth } from "./firebase";
 import CreateListing from "./components/listing/CreateListing";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import EditListing from "./components/listing/EditListing";
 
 function App() {
   let dispatch = useDispatch();
@@ -68,6 +69,11 @@ function App() {
             exact
             path="/upload"
             element={user ? <CreateListing /> : <Login />}
+          />
+          <Route
+            exact
+            path="/edit-listing/:key"
+            element={user ? <EditListing /> : <Login />}
           />
         </Routes>
       </Router>
