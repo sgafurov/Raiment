@@ -86,7 +86,7 @@ export default function EditListing() {
   }, []);
 
   const handleImageSelect1 = (e) => {
-    // setImage1(e.target.files[0]);
+    setImage1(e.target.files[0]);
     setImageArray((prevImageArray) => {
       const updatedArray = [...prevImageArray];
       updatedArray[0] = e.target.files[0];
@@ -100,7 +100,7 @@ export default function EditListing() {
   };
 
   const handleImageSelect2 = (e) => {
-    // setImage2(e.target.files[0]);
+    setImage2(e.target.files[0]);
     setImageArray((prevImageArray) => {
       const updatedArray = [...prevImageArray];
       updatedArray[1] = e.target.files[0];
@@ -114,7 +114,7 @@ export default function EditListing() {
   };
 
   const handleImageSelect3 = (e) => {
-    // setImage3(e.target.files[0]);
+    setImage3(e.target.files[0]);
     setImageArray((prevImageArray) => {
       const updatedArray = [...prevImageArray];
       updatedArray[2] = e.target.files[0];
@@ -128,7 +128,7 @@ export default function EditListing() {
   };
 
   const handleImageSelect4 = (e) => {
-    // setImage4(e.target.files[0]);
+    setImage4(e.target.files[0]);
     setImageArray((prevImageArray) => {
       const updatedArray = [...prevImageArray];
       updatedArray[3] = e.target.files[0];
@@ -222,14 +222,13 @@ export default function EditListing() {
       3: imageJSONArray[3] ? imageJSONArray[3] : null,
     };
     const updatedData = {
-      username: user.username,
       title: titleRef.current.value,
       description: descriptionRef.current.value,
       price: priceRef.current.value,
       size: sizeRef.current.value,
       zipcode: zipcodeRef.current.value,
       images: images,
-      createdAt: new Date(),
+      updatedAt: new Date().toISOString(),
     };
 
     update(dataRef, updatedData)
@@ -332,7 +331,7 @@ export default function EditListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {imageURLArray[0] !== null && uploadProgress > 0 && (
+              {image1 !== null && uploadProgress > 0 && (
                 <p>Upload Progress: {uploadProgress}%</p>
               )}
             </Col>
@@ -350,7 +349,7 @@ export default function EditListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {imageURLArray[1] !== null && uploadProgress > 0 && (
+              {image2 !== null && uploadProgress > 0 && (
                 <p>Upload Progress: {uploadProgress}%</p>
               )}
             </Col>
@@ -368,7 +367,7 @@ export default function EditListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {imageURLArray[2] !== null && uploadProgress > 0 && (
+              {image3 !== null && uploadProgress > 0 && (
                 <p>Upload Progress: {uploadProgress}%</p>
               )}
             </Col>
@@ -386,7 +385,7 @@ export default function EditListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {imageURLArray[3] !== null && uploadProgress > 0 && (
+              {image4 !== null && uploadProgress > 0 && (
                 <p>Upload Progress: {uploadProgress}%</p>
               )}
             </Col>

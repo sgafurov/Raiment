@@ -204,7 +204,8 @@ export default function CreateListing() {
       size: size,
       zipcode: zipcode,
       images: images,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
   }
 
