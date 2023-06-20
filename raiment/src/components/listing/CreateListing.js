@@ -28,6 +28,7 @@ export default function CreateListing() {
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [image4, setImage4] = useState(null);
+  const [clickedUpload, setClickedUpload] = useState(false);
 
   useEffect(() => {
     console.log("image url array", imageURLArray);
@@ -133,7 +134,7 @@ export default function CreateListing() {
   };
 
   const handleImageUpload = (e) => {
-    e.preventDefault(); // prevents page from refreshing and removing images
+    // e.preventDefault(); // prevents page from refreshing and removing images
     console.log("inside handleImageUpload", imageArray);
     if (imageArray.length > 0) {
       for (let i = 0; i < imageArray.length; i++) {
@@ -162,6 +163,7 @@ export default function CreateListing() {
           },
           () => {
             console.log("Upload complete");
+            setClickedUpload(true);
           }
         );
       }
@@ -236,7 +238,7 @@ export default function CreateListing() {
       !/^\d*\.?\d+$/.test(priceRef.current.value) ||
       parseFloat(priceRef.current.value) <= 0
     ) {
-      priceRef.current.value = priceRef.current.value.replace(/[^0-9.]/g, '');
+      priceRef.current.value = priceRef.current.value.replace(/[^0-9.]/g, "");
       return;
     }
   };
@@ -246,7 +248,10 @@ export default function CreateListing() {
       !/^\d*\.?\d+$/.test(zipcodeRef.current.value) ||
       parseFloat(zipcodeRef.current.value) <= 0
     ) {
-      zipcodeRef.current.value = zipcodeRef.current.value.replace(/[^0-9]/g, '');
+      zipcodeRef.current.value = zipcodeRef.current.value.replace(
+        /[^0-9]/g,
+        ""
+      );
       return;
     }
   };
@@ -310,7 +315,9 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {image1 !== null && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image1 !== null && uploadProgress > 0 && (
+                <p>Upload Progress: {uploadProgress}%</p>
+              )}
             </Col>
 
             <Col>
@@ -326,7 +333,9 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {image2 !== null && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image2 !== null && uploadProgress > 0 && (
+                <p>Upload Progress: {uploadProgress}%</p>
+              )}
             </Col>
 
             <Col>
@@ -342,7 +351,9 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {image3 !== null && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image3 !== null && uploadProgress > 0 && (
+                <p>Upload Progress: {uploadProgress}%</p>
+              )}
             </Col>
 
             <Col>
@@ -358,22 +369,34 @@ export default function CreateListing() {
                   </div>
                 </Card.Body>
               </Card>
-              {image4 !== null  && uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+              {image4 !== null && uploadProgress > 0 && (
+                <p>Upload Progress: {uploadProgress}%</p>
+              )}
             </Col>
           </Row>
         </Container>
         <br />
-        <Button
-          style={{ background: "grey", border: "none" }}
-          onClick={handleImageUpload}
-        >
-          Upload Images
-        </Button>
-        {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+        {!clickedUpload ? (
+          <>
+            <Button
+              style={{ background: "grey", border: "none" }}
+              onClick={handleImageUpload}
+            >
+              Upload Images
+            </Button>
+            {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
+          </>
+        ) : (
+          <></>
+        )}
         <br />
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Create listing
-        </Button>
+        {clickedUpload ? (
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Create listing
+          </Button>
+        ) : (
+          <></>
+        )}
       </Form>
     </div>
   );
