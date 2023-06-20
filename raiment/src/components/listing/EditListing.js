@@ -9,7 +9,6 @@ import { storage } from "../../firebase";
 import { ref, get, off, update } from "firebase/database";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
-import uuid from "react-uuid";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { useParams } from "react-router-dom";
@@ -28,7 +27,6 @@ export default function EditListing() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imageArray, setImageArray] = useState([]); // contains image File data
   const [imageURLArray, setImageURLArray] = useState([]); // contains the URL of the image
-  const [imageJSONArray, setImageJSONArray] = useState([]); // contains image File data but as JSON
 
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -41,8 +39,7 @@ export default function EditListing() {
     console.log("post", post);
     console.log("imageArray", imageArray);
     console.log("imageURLArray", imageURLArray);
-    console.log("imageJSONArray", imageJSONArray);
-  }, [post, imageArray, imageURLArray, imageJSONArray]);
+  }, [post, imageArray, imageURLArray]);
 
   useEffect(() => {
     const db = firebase.database();
@@ -56,6 +53,7 @@ export default function EditListing() {
         const names = data.images.map((image) => image.name);
         console.log("names", names);
         getImageUrl(names);
+        console.log("data.images", data.images);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
@@ -141,42 +139,6 @@ export default function EditListing() {
     });
   };
 
-  const handleImageUpload = (e) => {
-    e.preventDefault(); // prevents page from refreshing and removing images
-    console.log("inside handleImageUpload", imageArray);
-    if (imageArray.length > 0) {
-      for (let i = 0; i < imageArray.length; i++) {
-        let newObject = {
-          name: imageArray[i].name,
-          lastModified: imageArray[i].lastModified,
-          size: imageArray[i].size,
-          type: imageArray[i].type,
-        };
-        setImageJSONArray((prev) => [...prev, newObject]);
-
-        const storageRef = storage.ref();
-        const imageRef = storageRef.child(imageArray[i].name);
-        const uploadTask = imageRef.put(imageArray[i]);
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setUploadProgress(progress);
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            console.log("Upload complete");
-          }
-        );
-      }
-    }
-  };
-
   const handlePriceInput = () => {
     if (
       !/^\d*\.?\d+$/.test(priceRef.current.value) ||
@@ -215,12 +177,110 @@ export default function EditListing() {
     const db = firebase.database();
     const dataRef = ref(db, `listings/${user.username}/${key}`);
 
-    const images = {
-      0: imageJSONArray[0] ? imageJSONArray[0] : null,
-      1: imageJSONArray[1] ? imageJSONArray[1] : null,
-      2: imageJSONArray[2] ? imageJSONArray[2] : null,
-      3: imageJSONArray[3] ? imageJSONArray[3] : null,
-    };
+    // const images = {
+    //   0: imageJSONArray[0] ? imageJSONArray[0] : null,
+    //   1: imageJSONArray[1] ? imageJSONArray[1] : null,
+    //   2: imageJSONArray[2] ? imageJSONArray[2] : null,
+    //   3: imageJSONArray[3] ? imageJSONArray[3] : null,
+    // };
+
+    let images = {};
+    // will go as json in firebase database
+    if (image1) {
+      let imgObj = {
+        name: image1.name,
+        lastModified: image1.lastModified,
+        size: image1.size,
+        type: image1.type,
+      };
+      images = {
+        ...post.images, // preserve the existing images
+        0: imgObj, // update the 1st child with the new value
+      };
+      // will upload as actual file in firebase storage
+      setImageArray((prevImageArray) => {
+        const updatedArray = [...prevImageArray];
+        updatedArray[0] = image1;
+        return updatedArray;
+      });
+    }
+    if (image2) {
+      let imgObj = {
+        name: image2.name,
+        lastModified: image2.lastModified,
+        size: image2.size,
+        type: image2.type,
+      };
+      images = {
+        ...post.images,
+        1: imgObj,
+      };
+      setImageArray((prevImageArray) => {
+        const updatedArray = [...prevImageArray];
+        updatedArray[1] = image2;
+        return updatedArray;
+      });
+    }
+    if (image3) {
+      let imgObj = {
+        name: image3.name,
+        lastModified: image3.lastModified,
+        size: image3.size,
+        type: image3.type,
+      };
+      images = {
+        ...post.images,
+        2: imgObj,
+      };
+      setImageArray((prevImageArray) => {
+        const updatedArray = [...prevImageArray];
+        updatedArray[2] = image3;
+        return updatedArray;
+      });
+    }
+    if (image4) {
+      let imgObj = {
+        name: image4.name,
+        lastModified: image4.lastModified,
+        size: image4.size,
+        type: image4.type,
+      };
+      images = {
+        ...post.images,
+        3: imgObj,
+      };
+      setImageArray((prevImageArray) => {
+        const updatedArray = [...prevImageArray];
+        updatedArray[3] = image4;
+        return updatedArray;
+      });
+    }
+    console.log("images when updating listing", images);
+
+    // uploads only the newly selected images to storage
+    for (let i = 0; i < imageArray.length; i++) {
+      const storageRef = storage.ref();
+      if (imageArray[i]) {
+        const imageRef = storageRef.child(imageArray[i].name);
+        const uploadTask = imageRef.put(imageArray[i]);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setUploadProgress(progress);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            console.log("Upload complete");
+          }
+        );
+      }
+    }
+
     const updatedData = {
       title: titleRef.current.value,
       description: descriptionRef.current.value,
@@ -392,12 +452,6 @@ export default function EditListing() {
           </Row>
         </Container>
         <br />
-        <Button
-          style={{ background: "grey", border: "none" }}
-          onClick={handleImageUpload}
-        >
-          Upload Images
-        </Button>
         {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
         <br />
         <Button variant="primary" type="submit" onClick={handleSubmit}>
