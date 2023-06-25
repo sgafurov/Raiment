@@ -1,18 +1,20 @@
 import React from "react";
-import { auth } from "../../firebase";
-// import { useAuthState } from "react-firebase-hooks/auth";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/userSlice";
 
 export default function Message({ message }) {
-//   const [user] = useAuthState(auth);
+  const user = useSelector(selectUser);
+
   return (
     <div
-      //className={`chat-bubble ${message.uid === user.uid ? "right" : ""}`}
-      className={`chat-bubble__right`}
-      >
+      className={`chat-bubble ${
+        message.username === user.username ? "right" : ""
+      }`}
+    >
       <div className="chat-bubble__right">
         <p className="user-name">{message.username}</p>
         <p className="user-message">{message.text}</p>
       </div>
     </div>
   );
-};
+}
