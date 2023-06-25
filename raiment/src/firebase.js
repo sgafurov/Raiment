@@ -4,6 +4,7 @@ import "firebase/compat/firestore";
 import "firebase/compat/storage";
 import "firebase/database";
 import { getDatabase } from "firebase/database";
+import { getFirestore } from "firebase/firestore";
 // import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
@@ -28,6 +29,7 @@ const storage = firebaseApp.storage();
 export const db = getDatabase(firebaseApp); // this one works without errors
 // export const db = firebase.database(); 
 
+export const dbFirestone = getFirestore(firebaseApp);
 
 export { auth, storage };
 // export default db;

@@ -13,10 +13,11 @@ import CreateListing from "./components/listing/CreateListing";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditListing from "./components/listing/EditListing";
+import Inbox from "./components/message/Inbox";
+import ChatBox from "./components/message/ChatBox";
 
 function App() {
   let dispatch = useDispatch();
-
   const user = useSelector(selectUser);
 
   //check if user is logged in
@@ -74,6 +75,11 @@ function App() {
             exact
             path="/edit-listing/:key"
             element={user ? <EditListing /> : <Login />}
+          />
+          <Route
+            exact
+            path="/message"
+            element={user ? <ChatBox /> : <Login />}
           />
         </Routes>
       </Router>
