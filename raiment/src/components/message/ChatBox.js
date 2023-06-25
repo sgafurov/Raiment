@@ -11,7 +11,6 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { storage } from "../../firebase";
 import Carousel from "react-bootstrap/Carousel";
-import uuid from "react-uuid";
 
 export default function ChatBox() {
   const { params } = useParams();
@@ -121,7 +120,7 @@ export default function ChatBox() {
           <Message key={message.id} message={message} />
         ))}
       </div>
-      <SendMessage postKey={key} />
+      <SendMessage postKey={key} seller={post?.username} postTitle={post?.title}/>
     </main>
   );
 }

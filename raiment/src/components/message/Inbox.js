@@ -16,10 +16,12 @@ import { storage } from "../../firebase";
 import Carousel from "react-bootstrap/Carousel";
 import uuid from "react-uuid";
 import ChatBox from "./ChatBox";
+import { useNavigate } from "react-router-dom";
 
 export default function Inbox() {
   const [messageThreads, setMessageThreads] = useState([]);
   const user = useSelector(selectUser);
+  let navigate = useNavigate()
 
   useEffect(() => {
     const userInboxRef = collection(
@@ -37,7 +39,8 @@ export default function Inbox() {
       });
 
       const uniquePostKeys = [];
-      const filteredMessages = fetchedMessages.filter((message) => { // get unique message threads
+      const filteredMessages = fetchedMessages.filter((message) => {
+        // get unique message threads
         if (!uniquePostKeys.includes(message.postKey)) {
           uniquePostKeys.push(message.postKey);
           return true;
@@ -55,17 +58,23 @@ export default function Inbox() {
     return () => unsubscribe;
   }, []);
 
+  function messageSeller(seller, key) {
+    navigate(`/message-seller/${seller}:${key}`);
+  }
+
   return (
     <div>
-      <Col>
-        <Row>
-          <div className="messages-wrapper">
-            {messageThreads?.map((message) => (
-              <p>See convo for listing {message.postKey}</p>
-            ))}
-          </div>
-        </Row>
-      </Col>
+      <Row>
+        <div className="messages-wrapper">
+          {messageThreads?.map((message) => (
+            <Col>
+              <Button onClick={() => messageSeller(message.seller, message.postKey)}>
+                See convo for listing: {message.postTitle}
+              </Button>
+            </Col>
+          ))}
+        </div>
+      </Row>
     </div>
   );
 }
