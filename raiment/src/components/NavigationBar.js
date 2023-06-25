@@ -38,7 +38,7 @@ export default function NavigationBar() {
                 <Nav.Link as={Link} to="/user-dashboard">
                   Dashboard
                 </Nav.Link>
-                <Nav.Link as={Link} to="/message">
+                <Nav.Link as={Link} to="/inbox">
                   Inbox
                 </Nav.Link>
               </>

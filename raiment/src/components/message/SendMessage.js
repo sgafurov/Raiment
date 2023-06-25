@@ -4,7 +4,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 
-export default function SendMessage({ scrollRef }) {
+export default function SendMessage({ postKey }) {
   const user = useSelector(selectUser);
   const [message, setMessage] = useState("");
 
@@ -14,20 +14,17 @@ export default function SendMessage({ scrollRef }) {
       alert("Enter valid message");
       return;
     }
-    const { uid, displayName, photoURL } = auth.currentUser;
-    await addDoc(collection(dbFirestone, "messages/"), {
-      text: message,
-      // name: displayName,
-      avatar: photoURL,
-      createdAt: serverTimestamp(),
-      uid,
-      username: user.username
-    });
+    if (postKey) {
+      await addDoc(collection(dbFirestone, `messages/${user.username}/inbox`), {
+        text: message,
+        username: user.username,
+        createdAt: serverTimestamp(),
+        postKey,
+      });
+    }
     setMessage("");
-    // when a new message enters the chat, the screen scrolls down to the scroll div in ChatBox
-    scrollRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  
+
   return (
     <form onSubmit={(e) => sendMessage(e)} className="send-message">
       <label htmlFor="messageInput" hidden>

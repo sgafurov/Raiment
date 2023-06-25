@@ -11,8 +11,10 @@ import { ref, startAt, onValue, equalTo } from "firebase/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { storage } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function Products() {
+  let navigate = useNavigate()
   const inputRef = useRef(null);
   const [posts, setPosts] = useState({});
   const [keys, setKeys] = useState([]);
@@ -150,6 +152,10 @@ export default function Products() {
     }
   };
 
+  function messageSeller(seller, key) {
+    navigate(`/message-seller/${seller}:${key}`)
+  }
+
   return (
     <div>
       <Form
@@ -236,7 +242,9 @@ export default function Products() {
                             <Card.Text>size {posts[key].size}</Card.Text>
                             <Card.Text>zip code {posts[key].zipcode}</Card.Text>
                             <Card.Text>user {posts[key].username}</Card.Text>
-                            <Button variant="primary">Add to cart</Button>
+                            <Button variant="primary" onClick={() => messageSeller(posts[key].username, key)}>
+                              Message seller
+                            </Button>
                           </Card.Body>
                         )}
                       </Card>

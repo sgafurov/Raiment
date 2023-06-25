@@ -78,7 +78,12 @@ function App() {
           />
           <Route
             exact
-            path="/message"
+            path="/inbox"
+            element={user ? <Inbox /> : <Login />}
+          />
+          <Route
+            exact
+            path="/message-seller/:params"
             element={user ? <ChatBox /> : <Login />}
           />
         </Routes>
