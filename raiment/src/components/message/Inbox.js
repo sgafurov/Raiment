@@ -15,6 +15,7 @@ import "firebase/compat/database";
 import { storage } from "../../firebase";
 import Carousel from "react-bootstrap/Carousel";
 import uuid from "react-uuid";
+import ChatBox from "./ChatBox";
 
 export default function Inbox() {
   const [messageThreads, setMessageThreads] = useState([]);

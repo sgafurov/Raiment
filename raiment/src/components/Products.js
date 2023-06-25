@@ -12,10 +12,13 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/userSlice";
 
 export default function Products() {
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   const inputRef = useRef(null);
+  const user = useSelector(selectUser);
   const [posts, setPosts] = useState({});
   const [keys, setKeys] = useState([]);
   const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({});
@@ -153,7 +156,11 @@ export default function Products() {
   };
 
   function messageSeller(seller, key) {
-    navigate(`/message-seller/${seller}:${key}`)
+    navigate(`/message-seller/${seller}:${key}`);
+  }
+
+  function handleEdit(key) {
+    navigate(`/edit-listing/${key}`);
   }
 
   return (
@@ -242,9 +249,23 @@ export default function Products() {
                             <Card.Text>size {posts[key].size}</Card.Text>
                             <Card.Text>zip code {posts[key].zipcode}</Card.Text>
                             <Card.Text>user {posts[key].username}</Card.Text>
-                            <Button variant="primary" onClick={() => messageSeller(posts[key].username, key)}>
-                              Message seller
-                            </Button>
+                            {posts[key].username !== user.username ? (
+                              <Button
+                                variant="primary"
+                                onClick={() =>
+                                  messageSeller(posts[key].username, key)
+                                }
+                              >
+                                Message seller
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="primary"
+                                onClick={() => handleEdit(key)}
+                              >
+                                Edit listing
+                              </Button>
+                            )}
                           </Card.Body>
                         )}
                       </Card>
