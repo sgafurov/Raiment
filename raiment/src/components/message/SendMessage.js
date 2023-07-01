@@ -4,7 +4,14 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 
-export default function SendMessage({ postKey, postTitle, seller }) {
+export default function SendMessage({
+  postKey,
+  buyer,
+  seller,
+  postTitle,
+  sender,
+  recipient,
+}) {
   const user = useSelector(selectUser);
   const [message, setMessage] = useState("");
 
@@ -14,14 +21,28 @@ export default function SendMessage({ postKey, postTitle, seller }) {
       alert("Enter valid message");
       return;
     }
-    if (postKey && seller) {
-      await addDoc(collection(dbFirestone, `messages/${user.username}/inbox`), {
+    if (postKey) {
+      // add message to your inbox
+      await addDoc(collection(dbFirestone, `messages/${sender}/inbox`), {
         text: message,
-        username: user.username,
         createdAt: serverTimestamp(),
         postKey,
         postTitle,
-        seller
+        buyer,
+        seller,
+        sender,
+        recipient
+      });
+      // add message to other person's inbox
+      await addDoc(collection(dbFirestone, `messages/${recipient}/inbox`), {
+        text: message,
+        createdAt: serverTimestamp(),
+        postKey,
+        postTitle,
+        buyer,
+        seller,
+        sender,
+        recipient
       });
     }
     setMessage("");

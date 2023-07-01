@@ -14,7 +14,8 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditListing from "./components/listing/EditListing";
 import Inbox from "./components/message/Inbox";
-import ChatBox from "./components/message/ChatBox";
+import BuyerChatBox from "./components/message/BuyerChatBox";
+import SellerChatBox from "./components/message/SellerChatBox";
 
 function App() {
   let dispatch = useDispatch();
@@ -76,15 +77,16 @@ function App() {
             path="/edit-listing/:key"
             element={user ? <EditListing /> : <Login />}
           />
+          <Route exact path="/inbox" element={user ? <Inbox /> : <Login />} />
           <Route
             exact
-            path="/inbox"
-            element={user ? <Inbox /> : <Login />}
+            path="/messageAsBuyer/:params"
+            element={user ? <BuyerChatBox /> : <Login />}
           />
           <Route
             exact
-            path="/message-seller/:params"
-            element={user ? <ChatBox /> : <Login />}
+            path="/messageAsSeller/:params"
+            element={user ? <SellerChatBox /> : <Login />}
           />
         </Routes>
       </Router>

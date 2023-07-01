@@ -12,25 +12,35 @@ import "firebase/compat/database";
 import { storage } from "../../firebase";
 import Carousel from "react-bootstrap/Carousel";
 
-export default function ChatBox() {
+export default function SellerChatBox() {
   const { params } = useParams();
   const parts = params.split(":");
-  const seller = parts[0];
-  const key = parts[1];
+  const buyerName = parts[0];
+  const sellerName = parts[1];
+  const key = parts[2];
+
+  const user = useSelector(selectUser);
 
   const [messages, setMessages] = useState([]);
   const [post, setPost] = useState();
   const [imageURLArray, setImageURLArray] = useState([]); // contains the URL of the image
-
-  const user = useSelector(selectUser);
+  const [seller, setSeller] = useState();
+  const [buyer, setBuyer] = useState();
 
   useEffect(() => {
     console.log("fetched messages", messages);
-  }, [messages]);
+    console.log("seller", seller);
+    console.log("buyer", buyer);
+  }, [messages, seller, buyer]);
 
   useEffect(() => {
+    setSeller(user.username);
+    setBuyer(buyerName);
+
+    // get listing from Database and display its images and title
     const db = firebase.database();
-    const dataRef = ref(db, `listings/${seller}/${key}`);
+    const dataRef = ref(db, `listings/${sellerName}/${key}`);
+    console.log("sellerName", sellerName);
     console.log("listing id", key);
     get(dataRef)
       .then((snapshot) => {
@@ -63,33 +73,32 @@ export default function ChatBox() {
 
     off(dataRef);
 
+    // gets every single message in this user's inbox
     const userInboxRef = collection(
       dbFirestone,
-      `messages/${user.username}/inbox/` // gets every single message in this user's inbox
+      `messages/${user.username}/inbox/`
     );
 
     const singleMessagesQuery = query(
       userInboxRef,
-      where("postKey", "==", key) // only gets messages that match the postKey of the currently selected post
+      where("postKey", "==", key) // query only messages that match the postKey of the currently selected post
     );
 
     const unsubscribe = onSnapshot(singleMessagesQuery, (QuerySnapshot) => {
       const fetchedMessages = [];
       console.log("QuerySnapshot", QuerySnapshot);
       if (QuerySnapshot.size === 0) {
-        // No matches found. Create a convoId so all messages sent are linked to this convo
-        console.log("no messages found for this listing. creating new convoId");
+        console.log("no messages found for this listing");
       }
       QuerySnapshot.forEach((doc) => {
         fetchedMessages.push({ ...doc.data(), id: doc.id });
-        // console.log("doc.convoId", doc.data().convoId);
       });
       const sortedMessages = fetchedMessages.sort(
         (a, b) => a.createdAt - b.createdAt
       );
       setMessages(sortedMessages);
     });
-    return () => unsubscribe; 
+    return () => unsubscribe;
   }, []);
 
   return (
@@ -120,7 +129,14 @@ export default function ChatBox() {
           <Message key={message.id} message={message} />
         ))}
       </div>
-      <SendMessage postKey={key} seller={post?.username} postTitle={post?.title}/>
+      <SendMessage
+        postKey={key}
+        buyer={buyer}
+        seller={seller}
+        postTitle={post?.title}
+        sender={user.username}
+        recipient={buyer}
+      />
     </main>
   );
 }

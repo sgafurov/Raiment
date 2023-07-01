@@ -12,7 +12,7 @@ import "firebase/compat/database";
 export default function Inbox() {
   const [messageThreads, setMessageThreads] = useState([]);
   const user = useSelector(selectUser);
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
   useEffect(() => {
     const userInboxRef = collection(
@@ -39,31 +39,50 @@ export default function Inbox() {
         return false;
       });
 
+      console.log("fetchedMessages", fetchedMessages);
+      console.log("filteredMessages", filteredMessages);
+
       const sortedMessages = filteredMessages.sort(
         (a, b) => a.createdAt - b.createdAt
       );
       setMessageThreads(sortedMessages);
-      console.log("fetchedMessages", fetchedMessages);
-      console.log("filteredMessages", filteredMessages);
     });
     return () => unsubscribe;
   }, []);
 
-  function messageSeller(seller, key) {
-    navigate(`/message-seller/${seller}:${key}`);
+  //   function messageSeller(seller, key) {
+  //     navigate(`/message/${seller}:${key}`);
+  //   }
+  function messageUser(message) {
+    if (message.seller === user.username) {
+        navigate(`/messageAsSeller/${message.buyer}:${message.seller}:${message.postKey}`);
+    } else {
+        navigate(`/messageAsBuyer/${message.seller}:${message.postKey}`);
+    }
   }
+
+  // if ur buyer, messageSeller
+  // if ur seller, messageBuyer
 
   return (
     <div>
       <Row>
         <div className="messages-wrapper">
-          {messageThreads?.map((message) => (
-            <Col>
-              <Button onClick={() => messageSeller(message.seller, message.postKey)} style={{ margin: '10px' }} >
-                See convo for listing: {message.postTitle}
-              </Button>
-            </Col>
-          ))}
+          {messageThreads.length > 0 ? (
+            messageThreads.map((message) => (
+              <Col>
+                <Button
+                  //   onClick={() => messageSeller(message.seller, message.postKey)}
+                  onClick={() => messageUser(message)}
+                  style={{ margin: "10px" }}
+                >
+                  See convo for listing: {message.postTitle}
+                </Button>
+              </Col>
+            ))
+          ) : (
+            <h3>No messages</h3>
+          )}
         </div>
       </Row>
     </div>

@@ -156,7 +156,7 @@ export default function Products() {
   };
 
   function messageSeller(seller, key) {
-    navigate(`/message-seller/${seller}:${key}`);
+    navigate(`/messageAsBuyer/${seller}:${key}`);
   }
 
   function handleEdit(key) {

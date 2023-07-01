@@ -62,11 +62,21 @@
   border-radius: 20px 20px 0 20px;
   box-shadow: -2px 2px 1px 1px #88dded;
 }
+/* .chat-bubble.left {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-left: auto;
+  border-radius: 20px 20px 0 20px;
+  box-shadow: -2px 2px 1px 1px #88dded;
+} */
 .chat-bubble__left {
   width: 35px;
   height: 35px;
   border-radius: 50%;
   margin-right: 10px;
+  
 }
 .user-name {
   font-weight: bold;
