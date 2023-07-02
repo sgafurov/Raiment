@@ -1,8 +1,9 @@
 [build]
-  command = "cd raiment && npm run build"
+  base = "raiment/"
+  command = "npm run build"
   publish = "build"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "raiment/*"
+  to = "raiment/public/index.html"
   status = 200

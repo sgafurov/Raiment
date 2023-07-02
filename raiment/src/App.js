@@ -3,7 +3,6 @@ import Login from "./components/account/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import Products from "./components/Products";
-import SignUp from "./components/account/SignUp";
 import { useEffect } from "react";
 import { login, logout, selectUser } from "./store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +15,7 @@ import EditListing from "./components/listing/EditListing";
 import Inbox from "./components/message/Inbox";
 import BuyerChatBox from "./components/message/BuyerChatBox";
 import SellerChatBox from "./components/message/SellerChatBox";
+import SignUp from "./components/account/SignUp";
 
 function App() {
   let dispatch = useDispatch();
