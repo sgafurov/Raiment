@@ -5,7 +5,7 @@ import NavigationBar from "./components/NavigationBar";
 import Products from "./components/Products";
 import SignUp from "./components/account/SignUp";
 import { useEffect } from "react";
-import { login, logout, selectUser } from "../src/store/userSlice";
+import { login, logout, selectUser } from "./store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import UserDashboard from "./components/UserDashboard";
 import { auth } from "./firebase";
