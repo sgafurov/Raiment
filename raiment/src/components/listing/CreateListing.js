@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -12,6 +13,8 @@ import { selectUser } from "../../store/userSlice";
 import uuid from "react-uuid";
 
 export default function CreateListing() {
+  let navigate = useNavigate();
+
   const user = useSelector(selectUser);
 
   const titleRef = useRef(null);
@@ -33,7 +36,6 @@ export default function CreateListing() {
   useEffect(() => {
     console.log("image url array", imageURLArray);
     console.log("image array", imageArray);
-    // localStorage.setItem("imageURLArray", JSON.stringify(imageURLArray));
   }, [imageURLArray, imageArray]);
 
   const handleImageSelect1 = (e) => {
@@ -188,7 +190,6 @@ export default function CreateListing() {
       zipcode,
       imageJSONArray
     );
-
     const db = getDatabase();
     const randomID = uuid();
     const images = {
@@ -197,7 +198,8 @@ export default function CreateListing() {
       2: imageJSONArray[2] ? imageJSONArray[2] : null,
       3: imageJSONArray[3] ? imageJSONArray[3] : null,
     };
-    set(ref(db, "listings/" + user.username + "/" + randomID), {
+    const listingRef = ref(db, "listings/" + user.username + "/" + randomID);
+    const listingData = {
       listingId: randomID,
       username: user.username,
       title: title,
@@ -208,7 +210,15 @@ export default function CreateListing() {
       images: images,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-    });
+    };
+    set(listingRef, listingData)
+      .then(() => {
+        console.log("Listing data was successfully written.");
+        navigate("/user-dashboard");
+      })
+      .catch((error) => {
+        console.error("Error writing listing data:", error);
+      });
   }
 
   // submit listing
