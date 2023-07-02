@@ -18,6 +18,8 @@ https://github.com/sgafurov/Raiment/assets/78608476/06964b0a-758c-4676-9661-5efc
 
 Upload images and add text to your listing
 
+https://github.com/sgafurov/Raiment/assets/78608476/a83b7f41-61f2-46e5-ab5e-07644d7beaa2
+
 ## Send Message
 
 Send and view messages
