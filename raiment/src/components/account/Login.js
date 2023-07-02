@@ -17,22 +17,6 @@ export default function Login() {
         passwordRef.current.value
       )
       .then((res) => {
-        // this dispatch is needed here. allows state to be updated before app.js can update it
-        // dispatch(
-        //   setUserInfo({
-        //     username: res.user.displayName,
-        //     email: res.user.email,
-        //     isLoggedIn: true,
-        //   })
-        // );
-        // localStorage.setItem(
-        //   "userInfo",
-        //   JSON.stringify({
-        //     username: res.user.displayName,
-        //     email: res.user.email,
-        //     isLoggedIn: true,
-        //   })
-        // );
         navigate("/user-dashboard");
       })
       .catch((err) => {

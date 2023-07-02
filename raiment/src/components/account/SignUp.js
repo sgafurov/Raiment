@@ -18,7 +18,6 @@ export default function SignUp() {
 
   function writeUserData(userId, username, email) {
     const db = getDatabase();
-    // set(ref(db, "users/" + userId), {
     set(ref(db, "users/" + username), {
       userId: userId,
       username: username,
@@ -28,18 +27,7 @@ export default function SignUp() {
 
   async function checkUsernameExists(username) {
     const db = getDatabase();
-    // const userRef = ref(db, "users/" + uid);
     const userRef = ref(db, "users/" + username);
-
-    // onValue(userRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   console.log("snapshot data", data);
-    //   console.log("username we are comparing", username);
-    //   console.log("are they equal?", data.username === username);
-    //   if (data.username === username) {
-    //     return true;
-    //   }
-    // });
 
     return new Promise((resolve) => {
       onValue(userRef, (snapshot) => {
