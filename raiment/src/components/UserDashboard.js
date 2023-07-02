@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { storage } from "../firebase";
 import { ref, get, off, remove, update } from "firebase/database";
-// import { db } from "../firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import Card from "react-bootstrap/Card";
@@ -17,9 +16,9 @@ import { useNavigate } from "react-router-dom";
 export default function UserDashboard() {
   let navigate = useNavigate();
   const user = useSelector(selectUser);
-  const [posts, setPosts] = useState({}); // used to be empty array
+  const [posts, setPosts] = useState({});
   const [keys, setKeys] = useState([]);
-  const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({}); // used to be empty array
+  const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({});
 
   useEffect(() => {
     console.log("imagesLinkedToPosts", imagesLinkedToPosts);
@@ -29,25 +28,6 @@ export default function UserDashboard() {
   useEffect(() => {
     const db = firebase.database();
     const dataRef = ref(db, `listings/${user.username}/`);
-
-    // Attach a listener for the "value" event to get the data
-    // onValue(
-    //   dataRef,
-    //   (snapshot) => {
-    //     const data = snapshot.val();
-    //     console.log("data", data);
-    //     console.log("data.images", data.images);
-    //     setPost(data);
-    //     const names = data.images.map((image) => image.name);
-    //     for (let i = 0; i < names.length; i++) {
-    //       console.log("names[i]", names[i]);
-    //       getImageUrl(names[i]);
-    //     }
-    //   },
-    //   (error) => {
-    //     console.log("Error fetching data:", error);
-    //   }
-    // );
 
     get(dataRef)
       .then((snapshot) => {

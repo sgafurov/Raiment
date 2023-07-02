@@ -9,13 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import UserDashboard from "./components/UserDashboard";
 import { auth } from "./firebase";
 import CreateListing from "./components/listing/CreateListing";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import EditListing from "./components/listing/EditListing";
 import Inbox from "./components/message/Inbox";
 import BuyerChatBox from "./components/message/BuyerChatBox";
 import SellerChatBox from "./components/message/SellerChatBox";
 import SignUp from "./components/account/SignUp";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   let dispatch = useDispatch();

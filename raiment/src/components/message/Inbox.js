@@ -20,10 +20,9 @@ export default function Inbox() {
   const user = useSelector(selectUser);
   let navigate = useNavigate();
 
-  // NEW
   const [posts, setPosts] = useState({});
-  const [imageURLArray, setImageURLArray] = useState([]); // contains the URL of the image
-  const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({}); // used to be empty array
+  const [imageURLArray, setImageURLArray] = useState([]);
+  const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({});
 
   useEffect(() => {
     console.log("messageThreads", messageThreads);
@@ -68,11 +67,8 @@ export default function Inbox() {
     return () => unsubscribe;
   }, []);
 
-  // NEW
   function getPosts(messages) {
     for (let i = 0; i < messages.length; i++) {
-      console.log("index i", i);
-      console.log("going thru these messages:", messages);
       const seller = messages[i].seller;
       const postKey = messages[i].postKey;
       const db = firebase.database();
@@ -138,8 +134,8 @@ export default function Inbox() {
           {messageThreads.length > 0 ? (
             messageThreads.map((message, index) => {
               const key = message.postKey;
-              const carouselKey = `carousel-${key}`; // Unique key for each Carousel
-              const cardKey = `card-${key}`; // Unique key for each Card
+              const carouselKey = `carousel-${key}`;
+              const cardKey = `card-${key}`;
               return (
                 <Row>
                   <Col className="d-flex justify-content-center">

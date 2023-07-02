@@ -22,7 +22,7 @@ export default function BuyerChatBox() {
 
   const [messages, setMessages] = useState([]);
   const [post, setPost] = useState();
-  const [imageURLArray, setImageURLArray] = useState([]); // contains the URL of the image
+  const [imageURLArray, setImageURLArray] = useState([]);
   const [seller, setSeller] = useState();
   const [buyer, setBuyer] = useState();
 
