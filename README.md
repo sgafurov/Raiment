@@ -5,7 +5,9 @@ Post And Sell Clothes Locally. https://raiment.netlify.app/
 ## Overview
 
 Overview of the site and its functionalities
-https://github.com/sgafurov/Raiment/assets/78608476/d3ef4751-7055-42b2-8e5a-75bddf846b8f
+
+https://github.com/sgafurov/Raiment/assets/78608476/3031214d-d8f8-427b-add4-16ee7ce48a50
+
 
 
 ## Search
