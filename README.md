@@ -8,11 +8,11 @@ Overview of the site and its functionalities
 
 https://github.com/sgafurov/Raiment/assets/78608476/3031214d-d8f8-427b-add4-16ee7ce48a50
 
-
-
 ## Search
 
 View all listings or filter by name
+
+https://github.com/sgafurov/Raiment/assets/78608476/06964b0a-758c-4676-9661-5efca32a8e26
 
 ## Create a Listing
 
