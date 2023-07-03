@@ -30,17 +30,27 @@ export default function SignUp() {
     const db = getDatabase();
     const userRef = ref(db, "users/" + username);
 
-    try {
-      const snapshot = await get(userRef);
-      const data = snapshot.val();
-      console.log("snapshot data", data);
-      console.log("username we are comparing", username);
-      console.log("are they equal?", data?.username === username);
-      return data?.username === username;
-    } catch (error) {
-      console.error("Error retrieving data:", error);
-      return false;
-    }
+    return new Promise((resolve) => {
+      onValue(userRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log("snapshot data", data);
+        console.log("username we are comparing", username);
+        console.log("are they equal?", data?.username === username);
+        resolve(data?.username === username);
+      });
+    });
+
+    // try {
+    //   const snapshot = await get(userRef);
+    //   const data = snapshot.val();
+    //   console.log("snapshot data", data);
+    //   console.log("username we are comparing", username);
+    //   console.log("are they equal?", data?.username === username);
+    //   return data?.username === username;
+    // } catch (error) {
+    //   console.error("Error retrieving data:", error);
+    //   return false;
+    // }
   }
 
   const signUp = async (e) => {
