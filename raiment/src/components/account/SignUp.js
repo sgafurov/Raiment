@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import { login } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getDatabase, ref, set, onValue, get } from "firebase/database";
 
 export default function SignUp() {
   let navigate = useNavigate();
@@ -26,18 +26,21 @@ export default function SignUp() {
   }
 
   async function checkUsernameExists(username) {
+    console.log("in checkUsernameExists function");
     const db = getDatabase();
     const userRef = ref(db, "users/" + username);
 
-    return new Promise((resolve) => {
-      onValue(userRef, (snapshot) => {
-        const data = snapshot.val();
-        console.log("snapshot data", data);
-        console.log("username we are comparing", username);
-        console.log("are they equal?", data?.username === username);
-        resolve(data?.username === username);
-      });
-    });
+    try {
+      const snapshot = await get(userRef);
+      const data = snapshot.val();
+      console.log("snapshot data", data);
+      console.log("username we are comparing", username);
+      console.log("are they equal?", data?.username === username);
+      return data?.username === username;
+    } catch (error) {
+      console.error("Error retrieving data:", error);
+      return false;
+    }
   }
 
   const signUp = async (e) => {
