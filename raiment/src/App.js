@@ -65,7 +65,7 @@ function App() {
           <Route
             exact
             path="/products"
-            element={user ? <Products /> : <Login />}
+            element={<Products />}
           />
           <Route
             exact

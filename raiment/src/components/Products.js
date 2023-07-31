@@ -249,21 +249,29 @@ export default function Products() {
                             <Card.Text>size {posts[key].size}</Card.Text>
                             <Card.Text>zip code {posts[key].zipcode}</Card.Text>
                             <Card.Text>user {posts[key].username}</Card.Text>
-                            {posts[key].username !== user.username ? (
-                              <Button
-                                variant="primary"
-                                onClick={() =>
-                                  messageSeller(posts[key].username, key)
-                                }
-                              >
-                                Message seller
-                              </Button>
+                            {user && user.username ? (
+                              posts[key].username !== user.username ? (
+                                <Button
+                                  variant="primary"
+                                  onClick={() =>
+                                    messageSeller(posts[key].username, key)
+                                  }
+                                >
+                                  Message seller
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="primary"
+                                  onClick={() => handleEdit(key)}
+                                >
+                                  Edit listing
+                                </Button>
+                              )
                             ) : (
                               <Button
                                 variant="primary"
-                                onClick={() => handleEdit(key)}
                               >
-                                Edit listing
+                                Login to chat
                               </Button>
                             )}
                           </Card.Body>
