@@ -62,11 +62,7 @@ function App() {
             path="/user-dashboard"
             element={user ? <UserDashboard /> : <Login />}
           />
-          <Route
-            exact
-            path="/products"
-            element={<Products />}
-          />
+          <Route exact path="/products" element={<Products />} />
           <Route
             exact
             path="/upload"

@@ -2,6 +2,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
+// import "firebase/compat/database";
 import "firebase/database";
 import { getDatabase } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
@@ -13,8 +14,10 @@ const firebaseConfig = {
   authDomain: "raiment-497.firebaseapp.com",
   projectId: "raiment-497",
   storageBucket: "raiment-497.appspot.com",
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  // appId: process.env.FIREBASE_APP_ID
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: "G-KVTQ6SCQKW"
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
