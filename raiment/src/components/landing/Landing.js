@@ -1,5 +1,6 @@
 import React from "react";
 import Slideshow from "./Slideshow";
+import "../../styles/landing.css";
 
 // import firebase from "firebase/compat/app";
 // import "firebase/analytics";

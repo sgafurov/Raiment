@@ -14,7 +14,7 @@ import Inbox from "./components/message/Inbox";
 import BuyerChatBox from "./components/message/BuyerChatBox";
 import SellerChatBox from "./components/message/SellerChatBox";
 import SignUp from "./components/account/SignUp";
-import "./App.css";
+import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {

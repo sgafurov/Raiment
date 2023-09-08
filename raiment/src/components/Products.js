@@ -245,10 +245,8 @@ export default function Products() {
                           <Card.Body key={cardKey}>
                             <Card.Title>{posts[key].title}</Card.Title>
                             <Card.Text>{posts[key].description}</Card.Text>
-                            <Card.Text>${posts[key].price}</Card.Text>
-                            <Card.Text>size {posts[key].size}</Card.Text>
-                            <Card.Text>zip code {posts[key].zipcode}</Card.Text>
-                            <Card.Text>user {posts[key].username}</Card.Text>
+                            <Card.Text>${posts[key].price} | Size: {posts[key].size.toUpperCase()} | {posts[key].zipcode}</Card.Text>
+                            <Card.Text>@{posts[key].username}</Card.Text>
                             {user && user.username ? (
                               posts[key].username !== user.username ? (
                                 <Button
@@ -268,11 +266,7 @@ export default function Products() {
                                 </Button>
                               )
                             ) : (
-                              <Button
-                                variant="primary"
-                              >
-                                Login to chat
-                              </Button>
+                              <Button variant="primary">Login to chat</Button>
                             )}
                           </Card.Body>
                         )}
