@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -11,25 +12,73 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { auth } from "../firebase";
 import { selectUser } from "../store/userSlice";
+import "../styles/navigationBar.css";
+import { useNavigate } from "react-router-dom";
 
 export default function NavigationBar() {
   const user = useSelector(selectUser);
+  const [inputText, setInputText] = useState("");
+
+  let navigate = useNavigate();
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setInputText(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/products/${inputText}`);
+  };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="white" expand="lg" className="top-navbar">
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img src={Logo} alt="Raiment" height={40} />
         </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">
+              Menswear
+            </Nav.Link>
+            <Nav.Link as={Link} to="/">
+              Womenswear
+            </Nav.Link>
+            <Nav.Link as={Link} to="/">
+              Jewelry
+            </Nav.Link>
+            <Nav.Link as={Link} to="/">
+              Beauty
+            </Nav.Link>
+            <Nav.Link as={Link} to="/">
+              More
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+
+        <form className="search-form" onSubmit={handleSubmit}>
+          <input
+            placeholder="Search for items..."
+            type="text"
+            name="q"
+            maxLength="2048"
+            className="input-box"
+            value={inputText}
+            onChange={handleChange}
+          />
+        </form>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {/* <Nav.Link as={Link} to="/">
               Home
-            </Nav.Link>
-            <Nav.Link as={Link} to="/products">
+            </Nav.Link> */}
+            {/* <Nav.Link as={Link} to="/products">
               Products
-            </Nav.Link>
+            </Nav.Link> */}
             {user ? (
               <>
                 <Nav.Link as={Link} to="/upload">
@@ -46,15 +95,6 @@ export default function NavigationBar() {
               <></>
             )}
           </Nav>
-          {/* <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search for an item"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form> */}
           {user ? (
             <div className="nav-buttons-logged-in">
               <Nav.Link

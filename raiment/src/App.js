@@ -2,7 +2,6 @@ import Landing from "./components/landing/Landing";
 import Login from "./components/account/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
-import Products from "./components/Products";
 import { useEffect } from "react";
 import { login, logout, selectUser } from "./store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +15,7 @@ import SellerChatBox from "./components/message/SellerChatBox";
 import SignUp from "./components/account/SignUp";
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Products from "./components/Products";
 
 function App() {
   let dispatch = useDispatch();
@@ -62,7 +62,7 @@ function App() {
             path="/user-dashboard"
             element={user ? <UserDashboard /> : <Login />}
           />
-          <Route exact path="/products" element={<Products />} />
+          <Route exact path="/products/:userInput" element={<Products />} />
           <Route
             exact
             path="/upload"
