@@ -68,8 +68,8 @@ export default function Products() {
           );
           // if the post's title or description contains the userinput
           if (
-            obj.title.includes(userInput) ||
-            obj.description.includes(userInput)
+            obj.title.toLowerCase().includes(userInput.toLowerCase()) ||
+            obj.description.toLowerCase().includes(userInput.toLowerCase())
           ) {
             setPosts((prevPosts) => {
               return { ...prevPosts, [postKeys[i]]: obj };
@@ -139,7 +139,7 @@ export default function Products() {
         </Row>
       </Container>
 
-      <h3>Showing results for {userInput}</h3>
+      <h3>Showing results for {userInput.toLowerCase()}</h3>
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <Container>
