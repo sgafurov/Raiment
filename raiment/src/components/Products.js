@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { useParams } from "react-router-dom";
+import "../styles/products.css";
 
 export default function Products() {
   let { userInput } = useParams();
@@ -35,7 +36,7 @@ export default function Products() {
   }, [posts, keys, imagesLinkedToPosts]);
 
   const db = firebase.database();
-  
+
   useEffect(() => {
     var usernames = [];
     const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
@@ -141,7 +142,7 @@ export default function Products() {
 
       <h3>Showing results for {userInput.toLowerCase()}</h3>
 
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      {/* <div style={{ display: "flex", flexWrap: "wrap" }}>
         <Container>
           <Row>
             {keys &&
@@ -208,6 +209,69 @@ export default function Products() {
               })}
           </Row>
         </Container>
+      </div> */}
+
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <ul className="items-grid">
+          {keys &&
+            keys.map((key, index) => {
+              const carouselKey = `carousel-${key}`; // Unique key for each Carousel
+              const cardKey = `card-${key}`; // Unique key for each Card
+              return (
+                  <li key={index} className="item">
+                      {imagesLinkedToPosts[key] && (
+                        <Carousel key={carouselKey} interval={null}>
+                          {imagesLinkedToPosts[key].map((url, index) => {
+                            const imageKey = `image-${index}-${key}`;
+                            return (
+                              <Carousel.Item key={imageKey}>
+                                <img
+                                  className="d-block w-100"
+                                  src={url}
+                                  alt=""
+                                />
+                              </Carousel.Item>
+                            );
+                          })}
+                        </Carousel>
+                      )}
+                      {posts[key] && (
+                        <Card.Body key={cardKey}>
+                          <Card.Title>{posts[key].title}</Card.Title>
+                          <Card.Text>{posts[key].description}</Card.Text>
+                          <Card.Text>
+                            ${posts[key].price} | Size:{" "}
+                            {posts[key].size.toUpperCase()} |{" "}
+                            {posts[key].zipcode}
+                          </Card.Text>
+                          <Card.Text>@{posts[key].username}</Card.Text>
+                          {user && user.username ? (
+                            posts[key].username !== user.username ? (
+                              <Button
+                                variant="primary"
+                                onClick={() =>
+                                  messageSeller(posts[key].username, key)
+                                }
+                              >
+                                Message seller
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="primary"
+                                onClick={() => handleEdit(key)}
+                              >
+                                Edit listing
+                              </Button>
+                            )
+                          ) : (
+                            <Button variant="primary">Login to chat</Button>
+                          )}
+                        </Card.Body>
+                      )}
+                  </li>
+              );
+            })}
+        </ul>
       </div>
     </div>
   );

@@ -1,0 +1,11 @@
+.items-grid {
+    display: grid;
+    gap: 16px;
+    margin: 0px;
+    grid-template-columns: repeat(4, minmax(0px, 1fr));
+}
+
+.item {
+    list-style-type: none;
+    position: relative;
+}
