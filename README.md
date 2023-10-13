@@ -1,6 +1,6 @@
 # Raiment
 
-Post And Sell Clothes Locally. https://raiment.netlify.app/
+Post And Sell Clothes Locally
 
 ## Overview
 
