@@ -50,12 +50,6 @@ export default function NavigationBar() {
             <Nav.Link as={Link} to="/">
               Jewelry
             </Nav.Link>
-            <Nav.Link as={Link} to="/">
-              Beauty
-            </Nav.Link>
-            <Nav.Link as={Link} to="/">
-              More
-            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
 
@@ -70,6 +64,7 @@ export default function NavigationBar() {
             onChange={handleChange}
           />
         </form>
+        
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

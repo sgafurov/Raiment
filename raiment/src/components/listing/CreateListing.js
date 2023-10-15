@@ -11,16 +11,21 @@ import { getDatabase, ref, set } from "firebase/database";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import uuid from "react-uuid";
+import "../../styles/createListing.css";
+
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default function CreateListing() {
   let navigate = useNavigate();
 
   const user = useSelector(selectUser);
 
-  const titleRef = useRef(null);
   const descriptionRef = useRef(null);
-  const priceRef = useRef(null);
+  const categoryRef = useRef(null);
+  const brandRef = useRef(null);
+  const conditionRef = useRef(null);
   const sizeRef = useRef(null);
+  const priceRef = useRef(null);
   const zipcodeRef = useRef(null);
 
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -32,11 +37,17 @@ export default function CreateListing() {
   const [image3, setImage3] = useState(null);
   const [image4, setImage4] = useState(null);
   const [clickedUpload, setClickedUpload] = useState(false);
+  const [selectedCategory, setSelectedCategory] = React.useState("Menswear");
+  const [selectedBrand, setSelectedBrand] = React.useState("Acne");
+  const [selectedCondition, setSelectedCondition] = React.useState("Brand new");
+  const [selectedSize, setSelectedSize] = React.useState("XS");
+
 
   useEffect(() => {
     console.log("image url array", imageURLArray);
     console.log("image array", imageArray);
-  }, [imageURLArray, imageArray]);
+    console.log("descriptionRef", descriptionRef.current.value)
+  }, [imageURLArray, imageArray, descriptionRef]);
 
   const handleImageSelect1 = (e) => {
     setImage1(e.target.files[0]);
@@ -173,20 +184,24 @@ export default function CreateListing() {
   };
 
   function writeListingData(
-    title,
     description,
-    price,
+    category,
+    brand,
+    condition,
     size,
+    price,
     zipcode,
     imageJSONArray
   ) {
     console.log("user.username", user.username);
     console.log(
       "contents of the listing",
-      title,
       description,
-      price,
+      category,
+      brand,
+      condition,
       size,
+      price,
       zipcode,
       imageJSONArray
     );
@@ -202,10 +217,12 @@ export default function CreateListing() {
     const listingData = {
       listingId: randomID,
       username: user.username,
-      title: title,
       description: description,
-      price: price,
+      category: category,
+      brand: brand,
+      condition: condition,
       size: size,
+      price: price,
       zipcode: zipcode,
       images: images,
       createdAt: new Date().toISOString(),
@@ -224,20 +241,28 @@ export default function CreateListing() {
   // submit listing
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !titleRef.current.value ||
-      !descriptionRef.current.value ||
-      !priceRef.current.value ||
-      !sizeRef.current.value ||
-      !zipcodeRef.current.value
-    ) {
-      return;
-    }
+    // if (
+    //   !descriptionRef.current.value ||
+    //   !categoryRef.current.value ||
+    //   !brandRef.current.value ||
+    //   !conditionRef.current.value ||
+    //   !sizeRef.current.value ||
+    //   !priceRef.current.value ||
+    //   !zipcodeRef.current.value
+    // ) {
+    //   return;
+    // }
     writeListingData(
-      titleRef.current.value,
       descriptionRef.current.value,
+      // categoryRef.current.value,
+      selectedCategory,
+      // brandRef.current.value,
+      selectedBrand,
+      // conditionRef.current.value,
+      selectedCondition,
+      // sizeRef.current.value,
+      selectedSize,
       priceRef.current.value,
-      sizeRef.current.value,
       zipcodeRef.current.value,
       imageJSONArray
     );
@@ -254,10 +279,12 @@ export default function CreateListing() {
   };
 
   const handleZipcodeInput = () => {
+    if (zipcodeRef.current.value.length > 5) {
+      alert("Zipcode can only contain 5 digits")
+      zipcodeRef.current.value = "";
+    }
     if (
-      !/^\d*\.?\d+$/.test(zipcodeRef.current.value) ||
-      parseFloat(zipcodeRef.current.value) <= 0
-    ) {
+      !/^\d*\.?\d+$/.test(zipcodeRef.current.value)) {
       zipcodeRef.current.value = zipcodeRef.current.value.replace(
         /[^0-9]/g,
         ""
@@ -268,49 +295,173 @@ export default function CreateListing() {
 
   return (
     <div>
-      <h1>List an item</h1>
       <Form
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          // display: "flex",
+          // flexDirection: "column",
+          // alignItems: "center",
+          // margin: "0 auto"
         }}
+        className="formDiv"
       >
-        <Form.Group className="mb-3" controlId="formItemTitle">
-          <Form.Label>Title</Form.Label>
-          <Form.Control type="text" ref={titleRef} />
-          <Form.Text className="text-muted"></Form.Text>
-        </Form.Group>
+        <h1 className="title">List an item</h1>
 
-        <Form.Group className="mb-3" controlId="formItemDescription">
-          <Form.Label>Description</Form.Label>
-          <Form.Control type="text" ref={descriptionRef} />
-        </Form.Group>
+        <div className="description">
+          <label htmlFor="description" className="label">
+            <h2 className="labelText">Description</h2>
+          </label>
+          <textarea ref={descriptionRef} placeholder="eg. blue Levi's jeans, only worn a couple times" className="descText">
+          </textarea>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formItemPrice">
+        <div className="infoDropdowns">
+          <div className="info">
+            <label htmlFor="category" className="label">
+              <h2 className="labelText">Category</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic" ref={categoryRef}>{selectedCategory}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => {
+                  setSelectedCategory("Menswear")
+                  categoryRef.current = selectedCategory
+                }}>Menswear</Dropdown.Item>
+                <Dropdown.Item onClick={() => {
+                  setSelectedCategory("Womenswear")
+                  categoryRef.current = selectedCategory
+                }}>Womenswear</Dropdown.Item>
+                <Dropdown.Item onClick={() => {
+                  setSelectedCategory("Jewelry")
+                  categoryRef.current = selectedCategory
+                }}>Jewelry</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
+          <div className="info">
+            <label htmlFor="brand" className="label">
+              <h2 className="labelText">Brand</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic" ref={brandRef}>{selectedBrand}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>Acne</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>Adidas</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Nike")}>Nike</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
+          <div className="info">
+            <label htmlFor="condition" className="label">
+              <h2 className="labelText">Condition</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic" ref={conditionRef}>{selectedCondition}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedCondition("Brand new")}>Brand new</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>Like new</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Excellent")}>Used - Excellent</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Good")}>Used - Good</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Fair")}>Used - Fair</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
+          <div className="info">
+            <label htmlFor="size" className="label">
+              <h2 className="labelText">Size</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic" ref={sizeRef}>{selectedSize}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedSize("XS")}>XS</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("S")}>S</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("M")}>M</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("L")}>L</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("XL")}>XL</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </div>
+
+        <div className="price">
+          <div>
+            <label htmlFor="price" className="label">
+              <h2 className="labelText">Price</h2>
+            </label>
+          </div>
+          <div className="priceInput">
+            {/* <label htmlFor="moneyInput" style={{ fontWeight: 'bold'}}>US$</label> */}
+            {/* <p className="sc-dmBhmd sc-cCIHMz eJYoNt dxkeZo">US$</p> */}
+            <input
+              type="text"
+              min="0"
+              ref={priceRef}
+              onChange={handlePriceInput}
+              placeholder="Enter price in US $"
+            />
+          </div>
+        </div>
+
+        <div className="zipcode">
+          <div>
+            <label htmlFor="zipcode" className="label">
+              <h2 className="labelText">Zipcode</h2>
+            </label>
+          </div>
+          <div>
+            <input
+              type="text"
+              ref={zipcodeRef}
+              onChange={handleZipcodeInput}
+              placeholder="Enter your zipcode"
+            />
+          </div>
+        </div>
+
+        {/* <div className="titleDiv">
+          <Form.Group className="mb-3" controlId="formItemTitle">
+            <Form.Label className="titleLabel">Title</Form.Label>
+            <Form.Control type="text" ref={titleRef} className="titleInput" />
+            <Form.Text className="text-muted"></Form.Text>
+          </Form.Group>
+        </div> */}
+
+        {/* <div className="description">
+          <Form.Group className="mb-3" controlId="formItemDescription">
+            <Form.Label className="iEVgNw">Description</Form.Label>
+            <Form.Control type="text" ref={descriptionRef} />
+          </Form.Group>
+        </div> */}
+
+        {/* <Form.Group className="mb-3" controlId="formItemPrice">
           <Form.Label>Price</Form.Label>
           <Form.Control
             type="text"
             ref={priceRef}
             onChange={handlePriceInput}
           />
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group className="mb-3" controlId="formItemSize">
+        {/* <Form.Group className="mb-3" controlId="formItemSize">
           <Form.Label>Size</Form.Label>
           <Form.Control type="text" ref={sizeRef} />
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group className="mb-3" controlId="formItemZipCode">
+        {/* <Form.Group className="mb-3" controlId="formItemZipCode">
           <Form.Label>Zip Code</Form.Label>
           <Form.Control
             type="text"
             ref={zipcodeRef}
             onChange={handleZipcodeInput}
           />
-        </Form.Group>
+        </Form.Group> */}
 
-        <Container>
+        <Container className="photos-container">
+          <label htmlFor="photos" className="label">
+            <h2 className="labelText">Photos</h2>
+          </label>
           <Row>
             <Col>
               <Card style={{ width: "15rem" }}>
@@ -387,7 +538,7 @@ export default function CreateListing() {
         </Container>
         <br />
         {!clickedUpload ? (
-          <>
+          <div className="upload-and-create-button">
             <Button
               style={{ background: "grey", border: "none" }}
               onClick={handleImageUpload}
@@ -395,15 +546,17 @@ export default function CreateListing() {
               Upload Images
             </Button>
             {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
-          </>
+          </div>
         ) : (
           <></>
         )}
         <br />
         {clickedUpload ? (
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
-            Create listing
-          </Button>
+          <div className="upload-and-create-button">
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              Create listing
+            </Button>
+          </div>
         ) : (
           <></>
         )}
