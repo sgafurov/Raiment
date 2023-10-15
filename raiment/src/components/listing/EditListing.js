@@ -12,6 +12,8 @@ import { selectUser } from "../../store/userSlice";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { useParams } from "react-router-dom";
+import "../../styles/createListing.css"
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default function EditListing() {
   let { key } = useParams();
@@ -34,6 +36,10 @@ export default function EditListing() {
   const [image4, setImage4] = useState(null);
 
   const [post, setPost] = useState();
+  const [selectedCategory, setSelectedCategory] = React.useState("Menswear");
+  const [selectedBrand, setSelectedBrand] = React.useState("Acne");
+  const [selectedCondition, setSelectedCondition] = React.useState("Brand new");
+  const [selectedSize, setSelectedSize] = React.useState("XS");
 
   useEffect(() => {
     console.log("post", post);
@@ -150,10 +156,12 @@ export default function EditListing() {
   };
 
   const handleZipcodeInput = () => {
+    if (zipcodeRef.current.value.length > 5) {
+      alert("Zipcode can only contain 5 digits")
+      zipcodeRef.current.value = "";
+    }
     if (
-      !/^\d*\.?\d+$/.test(zipcodeRef.current.value) ||
-      parseFloat(zipcodeRef.current.value) <= 0
-    ) {
+      !/^\d*\.?\d+$/.test(zipcodeRef.current.value)) {
       zipcodeRef.current.value = zipcodeRef.current.value.replace(
         /[^0-9]/g,
         ""
@@ -161,6 +169,10 @@ export default function EditListing() {
       return;
     }
   };
+
+
+
+
 
   const handleChange = (event, attribute) => {
     if (attribute === "price") {
@@ -317,26 +329,18 @@ export default function EditListing() {
 
   return (
     <div>
-      <h1>Edit listing</h1>
       <Form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+        // style={{
+        //   display: "flex",
+        //   flexDirection: "column",
+        //   alignItems: "center",
+        // }}
+        className="formDiv"
       >
-        <Form.Group className="mb-3" controlId="formItemTitle">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            ref={titleRef}
-            value={post && post.title ? post.title : ""}
-            onChange={(event) => handleChange(event, "title")}
-          />
-          <Form.Text className="text-muted"></Form.Text>
-        </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formItemDescription">
+        <h1 className="title">Edit listing</h1>
+
+        {/* <Form.Group className="mb-3" controlId="formItemDescription">
           <Form.Label>Description</Form.Label>
           <Form.Control
             type="text"
@@ -344,9 +348,79 @@ export default function EditListing() {
             value={post && post.description ? post.description : ""}
             onChange={(event) => handleChange(event, "description")}
           />
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group className="mb-3" controlId="formItemPrice">
+        <div className="description">
+          <label htmlFor="description" className="label">
+            <h2 className="labelText">Description</h2>
+          </label>
+          <textarea type="text" ref={descriptionRef} value={post && post.description ? post.description : ""} className="descText" onChange={(event) => handleChange(event, "description")}>
+          </textarea>
+        </div>
+
+        <div className="infoDropdowns">
+          <div className="info">
+            <label htmlFor="category" className="label">
+              <h2 className="labelText">Category</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.category ? post.category : ""}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedCategory("Menswear")}>Menswear</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCategory("Womenswear")}>Womenswear</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCategory("Jewelry")}>Jewelry</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
+          <div className="info">
+            <label htmlFor="brand" className="label">
+              <h2 className="labelText">Brand</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.brand ? post.brand : ""}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>Acne</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>Adidas</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Nike")}>Nike</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
+          <div className="info">
+            <label htmlFor="condition" className="label">
+              <h2 className="labelText">Condition</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.condition ? post.condition : ""}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedCondition("Brand new")}>Brand new</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>Like new</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Excellent")}>Used - Excellent</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Good")}>Used - Good</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Fair")}>Used - Fair</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
+          <div className="info">
+            <label htmlFor="size" className="label">
+              <h2 className="labelText">Size</h2>
+            </label>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.size ? post.size : ""}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedSize("XS")}>XS</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("S")}>S</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("M")}>M</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("L")}>L</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("XL")}>XL</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </div>
+
+        {/* <Form.Group className="mb-3" controlId="formItemPrice">
           <Form.Label>Price</Form.Label>
           <Form.Control
             type="text"
@@ -354,19 +428,45 @@ export default function EditListing() {
             value={post && post.price ? post.price : ""}
             onChange={(event) => handleChange(event, "price")}
           />
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group className="mb-3" controlId="formItemSize">
-          <Form.Label>Size</Form.Label>
-          <Form.Control
-            type="text"
-            ref={sizeRef}
-            value={post && post.size ? post.size : ""}
-            onChange={(event) => handleChange(event, "size")}
-          />
-        </Form.Group>
+        <div className="price">
+          <div>
+            <label htmlFor="price" className="label">
+              <h2 className="labelText">Price</h2>
+            </label>
+          </div>
+          <div className="priceInput">
+            $
+            <input
+              type="text"
+              min="0"
+              ref={priceRef}
+              defaultValue={post && post.price ? post.price : ""}
+              onChange={handlePriceInput}
+              placeholder="Enter price in US $"
+            />
+          </div>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formItemZipCode">
+        <div className="zipcode">
+          <div>
+            <label htmlFor="zipcode" className="label">
+              <h2 className="labelText">Zipcode</h2>
+            </label>
+          </div>
+          <div>
+            <input
+              type="text"
+              ref={zipcodeRef}
+              onChange={handleZipcodeInput}
+              defaultValue={post && post.zipcode ? post.zipcode : ""}
+              placeholder="Enter your zipcode"
+            />
+          </div>
+        </div>
+
+        {/* <Form.Group className="mb-3" controlId="formItemZipCode">
           <Form.Label>Zip Code</Form.Label>
           <Form.Control
             type="text"
@@ -374,9 +474,12 @@ export default function EditListing() {
             value={post && post.zipcode ? post.zipcode : ""}
             onChange={(event) => handleChange(event, "zipcode")}
           />
-        </Form.Group>
+        </Form.Group> */}
 
-        <Container>
+        <Container className="photos-container">
+          <label htmlFor="photos" className="label">
+            <h2 className="labelText">Photos</h2>
+          </label>
           <Row>
             <Col>
               <Card style={{ width: "15rem" }}>
@@ -454,9 +557,11 @@ export default function EditListing() {
         <br />
         {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
         <br />
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Edit listing
-        </Button>
+        <div className="upload-and-create-button">
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Edit listing
+          </Button>
+        </div>
       </Form>
     </div>
   );

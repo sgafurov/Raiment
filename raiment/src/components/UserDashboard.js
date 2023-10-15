@@ -133,23 +133,7 @@ export default function UserDashboard() {
                             })}
                           </Carousel>
                         )}
-                        {posts[key] && (
-                          // <Card.Body key={cardKey}>
-                          //   <div className="card-info-header">
-                          //     <Card.Text className="info-text">{posts[key].category}</Card.Text> <Card.Text className="info-text">{posts[key].condition}</Card.Text>
-                          //   </div>
-                          //   <Card.Text>{posts[key].description}</Card.Text>
-                          //   <Card.Text>{posts[key].brand}</Card.Text>
-                          //   <Card.Text>${posts[key].price}</Card.Text>
-                          //   <Card.Text>size {posts[key].size}</Card.Text>
-                          //   <Card.Text>zip code {posts[key].zipcode}</Card.Text>
-                          //   <Button onClick={() => handleEdit(key)}>
-                          //     Edit
-                          //   </Button>{" "}
-                          //   <Button onClick={() => handleDelete(key)}>
-                          //     Delete
-                          //   </Button>
-                          // </Card.Body>
+                        {posts[key] && (                     
                           <Card.Body key={cardKey}>
                             <p className="info-header">Size {posts[key].size} • {posts[key].category} • {posts[key].condition}</p>
                             <Card.Text>{posts[key].description}</Card.Text>
@@ -163,7 +147,6 @@ export default function UserDashboard() {
                               Delete
                             </Button>
                           </Card.Body>
-
                         )}
                       </Card>
                     </div>
