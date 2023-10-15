@@ -63,13 +63,12 @@ export default function Products() {
           const names = obj.images.map((image) => image.name);
           console.log("obj images names", names);
           console.log(
-            "obj.title.includes(userInput)",
-            obj.title,
-            obj.title.includes(userInput)
+            "obj.description.includes(userInput)",
+            obj.description,
+            obj.description.includes(userInput)
           );
           // if the post's title or description contains the userinput
           if (
-            obj.title.toLowerCase().includes(userInput.toLowerCase()) ||
             obj.description.toLowerCase().includes(userInput.toLowerCase())
           ) {
             setPosts((prevPosts) => {

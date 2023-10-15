@@ -12,6 +12,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
+import "../styles/userDashboard.css"
 
 export default function UserDashboard() {
   let navigate = useNavigate();
@@ -133,12 +134,32 @@ export default function UserDashboard() {
                           </Carousel>
                         )}
                         {posts[key] && (
+                          // <Card.Body key={cardKey}>
+                          //   <div className="card-info-header">
+                          //     <Card.Text className="info-text">{posts[key].category}</Card.Text> <Card.Text className="info-text">{posts[key].condition}</Card.Text>
+                          //   </div>
+                          //   <Card.Text>{posts[key].description}</Card.Text>
+                          //   <Card.Text>{posts[key].brand}</Card.Text>
+                          //   <Card.Text>${posts[key].price}</Card.Text>
+                          //   <Card.Text>size {posts[key].size}</Card.Text>
+                          //   <Card.Text>zip code {posts[key].zipcode}</Card.Text>
+                          //   <Button onClick={() => handleEdit(key)}>
+                          //     Edit
+                          //   </Button>{" "}
+                          //   <Button onClick={() => handleDelete(key)}>
+                          //     Delete
+                          //   </Button>
+                          // </Card.Body>
                           <Card.Body key={cardKey}>
-                            <Card.Title>{posts[key].title}</Card.Title>
+                            <div className="card-info-header">
+                              <Card.Text>Size {posts[key].size}</Card.Text>•
+                              <p>{posts[key].category}</p>•
+                              <p>{posts[key].condition}</p>
+                            </div>
                             <Card.Text>{posts[key].description}</Card.Text>
+                            <Card.Text>{posts[key].brand}</Card.Text>
                             <Card.Text>${posts[key].price}</Card.Text>
-                            <Card.Text>size {posts[key].size}</Card.Text>
-                            <Card.Text>zip code {posts[key].zipcode}</Card.Text>
+                            <Card.Text>Zipcode {posts[key].zipcode}</Card.Text>
                             <Button onClick={() => handleEdit(key)}>
                               Edit
                             </Button>{" "}
@@ -146,6 +167,7 @@ export default function UserDashboard() {
                               Delete
                             </Button>
                           </Card.Body>
+
                         )}
                       </Card>
                     </div>
