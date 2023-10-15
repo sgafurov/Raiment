@@ -217,57 +217,52 @@ export default function Products() {
               const carouselKey = `carousel-${key}`; // Unique key for each Carousel
               const cardKey = `card-${key}`; // Unique key for each Card
               return (
-                  <li key={index} className="item">
-                      {imagesLinkedToPosts[key] && (
-                        <Carousel key={carouselKey} interval={null}>
-                          {imagesLinkedToPosts[key].map((url, index) => {
-                            const imageKey = `image-${index}-${key}`;
-                            return (
-                              <Carousel.Item key={imageKey}>
-                                <img
-                                  className="d-block w-100"
-                                  src={url}
-                                  alt=""
-                                />
-                              </Carousel.Item>
-                            );
-                          })}
-                        </Carousel>
+                <li key={index} className="item">
+                  {imagesLinkedToPosts[key] && (
+                    <Carousel key={carouselKey} interval={null}>
+                      {imagesLinkedToPosts[key].map((url, index) => {
+                        const imageKey = `image-${index}-${key}`;
+                        return (
+                          <Carousel.Item key={imageKey}>
+                            <img
+                              className="d-block w-100"
+                              src={url}
+                              alt=""
+                            />
+                          </Carousel.Item>
+                        );
+                      })}
+                    </Carousel>
+                  )}
+                  {posts[key] && (
+                    <Card.Body key={cardKey}>
+                      <Card.Text style={{ fontWeight: 'bold'}}>${posts[key].price}</Card.Text>
+                      <Card.Text>{posts[key].size.toUpperCase()}</Card.Text>
+                      <Card.Text>{posts[key].brand}</Card.Text>
+                      {user && user.username ? (
+                        posts[key].username !== user.username ? (
+                          <Button
+                            variant="primary"
+                            onClick={() =>
+                              messageSeller(posts[key].username, key)
+                            }
+                          >
+                            Message @{posts[key].username}
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="primary"
+                            onClick={() => handleEdit(key)}
+                          >
+                            Edit listing
+                          </Button>
+                        )
+                      ) : (
+                        <Button variant="primary">Login to chat</Button>
                       )}
-                      {posts[key] && (
-                        <Card.Body key={cardKey}>
-                          <Card.Title>{posts[key].title}</Card.Title>
-                          <Card.Text>{posts[key].description}</Card.Text>
-                          <Card.Text>
-                            ${posts[key].price} | Size:{" "}
-                            {posts[key].size.toUpperCase()} |{" "}
-                            {posts[key].zipcode}
-                          </Card.Text>
-                          <Card.Text>@{posts[key].username}</Card.Text>
-                          {user && user.username ? (
-                            posts[key].username !== user.username ? (
-                              <Button
-                                variant="primary"
-                                onClick={() =>
-                                  messageSeller(posts[key].username, key)
-                                }
-                              >
-                                Message seller
-                              </Button>
-                            ) : (
-                              <Button
-                                variant="primary"
-                                onClick={() => handleEdit(key)}
-                              >
-                                Edit listing
-                              </Button>
-                            )
-                          ) : (
-                            <Button variant="primary">Login to chat</Button>
-                          )}
-                        </Card.Body>
-                      )}
-                  </li>
+                    </Card.Body>
+                  )}
+                </li>
               );
             })}
         </ul>

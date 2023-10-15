@@ -151,11 +151,7 @@ export default function UserDashboard() {
                           //   </Button>
                           // </Card.Body>
                           <Card.Body key={cardKey}>
-                            <div className="card-info-header">
-                              <Card.Text>Size {posts[key].size}</Card.Text>•
-                              <p>{posts[key].category}</p>•
-                              <p>{posts[key].condition}</p>
-                            </div>
+                            <p className="info-header">Size {posts[key].size} • {posts[key].category} • {posts[key].condition}</p>
                             <Card.Text>{posts[key].description}</Card.Text>
                             <Card.Text>{posts[key].brand}</Card.Text>
                             <Card.Text>${posts[key].price}</Card.Text>
