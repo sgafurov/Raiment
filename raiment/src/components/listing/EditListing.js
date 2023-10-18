@@ -20,10 +20,8 @@ export default function EditListing() {
 
   const user = useSelector(selectUser);
 
-  const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const priceRef = useRef(null);
-  const sizeRef = useRef(null);
   const zipcodeRef = useRef(null);
 
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -36,15 +34,27 @@ export default function EditListing() {
   const [image4, setImage4] = useState(null);
 
   const [post, setPost] = useState();
-  const [selectedCategory, setSelectedCategory] = React.useState("Menswear");
-  const [selectedBrand, setSelectedBrand] = React.useState("Acne");
-  const [selectedCondition, setSelectedCondition] = React.useState("Brand new");
-  const [selectedSize, setSelectedSize] = React.useState("XS");
+  const [selectedCategory, setSelectedCategory] = React.useState("");
+  const [selectedBrand, setSelectedBrand] = React.useState("");
+  const [selectedCondition, setSelectedCondition] = React.useState("");
+  const [selectedSize, setSelectedSize] = React.useState("");
 
   useEffect(() => {
     console.log("post", post);
     console.log("imageArray", imageArray);
     console.log("imageURLArray", imageURLArray);
+    if (post && post.category) {
+      setSelectedCategory(post.category);
+    }
+    if (post && post.brand) {
+      setSelectedBrand(post.brand);
+    }
+    if (post && post.condition) {
+      setSelectedCondition(post.condition);
+    }
+    if (post && post.size) {
+      setSelectedSize(post.size);
+    }
   }, [post, imageArray, imageURLArray]);
 
   useEffect(() => {
@@ -170,10 +180,6 @@ export default function EditListing() {
     }
   };
 
-
-
-
-
   const handleChange = (event, attribute) => {
     if (attribute === "price") {
       handlePriceInput();
@@ -196,7 +202,10 @@ export default function EditListing() {
     //   3: imageJSONArray[3] ? imageJSONArray[3] : null,
     // };
 
-    let images = {};
+    // let images = {};
+
+    let images = { ...post.images }; // NEW Copy existing images
+
     // will go as json in firebase database
     if (image1) {
       let imgObj = {
@@ -205,10 +214,13 @@ export default function EditListing() {
         size: image1.size,
         type: image1.type,
       };
-      images = {
-        ...post.images, // preserve the existing images
-        0: imgObj, // update the 1st child with the new value
-      };
+      // images = {
+      //   ...post.images, // preserve the existing images
+      //   0: imgObj, // update the 1st child with the new value
+      // };
+
+      images[0] = imgObj; // NEW
+
       // will upload as actual file in firebase storage
       setImageArray((prevImageArray) => {
         const updatedArray = [...prevImageArray];
@@ -223,10 +235,13 @@ export default function EditListing() {
         size: image2.size,
         type: image2.type,
       };
-      images = {
-        ...post.images,
-        1: imgObj,
-      };
+      // images = {
+      //   ...post.images,
+      //   1: imgObj,
+      // };
+
+      images[1] = imgObj; // NEW
+
       setImageArray((prevImageArray) => {
         const updatedArray = [...prevImageArray];
         updatedArray[1] = image2;
@@ -240,10 +255,13 @@ export default function EditListing() {
         size: image3.size,
         type: image3.type,
       };
-      images = {
-        ...post.images,
-        2: imgObj,
-      };
+      // images = {
+      //   ...post.images,
+      //   2: imgObj,
+      // };
+
+      images[2] = imgObj; // NEW
+
       setImageArray((prevImageArray) => {
         const updatedArray = [...prevImageArray];
         updatedArray[2] = image3;
@@ -257,10 +275,13 @@ export default function EditListing() {
         size: image4.size,
         type: image4.type,
       };
-      images = {
-        ...post.images,
-        3: imgObj,
-      };
+      // images = {
+      //   ...post.images,
+      //   3: imgObj,
+      // };
+
+      images[3] = imgObj; // NEW
+
       setImageArray((prevImageArray) => {
         const updatedArray = [...prevImageArray];
         updatedArray[3] = image4;
@@ -294,10 +315,12 @@ export default function EditListing() {
     }
 
     const updatedData = {
-      title: titleRef.current.value,
       description: descriptionRef.current.value,
+      category: selectedCategory,
+      brand: selectedBrand,
+      condition: selectedCondition,
+      size: selectedSize,
       price: priceRef.current.value,
-      size: sizeRef.current.value,
       zipcode: zipcodeRef.current.value,
       images: images,
       updatedAt: new Date().toISOString(),
@@ -315,15 +338,27 @@ export default function EditListing() {
   // update listing in the database
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !titleRef.current.value ||
-      !descriptionRef.current.value ||
-      !priceRef.current.value ||
-      !sizeRef.current.value ||
-      !zipcodeRef.current.value
-    ) {
-      return;
-    }
+    // if (
+    //   !titleRef.current.value ||
+    //   !descriptionRef.current.value ||
+    //   !priceRef.current.value ||
+    //   !sizeRef.current.value ||
+    //   !zipcodeRef.current.value
+    // ) {
+    //   return;
+    // }
+
+    // if (
+    //   !descriptionRef.current.value ||
+    //   !selectedCategory ||
+    //   !selectedBrand ||
+    //   !selectedCondition ||
+    //   !selectedSize ||
+    //   !priceRef.current.value ||
+    //   !zipcodeRef.current.value
+    // ) {
+    //   return;
+    // }
     updateListingData();
   };
 
@@ -364,7 +399,7 @@ export default function EditListing() {
               <h2 className="labelText">Category</h2>
             </label>
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.category ? post.category : ""}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCategory}</Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => setSelectedCategory("Menswear")}>Menswear</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedCategory("Womenswear")}>Womenswear</Dropdown.Item>
@@ -378,7 +413,7 @@ export default function EditListing() {
               <h2 className="labelText">Brand</h2>
             </label>
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.brand ? post.brand : ""}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedBrand}</Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>Acne</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>Adidas</Dropdown.Item>
@@ -392,7 +427,7 @@ export default function EditListing() {
               <h2 className="labelText">Condition</h2>
             </label>
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.condition ? post.condition : ""}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCondition}</Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => setSelectedCondition("Brand new")}>Brand new</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>Like new</Dropdown.Item>
@@ -408,7 +443,7 @@ export default function EditListing() {
               <h2 className="labelText">Size</h2>
             </label>
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{post && post.size ? post.size : ""}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedSize}</Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => setSelectedSize("XS")}>XS</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedSize("S")}>S</Dropdown.Item>
