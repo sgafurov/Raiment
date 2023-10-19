@@ -80,13 +80,6 @@
     margin-bottom: 8px;
 }
 
-/* 
-*,
-::before,
-::after {
-    box-sizing: inherit;
-} */
-
 .labelText {
     font-weight: bold;
     font-size: 1.125rem;
@@ -95,11 +88,6 @@
     color: rgb(38, 38, 38);
     text-align: left;
 }
-
-/* 
-element {
-    height: 108px;
-} */
 
 .descText {
     border: 1px solid rgb(102, 102, 102);
@@ -147,26 +135,6 @@ element {
     margin-bottom: 15px;
 }
 
-/* .priceInput {
-    position: relative;
-    display: flex;
-    width: 100%;
-    margin-bottom: 4px;
-} */
-
-/* .dxkeZo {
-    padding-left: 8px;
-    position: absolute;
-    top: 50%;
-    font-weight: bold;
-    transform: translateY(-50%);
-    color: rgb(38, 38, 38);
-    width: 40px;
-    display: flex;
-    -moz-box-pack: center;
-    justify-content: center;
-} */
-
 .upload-and-create-button {
     padding: 0px 16px;
 }
@@ -174,3 +142,82 @@ element {
 .photos-container {
     padding: 0px 16px !important
 }
+
+.photosLabel {
+    padding: 0px 16px;
+    margin-bottom: 8px;
+}
+
+.imageInputGroup {
+    padding: 0px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px -4px -16px;
+    border: 0px;
+}
+
+.imageInputGroup>div {
+    padding: 0px 4px;
+}
+
+.imageInputWrapper {
+    width: 25%;
+    margin-bottom: 32px;
+}
+
+.imageInputLabel {
+    position: relative;
+    box-shadow: none;
+    padding-bottom: 100%;
+    display: block;
+}
+
+.imageInputLabel>div {
+    margin: auto;
+    text-align: center;
+    padding: 8px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    /* border: 2px dashed rgb(215, 215, 215); */
+    justify-content: center;
+    -moz-box-pack: center;
+}
+
+.caption {
+    font-weight: normal;
+    margin: 0px;
+    margin-bottom: 0px;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: rgb(116, 116, 116);
+}
+
+.imageInput {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+.selectedImage {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+} 
+
+.kdrJjL {
+    margin: 0px auto;
+  }

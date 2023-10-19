@@ -295,15 +295,7 @@ export default function CreateListing() {
 
   return (
     <div>
-      <Form
-        style={{
-          // display: "flex",
-          // flexDirection: "column",
-          // alignItems: "center",
-          // margin: "0 auto"
-        }}
-        className="formDiv"
-      >
+      <Form className="formDiv">
         <h1 className="title">List an item</h1>
 
         <div className="description">
@@ -420,45 +412,7 @@ export default function CreateListing() {
           </div>
         </div>
 
-        {/* <div className="titleDiv">
-          <Form.Group className="mb-3" controlId="formItemTitle">
-            <Form.Label className="titleLabel">Title</Form.Label>
-            <Form.Control type="text" ref={titleRef} className="titleInput" />
-            <Form.Text className="text-muted"></Form.Text>
-          </Form.Group>
-        </div> */}
-
-        {/* <div className="description">
-          <Form.Group className="mb-3" controlId="formItemDescription">
-            <Form.Label className="iEVgNw">Description</Form.Label>
-            <Form.Control type="text" ref={descriptionRef} />
-          </Form.Group>
-        </div> */}
-
-        {/* <Form.Group className="mb-3" controlId="formItemPrice">
-          <Form.Label>Price</Form.Label>
-          <Form.Control
-            type="text"
-            ref={priceRef}
-            onChange={handlePriceInput}
-          />
-        </Form.Group> */}
-
-        {/* <Form.Group className="mb-3" controlId="formItemSize">
-          <Form.Label>Size</Form.Label>
-          <Form.Control type="text" ref={sizeRef} />
-        </Form.Group> */}
-
-        {/* <Form.Group className="mb-3" controlId="formItemZipCode">
-          <Form.Label>Zip Code</Form.Label>
-          <Form.Control
-            type="text"
-            ref={zipcodeRef}
-            onChange={handleZipcodeInput}
-          />
-        </Form.Group> */}
-
-        <Container className="photos-container">
+        {/* <Container className="photos-container">
           <label htmlFor="photos" className="label">
             <h2 className="labelText">Photos</h2>
           </label>
@@ -468,8 +422,9 @@ export default function CreateListing() {
                 {image1 !== null ? (
                   <Card.Img variant="top" src={imageURLArray[0]} />
                 ) : (
-                  <Card.Text>No image available</Card.Text>
-                )}
+                  <></>
+                )
+                }
                 <Card.Body>
                   <div>
                     <input type="file" onChange={handleImageSelect1} />
@@ -486,7 +441,7 @@ export default function CreateListing() {
                 {image2 !== null ? (
                   <Card.Img variant="top" src={imageURLArray[1]} />
                 ) : (
-                  <Card.Text>No image available</Card.Text>
+                  <></>
                 )}
                 <Card.Body>
                   <div>
@@ -504,7 +459,7 @@ export default function CreateListing() {
                 {image3 !== null ? (
                   <Card.Img variant="top" src={imageURLArray[2]} />
                 ) : (
-                  <Card.Text>No image available</Card.Text>
+                  <></>
                 )}
                 <Card.Body>
                   <div>
@@ -522,7 +477,7 @@ export default function CreateListing() {
                 {image4 !== null ? (
                   <Card.Img variant="top" src={imageURLArray[3]} />
                 ) : (
-                  <Card.Text>No image available</Card.Text>
+                  <></>
                 )}
                 <Card.Body>
                   <div>
@@ -535,7 +490,64 @@ export default function CreateListing() {
               )}
             </Col>
           </Row>
-        </Container>
+        </Container> */}
+
+        {/* NEW */}
+        <label htmlFor="photos" className="photosLabel">
+          <h2 className="labelText">Photos</h2>
+        </label>
+
+        {/* contains all input boxes */}
+        <div className="imageInputGroup">
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[0]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect1} />
+            </label>
+          </div>
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[1]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect2} />
+            </label>
+          </div>
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[2]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect3} />
+            </label>
+          </div>
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[3]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect4} />
+            </label>
+          </div>
+        </div>
+
+
+
+
         <br />
         {!clickedUpload ? (
           <div className="upload-and-create-button">
