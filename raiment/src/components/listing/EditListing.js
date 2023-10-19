@@ -375,16 +375,6 @@ export default function EditListing() {
 
         <h1 className="title">Edit listing</h1>
 
-        {/* <Form.Group className="mb-3" controlId="formItemDescription">
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            type="text"
-            ref={descriptionRef}
-            value={post && post.description ? post.description : ""}
-            onChange={(event) => handleChange(event, "description")}
-          />
-        </Form.Group> */}
-
         <div className="description">
           <label htmlFor="description" className="label">
             <h2 className="labelText">Description</h2>
@@ -455,16 +445,6 @@ export default function EditListing() {
           </div>
         </div>
 
-        {/* <Form.Group className="mb-3" controlId="formItemPrice">
-          <Form.Label>Price</Form.Label>
-          <Form.Control
-            type="text"
-            ref={priceRef}
-            value={post && post.price ? post.price : ""}
-            onChange={(event) => handleChange(event, "price")}
-          />
-        </Form.Group> */}
-
         <div className="price">
           <div>
             <label htmlFor="price" className="label">
@@ -501,17 +481,7 @@ export default function EditListing() {
           </div>
         </div>
 
-        {/* <Form.Group className="mb-3" controlId="formItemZipCode">
-          <Form.Label>Zip Code</Form.Label>
-          <Form.Control
-            type="text"
-            ref={zipcodeRef}
-            value={post && post.zipcode ? post.zipcode : ""}
-            onChange={(event) => handleChange(event, "zipcode")}
-          />
-        </Form.Group> */}
-
-        <Container className="photos-container">
+        {/* <Container className="photos-container">
           <label htmlFor="photos" className="label">
             <h2 className="labelText">Photos</h2>
           </label>
@@ -588,8 +558,63 @@ export default function EditListing() {
               )}
             </Col>
           </Row>
-        </Container>
+        </Container> */}
+
+        {/* NEW */}
+        <label htmlFor="photos" className="photosLabel">
+          <h2 className="labelText">Photos</h2>
+        </label>
+
+        {/* contains all input boxes */}
+        <div className="imageInputGroup">
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[0]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect1} />
+            </label>
+          </div>
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[1]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect2} />
+            </label>
+          </div>
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[2]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect3} />
+            </label>
+          </div>
+
+          {/* contains an image */}
+          <div className="imageInputWrapper">
+            <label className="imageInputLabel">
+              <div>
+                <p type="caption1" className="caption">Add a photo</p>
+              </div>
+              <img className="selectedImage" src={imageURLArray[3]} />
+              <input type="file" className="imageInput" onChange={handleImageSelect4} />
+            </label>
+          </div>
+        </div>
+
         <br />
+
         {uploadProgress > 0 && <p>Upload Progress: {uploadProgress}%</p>}
         <br />
         <div className="upload-and-create-button">

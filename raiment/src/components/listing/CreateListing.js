@@ -545,9 +545,6 @@ export default function CreateListing() {
           </div>
         </div>
 
-
-
-
         <br />
         {!clickedUpload ? (
           <div className="upload-and-create-button">
