@@ -29,6 +29,12 @@ export default function Products() {
   const [keys, setKeys] = useState([]);
   const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({});
 
+  const [selectedCategory, setSelectedCategory] = React.useState("Category");
+  const [selectedBrand, setSelectedBrand] = React.useState("Brand");
+  const [selectedCondition, setSelectedCondition] = React.useState("Condition");
+  const [selectedSize, setSelectedSize] = React.useState("Size");
+
+
   useEffect(() => {
     console.log("posts useState", posts);
     console.log("keys useState", keys);
@@ -110,36 +116,106 @@ export default function Products() {
 
   return (
     <div>
-      <Container>
-        <Row>
-          <Col>
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Size
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">XXS</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">XS</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">S</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-          <Col>
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Brand
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Acne</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Adidas</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Airforce</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        </Row>
-      </Container>
 
-      <h3>Showing results for {userInput.toLowerCase()}</h3>
+      <h3 className="resultsTitle">Showing results for "{userInput.toLowerCase()}"</h3>
+
+      <div className="filtersOuterWrapper">
+        <nav className="filtersDropdownContainer">
+          <div className="filterContainer">
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCategory}</Dropdown.Toggle>
+              <Dropdown.Menu>
+              <Dropdown.Item onClick={() => {
+                  setSelectedCategory("Category")
+                }}>--Category--</Dropdown.Item>
+                <Dropdown.Item onClick={() => {
+                  setSelectedCategory("Menswear")
+                }}>Menswear</Dropdown.Item>
+                <Dropdown.Item onClick={() => {
+                  setSelectedCategory("Womenswear")
+                }}>Womenswear</Dropdown.Item>
+                <Dropdown.Item onClick={() => {
+                  setSelectedCategory("Jewelry")
+                }}>Jewelry</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+          <div className="filterContainer">
+          <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedBrand}</Dropdown.Toggle>
+              <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setSelectedBrand("Brand")}>--Brand--</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>Acne</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>Adidas</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Nike")}>Nike</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+          <div className="filterContainer">
+          <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCondition}</Dropdown.Toggle>
+              <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setSelectedCondition("Condition")}>--Condition--</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Brand new")}>Brand new</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>Like new</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Excellent")}>Used - Excellent</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Good")}>Used - Good</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Used - Fair")}>Used - Fair</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+          <div className="filterContainer">
+          <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedSize}</Dropdown.Toggle>
+              <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setSelectedSize("Size")}>--Size--</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("XS")}>XS</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("S")}>S</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("M")}>M</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("L")}>L</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("XL")}>XL</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </nav>
+      </div>
+
+      {/* <div className="infoDropdowns">
+        <div className="info">
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">Category</Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>Menswear</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+
+        <div className="info">
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Size
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-1">XXS</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">XS</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">S</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+
+        <div className="info">
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Brand
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-1">Acne</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Adidas</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">Airforce</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      </div> */}
 
       {/* <div style={{ display: "flex", flexWrap: "wrap" }}>
         <Container>
@@ -236,7 +312,7 @@ export default function Products() {
                   )}
                   {posts[key] && (
                     <Card.Body key={cardKey}>
-                      <Card.Text style={{ fontWeight: 'bold'}}>${posts[key].price}</Card.Text>
+                      <Card.Text style={{ fontWeight: 'bold' }}>${posts[key].price}</Card.Text>
                       <Card.Text>{posts[key].size.toUpperCase()}</Card.Text>
                       <Card.Text>{posts[key].brand}</Card.Text>
                       {user && user.username ? (
@@ -267,6 +343,6 @@ export default function Products() {
             })}
         </ul>
       </div>
-    </div>
+    </div >
   );
 }

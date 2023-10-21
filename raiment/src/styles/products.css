@@ -3,6 +3,7 @@
     gap: 16px;
     margin: 0px;
     grid-template-columns: repeat(4, minmax(0px, 1fr));
+    padding-top: 10px;
 }
 
 .item {
@@ -13,3 +14,65 @@
 p.card-text {
     margin: 0 !important
 }
+
+.resultsTitle {
+    padding-left: 32px;
+}
+
+
+.infoDropdowns {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    max-width: 632px;
+}
+
+.info {
+    /* margin: 0 auto; */
+    text-align: left;
+    padding: 0px 16px;
+    display: inline-block;
+    /* margin-bottom: 8px; */
+}
+
+
+/* NEW */
+
+.filtersOuterWrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-left: 32px;
+}
+
+.filtersDropdownContainer {
+    display: flex;
+}
+
+.filterContainer {
+    margin-right: 16px;
+}
+
+.gREsvo {
+    display: flex;
+    background-color: transparent;
+    padding-top: 0px;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    cursor: pointer;
+    font-family: "GT America Extended", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 0.875rem;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    font-weight: normal;
+    height: 48px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(243, 243, 243);
+    }
