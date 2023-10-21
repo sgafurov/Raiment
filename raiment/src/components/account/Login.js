@@ -34,6 +34,7 @@ export default function Login() {
           alignItems: "center",
         }}
       >
+        <Form.Label style={{ fontWeight: "bold", marginTop: "8px", fontSize: "1.25rem" }}>Log In</Form.Label>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="Enter email" ref={emailRef} />
@@ -52,17 +53,17 @@ export default function Login() {
         <Button variant="primary" type="submit" onClick={signIn}>
           Log in
         </Button>
+        <Form.Label>
+          <Button
+            onClick={() => {
+              navigate("/signup");
+            }}
+            style={{ background: "none", border: "none" }}
+          >
+            <span style={{ color: "black" }}>New user? Sign up</span>
+          </Button>
+        </Form.Label>
       </Form>
-      <Form.Label>
-        <Button
-          onClick={() => {
-            navigate("/signup");
-          }}
-          style={{ background: "none", border: "none" }}
-        >
-          <span style={{ color: "black" }}>New user? Sign up</span>
-        </Button>
-      </Form.Label>
     </>
   );
 }

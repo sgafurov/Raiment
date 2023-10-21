@@ -99,6 +99,7 @@ export default function SignUp() {
           alignItems: "center",
         }}
       >
+        <Form.Label style={{ fontWeight: "bold", marginTop: "8px", fontSize: "1.25rem" }}>Sign Up</Form.Label>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -134,19 +135,19 @@ export default function SignUp() {
         <Button variant="primary" type="submit" onClick={signUp}>
           Sign up
         </Button>
+        <Form.Label>
+          <Button
+            onClick={() => {
+              navigate("/login");
+            }}
+            style={{ background: "none", border: "none" }}
+          >
+            <span style={{ color: "black" }}>
+              Already have an account? Log in
+            </span>
+          </Button>
+        </Form.Label>
       </Form>
-      <Form.Label>
-        <Button
-          onClick={() => {
-            navigate("/login");
-          }}
-          style={{ background: "none", border: "none" }}
-        >
-          <span style={{ color: "black" }}>
-            Already have an account? Log in
-          </span>
-        </Button>
-      </Form.Label>
     </>
   );
 }
