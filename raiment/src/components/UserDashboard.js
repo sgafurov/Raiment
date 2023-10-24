@@ -104,57 +104,58 @@ export default function UserDashboard() {
 
   return (
     <div>
+      <div style={{paddingLeft: "32px"}}>
       <h1>{`Hi ${user.username}!`}</h1>
       <h3>My posts</h3>
+      </div>
+
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        <Container>
-          <Row>
-            {keys &&
-              keys.map((key, index) => {
-                const carouselKey = `carousel-${key}`; // Unique key for each Carousel
-                const cardKey = `card-${key}`; // Unique key for each Card
-                return (
-                  <Col className="d-flex justify-content-center">
-                    <div key={index}>
-                      <Card style={{ width: "18rem" }} key={cardKey}>
-                        {imagesLinkedToPosts[key] && (
-                          <Carousel key={carouselKey} interval={null}>
-                            {imagesLinkedToPosts[key].map((url, index) => {
-                              const imageKey = `image-${index}-${key}`;
-                              return (
-                                <Carousel.Item key={imageKey}>
-                                  <img
-                                    className="d-block w-100"
-                                    src={url}
-                                    alt=""
-                                  />
-                                </Carousel.Item>
-                              );
-                            })}
-                          </Carousel>
-                        )}
-                        {posts[key] && (                     
-                          <Card.Body key={cardKey}>
-                            <p className="info-header">Size {posts[key].size} • {posts[key].category} • {posts[key].condition}</p>
-                            <Card.Text>{posts[key].description}</Card.Text>
-                            <Card.Text>{posts[key].brand}</Card.Text>
-                            <Card.Text>${posts[key].price}</Card.Text>
-                            <Card.Text>Zipcode {posts[key].zipcode}</Card.Text>
-                            <Button onClick={() => handleEdit(key)}>
-                              Edit
-                            </Button>{" "}
-                            <Button onClick={() => handleDelete(key)}>
-                              Delete
-                            </Button>
-                          </Card.Body>
-                        )}
-                      </Card>
-                    </div>
-                  </Col>
-                );
-              })}
-          </Row>
-        </Container>
+        <ul className="items-grid">
+          {keys &&
+            keys.map((key, index) => {
+              const carouselKey = `carousel-${key}`; // Unique key for each Carousel
+              const cardKey = `card-${key}`; // Unique key for each Card
+              return (
+                <Col className="d-flex justify-content-center">
+                  <div key={index}>
+                    <Card style={{ width: "18rem" }} key={cardKey}>
+                      {imagesLinkedToPosts[key] && (
+                        <Carousel key={carouselKey} interval={null}>
+                          {imagesLinkedToPosts[key].map((url, index) => {
+                            const imageKey = `image-${index}-${key}`;
+                            return (
+                              <Carousel.Item key={imageKey}>
+                                <img
+                                  className="d-block w-100"
+                                  src={url}
+                                  alt=""
+                                />
+                              </Carousel.Item>
+                            );
+                          })}
+                        </Carousel>
+                      )}
+                      {posts[key] && (
+                        <Card.Body key={cardKey}>
+                          <p className="info-header">Size {posts[key].size} • {posts[key].category} • {posts[key].condition}</p>
+                          <Card.Text>{posts[key].description}</Card.Text>
+                          <Card.Text>{posts[key].brand}</Card.Text>
+                          <Card.Text>${posts[key].price}</Card.Text>
+                          <Card.Text>Zipcode {posts[key].zipcode}</Card.Text>
+                          <Button onClick={() => handleEdit(key)}>
+                            Edit
+                          </Button>{" "}
+                          <Button onClick={() => handleDelete(key)}>
+                            Delete
+                          </Button>
+                        </Card.Body>
+                      )}
+                    </Card>
+                  </div>
+                </Col>
+              );
+            })}
+        </ul>
       </div>
     </div>
   );
