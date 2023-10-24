@@ -329,6 +329,7 @@ export default function EditListing() {
     update(dataRef, updatedData)
       .then(() => {
         console.log("Data updated successfully.");
+        alert("Done!")
       })
       .catch((error) => {
         console.error("Error updating data:", error);
@@ -365,11 +366,6 @@ export default function EditListing() {
   return (
     <div>
       <Form
-        // style={{
-        //   display: "flex",
-        //   flexDirection: "column",
-        //   alignItems: "center",
-        // }}
         className="formDiv"
       >
 
@@ -481,86 +477,6 @@ export default function EditListing() {
           </div>
         </div>
 
-        {/* <Container className="photos-container">
-          <label htmlFor="photos" className="label">
-            <h2 className="labelText">Photos</h2>
-          </label>
-          <Row>
-            <Col>
-              <Card style={{ width: "15rem" }}>
-                {imageURLArray[0] !== null ? (
-                  <Card.Img variant="top" src={imageURLArray[0]} />
-                ) : (
-                  <Card.Text>No image available</Card.Text>
-                )}
-                <Card.Body>
-                  <div>
-                    <input type="file" onChange={handleImageSelect1} />
-                  </div>
-                </Card.Body>
-              </Card>
-              {image1 !== null && uploadProgress > 0 && (
-                <p>Upload Progress: {uploadProgress}%</p>
-              )}
-            </Col>
-
-            <Col>
-              <Card style={{ width: "15rem" }}>
-                {imageURLArray[1] !== null ? (
-                  <Card.Img variant="top" src={imageURLArray[1]} />
-                ) : (
-                  <Card.Text>No image available</Card.Text>
-                )}
-                <Card.Body>
-                  <div>
-                    <input type="file" onChange={handleImageSelect2} />
-                  </div>
-                </Card.Body>
-              </Card>
-              {image2 !== null && uploadProgress > 0 && (
-                <p>Upload Progress: {uploadProgress}%</p>
-              )}
-            </Col>
-
-            <Col>
-              <Card style={{ width: "15rem" }}>
-                {imageURLArray[2] !== null ? (
-                  <Card.Img variant="top" src={imageURLArray[2]} />
-                ) : (
-                  <Card.Text>No image available</Card.Text>
-                )}
-                <Card.Body>
-                  <div>
-                    <input type="file" onChange={handleImageSelect3} />
-                  </div>
-                </Card.Body>
-              </Card>
-              {image3 !== null && uploadProgress > 0 && (
-                <p>Upload Progress: {uploadProgress}%</p>
-              )}
-            </Col>
-
-            <Col>
-              <Card style={{ width: "15rem" }}>
-                {imageURLArray[3] !== null ? (
-                  <Card.Img variant="top" src={imageURLArray[3]} />
-                ) : (
-                  <Card.Text>No image available</Card.Text>
-                )}
-                <Card.Body>
-                  <div>
-                    <input type="file" onChange={handleImageSelect4} />
-                  </div>
-                </Card.Body>
-              </Card>
-              {image4 !== null && uploadProgress > 0 && (
-                <p>Upload Progress: {uploadProgress}%</p>
-              )}
-            </Col>
-          </Row>
-        </Container> */}
-
-        {/* NEW */}
         <label htmlFor="photos" className="photosLabel">
           <h2 className="labelText">Photos</h2>
         </label>
