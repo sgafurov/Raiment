@@ -3,3 +3,16 @@
     margin: 0 auto !important;
     padding: 0 !important;
 }
+
+.items-grid {
+    display: grid;
+    gap: 16px;
+    margin: 0px;
+    grid-template-columns: repeat(4, minmax(0px, 1fr));
+    padding-top: 10px;
+}
+
+.item {
+    list-style-type: none;
+    position: relative;
+}

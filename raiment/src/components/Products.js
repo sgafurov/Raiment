@@ -125,7 +125,7 @@ export default function Products() {
             <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCategory}</Dropdown.Toggle>
               <Dropdown.Menu>
-              <Dropdown.Item onClick={() => {
+                <Dropdown.Item onClick={() => {
                   setSelectedCategory("Category")
                 }}>--Category--</Dropdown.Item>
                 <Dropdown.Item onClick={() => {
@@ -141,10 +141,10 @@ export default function Products() {
             </Dropdown>
           </div>
           <div className="filterContainer">
-          <Dropdown>
+            <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedBrand}</Dropdown.Toggle>
               <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setSelectedBrand("Brand")}>--Brand--</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Brand")}>--Brand--</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>Acne</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>Adidas</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedBrand("Nike")}>Nike</Dropdown.Item>
@@ -152,10 +152,10 @@ export default function Products() {
             </Dropdown>
           </div>
           <div className="filterContainer">
-          <Dropdown>
+            <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCondition}</Dropdown.Toggle>
               <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setSelectedCondition("Condition")}>--Condition--</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Condition")}>--Condition--</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedCondition("Brand new")}>Brand new</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>Like new</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedCondition("Used - Excellent")}>Used - Excellent</Dropdown.Item>
@@ -165,10 +165,10 @@ export default function Products() {
             </Dropdown>
           </div>
           <div className="filterContainer">
-          <Dropdown>
+            <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedSize}</Dropdown.Toggle>
               <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setSelectedSize("Size")}>--Size--</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("Size")}>--Size--</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedSize("XS")}>XS</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedSize("S")}>S</Dropdown.Item>
                 <Dropdown.Item onClick={() => setSelectedSize("M")}>M</Dropdown.Item>
@@ -312,9 +312,15 @@ export default function Products() {
                   )}
                   {posts[key] && (
                     <Card.Body key={cardKey}>
-                      <Card.Text style={{ fontWeight: 'bold' }}>${posts[key].price}</Card.Text>
-                      <Card.Text>{posts[key].size.toUpperCase()}</Card.Text>
+                      <p className="info-header">Size {posts[key].size} • {posts[key].category} • {posts[key].condition}</p>
+                      <Card.Text>{posts[key].description}</Card.Text>
                       <Card.Text>{posts[key].brand}</Card.Text>
+                      <Card.Text>${posts[key].price}</Card.Text>
+                      <Card.Text>Zipcode {posts[key].zipcode}</Card.Text>
+
+                      {/* <Card.Text style={{ fontWeight: 'bold' }}>${posts[key].price}</Card.Text>
+                      <Card.Text>{posts[key].size.toUpperCase()}</Card.Text>
+                      <Card.Text>{posts[key].brand}</Card.Text> */}
                       {user && user.username ? (
                         posts[key].username !== user.username ? (
                           <Button
@@ -330,7 +336,7 @@ export default function Products() {
                             variant="primary"
                             onClick={() => handleEdit(key)}
                           >
-                            Edit listing
+                            Edit my listing
                           </Button>
                         )
                       ) : (

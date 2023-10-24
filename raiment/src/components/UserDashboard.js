@@ -116,9 +116,10 @@ export default function UserDashboard() {
               const carouselKey = `carousel-${key}`; // Unique key for each Carousel
               const cardKey = `card-${key}`; // Unique key for each Card
               return (
+                <li key={index} className="item">
                 <Col className="d-flex justify-content-center">
                   <div key={index}>
-                    <Card style={{ width: "18rem" }} key={cardKey}>
+                    <Card key={cardKey}>
                       {imagesLinkedToPosts[key] && (
                         <Carousel key={carouselKey} interval={null}>
                           {imagesLinkedToPosts[key].map((url, index) => {
@@ -153,6 +154,7 @@ export default function UserDashboard() {
                     </Card>
                   </div>
                 </Col>
+                </li>
               );
             })}
         </ul>
