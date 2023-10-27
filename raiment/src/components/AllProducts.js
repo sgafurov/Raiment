@@ -13,10 +13,8 @@ import { selectUser } from "../store/userSlice";
 import { useParams } from "react-router-dom";
 import "../styles/products.css";
 
-export default function Products() {
-  let { userInput } = useParams();
-
-  console.log("userInput", userInput);
+export default function AllProducts() {
+  let { category } = useParams();
 
   let navigate = useNavigate();
 
@@ -36,6 +34,7 @@ export default function Products() {
     console.log("posts useState", posts);
     console.log("keys useState", keys);
     console.log("imagesLinkedToPosts useState", imagesLinkedToPosts);
+    console.log("category", category);
   }, [posts, keys, imagesLinkedToPosts]);
 
   const db = firebase.database();
@@ -65,14 +64,10 @@ export default function Products() {
           console.log("obj", obj);
           const names = obj.images.map((image) => image.name);
           console.log("obj images names", names);
-          console.log(
-            "obj.description.includes(userInput)",
-            obj.description,
-            obj.description.includes(userInput)
-          );
-          // if the post's title or description contains the userinput
+
+          // find posts depending on if user clicked on menswear, womenswear, or jewelry tab
           if (
-            obj.description.toLowerCase().includes(userInput.toLowerCase())
+            obj.category == category
           ) {
             setPosts((prevPosts) => {
               return { ...prevPosts, [postKeys[i]]: obj };
@@ -84,7 +79,7 @@ export default function Products() {
       });
     }
     setKeys(postKeysArray);
-  }, [userInput]);
+  }, [category]);
 
   const getImageUrl = async (names, postKey) => {
     try {
@@ -114,7 +109,7 @@ export default function Products() {
   return (
     <div>
 
-      <h3 className="resultsTitle">Showing results for "{userInput.toLowerCase()}"</h3>
+      <h3 className="resultsTitle">Showing results for {category}</h3>
 
       <div className="filtersOuterWrapper">
         <nav className="filtersDropdownContainer">
