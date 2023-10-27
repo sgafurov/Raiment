@@ -172,43 +172,6 @@ export default function AllProducts() {
         </nav>
       </div>
 
-      {/* <div className="infoDropdowns">
-        <div className="info">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">Category</Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>Menswear</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-
-        <div className="info">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Size
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">XXS</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">XS</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">S</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-
-        <div className="info">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Brand
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Acne</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Adidas</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Airforce</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div> */}
-
       {/* <div style={{ display: "flex", flexWrap: "wrap" }}>
         <Container>
           <Row>
