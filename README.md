@@ -12,7 +12,7 @@ https://github.com/sgafurov/Raiment/assets/78608476/4ee7d9d9-f6e6-439d-a8c6-a3f6
 
 View all listings or filter by name
 
-https://github.com/sgafurov/Raiment/assets/78608476/06964b0a-758c-4676-9661-5efca32a8e26
+https://github.com/sgafurov/Raiment/assets/78608476/a193a135-9f45-4df5-8566-6d3c716b0c63
 
 ## Create a Listing
 
