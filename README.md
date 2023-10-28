@@ -2,17 +2,17 @@
 
 Post And Sell Clothes Locally
 
-## Overview
+## Dashboard
 
-Overview of the site and its functionalities
+Overview of the site and user dashboard
 
-https://github.com/sgafurov/Raiment/assets/78608476/3031214d-d8f8-427b-add4-16ee7ce48a50
+https://github.com/sgafurov/Raiment/assets/78608476/4ee7d9d9-f6e6-439d-a8c6-a3f6f243f113
 
 ## Search
 
 View all listings or filter by name
 
-https://github.com/sgafurov/Raiment/assets/78608476/06964b0a-758c-4676-9661-5efca32a8e26
+https://github.com/sgafurov/Raiment/assets/78608476/a193a135-9f45-4df5-8566-6d3c716b0c63
 
 ## Create a Listing
 
