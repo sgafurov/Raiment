@@ -7,6 +7,7 @@ Post And Sell Clothes Locally
 Overview of the site and user dashboard
 
 https://github.com/sgafurov/Raiment/assets/78608476/4ee7d9d9-f6e6-439d-a8c6-a3f6f243f113
+
 ![Untitled design](https://github.com/sgafurov/Raiment/assets/78608476/34c00e71-21d8-477a-99bf-db1dabec39dd)
 
 ## Search
