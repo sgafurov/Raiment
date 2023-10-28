@@ -1,3 +1,27 @@
+.bannerContainer {
+  max-width: 1140px;
+  margin: 0px auto;
+  padding: 0px 16px;
+  width: 100%;
+}
+
+.bannerImage {
+  max-width: 100%;
+  height: auto;
+}
+
+.narrativeDiv {
+  margin: 32px auto 0px;
+  max-width: 1140px;
+  /* margin: 0px auto; */
+  padding: 0px 16px;
+  width: 100%;
+}
+
+section {
+  margin-bottom: 44px;
+}
+
 .landingContainer {}
 
 .landing-carousel {
@@ -10,12 +34,10 @@
 .narrativeCard {
   display: flex;
   flex-direction: row;
-  -webkit-box-pack: justify;
   justify-content: space-between;
-  -webkit-box-align: center;
   align-items: center;
-  /* margin-bottom: 44px; */
-  padding: 30px 135px;
+  margin-bottom: 44px;
+  /* padding: 30px 135px; */
 }
 
 .narrativeImage {
@@ -32,9 +54,45 @@
 
 .narrativeText h2 {
   margin-bottom: 32px;
+  font-weight: bold;
+  font-size: 1.25rem;
+  line-height: 1.5;
 }
 
 .narrativeText p {
   margin-bottom: 32px;
   max-width: 560px;
+
+  font-weight: normal;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.narrativeText a {
+  display: inline-block;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  border-width: 2px;
+  border-style: solid;
+  text-decoration: none;
+  transition: all 0.2s ease 0s;
+  border-color: rgb(38, 38, 38);
+  background-color: rgb(38, 38, 38);
+  align-items: center;
+  color: rgb(255, 255, 255);
+}
+
+.narrativeText a:hover {
+  background-color: rgb(116, 116, 116);
+  border-color: rgb(116, 116, 116);
+}
+
+.narrativeText span {
+  color: rgb(255, 255, 255);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0px;
+  font-weight: bold;
 }
