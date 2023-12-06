@@ -65,15 +65,8 @@ export default function NavigationBar() {
           />
         </form>
         
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar id="basic-navbar-nav">
           <Nav className="me-auto">
-            {/* <Nav.Link as={Link} to="/">
-              Home
-            </Nav.Link> */}
-            {/* <Nav.Link as={Link} to="/products">
-              Products
-            </Nav.Link> */}
             {user ? (
               <>
                 <Nav.Link as={Link} to="/upload">
@@ -107,7 +100,7 @@ export default function NavigationBar() {
               <img src={ProfileIcon} alt="Profile icon" height={70} />
             </Nav.Link>
           )}
-        </Navbar.Collapse>
+        </Navbar>
       </Container>
     </Navbar>
   );

@@ -4,6 +4,7 @@ import "../../styles/landing.css";
 import sneakersImage from "../../images/person-wearing-sneakers.jpg"
 import sellerImage from "../../images/seller-sitting-down.jpg"
 import bannerImage from "../../images/fall-essentials-copy.jpg";
+import friendsInCar from "../../images/friendsInCar.jpg"
 
 // import firebase from "firebase/compat/app";
 // import "firebase/analytics";
@@ -28,7 +29,7 @@ export default function Landing() {
         <section>
           <div className="narrativeCard">
             <div className="narrativeImage">
-              <img src={sneakersImage}></img>
+              <img src={friendsInCar}></img>
             </div>
             <div className="narrativeText">
               <h2>Discover your unique look</h2>

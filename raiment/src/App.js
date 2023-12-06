@@ -16,7 +16,8 @@ import SignUp from "./components/account/SignUp";
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Products from "./components/Products";
-import AllProducts from "./components/AllProducts"
+import AllProducts from "./components/AllProducts";
+import SelectedProduct from "./components/SelectedProduct";
 
 function App() {
   let dispatch = useDispatch();
@@ -64,7 +65,18 @@ function App() {
             element={user ? <UserDashboard /> : <Login />}
           />
           <Route exact path="/products/:userInput" element={<Products />} />
-          <Route exact path="/allproducts/:category" element={<AllProducts />} />
+          <Route
+            exact
+            path="/allproducts/:category"
+            element={<AllProducts />}
+          />
+
+          <Route
+            exact
+            path="/products/:listingId"
+            element={<SelectedProduct />}
+          />
+
           <Route
             exact
             path="/upload"
