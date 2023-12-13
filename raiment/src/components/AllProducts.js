@@ -29,7 +29,6 @@ export default function AllProducts() {
   const [selectedCondition, setSelectedCondition] = React.useState("Condition");
   const [selectedSize, setSelectedSize] = React.useState("Size");
 
-
   useEffect(() => {
     console.log("posts useState", posts);
     console.log("keys useState", keys);
@@ -66,9 +65,7 @@ export default function AllProducts() {
           console.log("obj images names", names);
 
           // find posts depending on if user clicked on menswear, womenswear, or jewelry tab
-          if (
-            obj.category == category
-          ) {
+          if (obj.category == category) {
             setPosts((prevPosts) => {
               return { ...prevPosts, [postKeys[i]]: obj };
             });
@@ -108,138 +105,134 @@ export default function AllProducts() {
 
   return (
     <div>
-
       <h3 className="resultsTitle">Showing results for {category}</h3>
 
       <div className="filtersOuterWrapper">
         <nav className="filtersDropdownContainer">
           <div className="filterContainer">
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCategory}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {selectedCategory}
+              </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => {
-                  setSelectedCategory("Category")
-                }}>--Category--</Dropdown.Item>
-                <Dropdown.Item onClick={() => {
-                  setSelectedCategory("Menswear")
-                }}>Menswear</Dropdown.Item>
-                <Dropdown.Item onClick={() => {
-                  setSelectedCategory("Womenswear")
-                }}>Womenswear</Dropdown.Item>
-                <Dropdown.Item onClick={() => {
-                  setSelectedCategory("Jewelry")
-                }}>Jewelry</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    setSelectedCategory("Category");
+                  }}
+                >
+                  --Category--
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    setSelectedCategory("Menswear");
+                  }}
+                >
+                  Menswear
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    setSelectedCategory("Womenswear");
+                  }}
+                >
+                  Womenswear
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    setSelectedCategory("Jewelry");
+                  }}
+                >
+                  Jewelry
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
           <div className="filterContainer">
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedBrand}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {selectedBrand}
+              </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setSelectedBrand("Brand")}>--Brand--</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>Acne</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>Adidas</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedBrand("Nike")}>Nike</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Brand")}>
+                  --Brand--
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>
+                  Acne
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>
+                  Adidas
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedBrand("Nike")}>
+                  Nike
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
           <div className="filterContainer">
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedCondition}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {selectedCondition}
+              </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setSelectedCondition("Condition")}>--Condition--</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedCondition("Brand new")}>Brand new</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>Like new</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedCondition("Used - Excellent")}>Used - Excellent</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedCondition("Used - Good")}>Used - Good</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedCondition("Used - Fair")}>Used - Fair</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => setSelectedCondition("Condition")}
+                >
+                  --Condition--
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => setSelectedCondition("Brand new")}
+                >
+                  Brand new
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>
+                  Like new
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => setSelectedCondition("Used - Excellent")}
+                >
+                  Used - Excellent
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => setSelectedCondition("Used - Good")}
+                >
+                  Used - Good
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => setSelectedCondition("Used - Fair")}
+                >
+                  Used - Fair
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
           <div className="filterContainer">
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{selectedSize}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {selectedSize}
+              </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setSelectedSize("Size")}>--Size--</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("XS")}>XS</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("S")}>S</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("M")}>M</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("L")}>L</Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("XL")}>XL</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("Size")}>
+                  --Size--
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("XS")}>
+                  XS
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("S")}>
+                  S
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("M")}>
+                  M
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("L")}>
+                  L
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedSize("XL")}>
+                  XL
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
         </nav>
       </div>
-
-      {/* <div style={{ display: "flex", flexWrap: "wrap" }}>
-        <Container>
-          <Row>
-            {keys &&
-              keys.map((key, index) => {
-                const carouselKey = `carousel-${key}`; // Unique key for each Carousel
-                const cardKey = `card-${key}`; // Unique key for each Card
-                return (
-                  <Col className="d-flex justify-content-center">
-                    <div key={index}>
-                      <Card style={{ width: "18rem" }} key={cardKey}>
-                        {imagesLinkedToPosts[key] && (
-                          <Carousel key={carouselKey} interval={null}>
-                            {imagesLinkedToPosts[key].map((url, index) => {
-                              const imageKey = `image-${index}-${key}`;
-                              return (
-                                <Carousel.Item key={imageKey}>
-                                  <img
-                                    className="d-block w-100"
-                                    src={url}
-                                    alt=""
-                                  />
-                                </Carousel.Item>
-                              );
-                            })}
-                          </Carousel>
-                        )}
-                        {posts[key] && (
-                          <Card.Body key={cardKey}>
-                            <Card.Title>{posts[key].title}</Card.Title>
-                            <Card.Text>{posts[key].description}</Card.Text>
-                            <Card.Text>
-                              ${posts[key].price} | Size:{" "}
-                              {posts[key].size.toUpperCase()} |{" "}
-                              {posts[key].zipcode}
-                            </Card.Text>
-                            <Card.Text>@{posts[key].username}</Card.Text>
-                            {user && user.username ? (
-                              posts[key].username !== user.username ? (
-                                <Button
-                                  variant="primary"
-                                  onClick={() =>
-                                    messageSeller(posts[key].username, key)
-                                  }
-                                >
-                                  Message seller
-                                </Button>
-                              ) : (
-                                <Button
-                                  variant="primary"
-                                  onClick={() => handleEdit(key)}
-                                >
-                                  Edit listing
-                                </Button>
-                              )
-                            ) : (
-                              <Button variant="primary">Login to chat</Button>
-                            )}
-                          </Card.Body>
-                        )}
-                      </Card>
-                    </div>
-                  </Col>
-                );
-              })}
-          </Row>
-        </Container>
-      </div> */}
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <ul className="items-grid">
@@ -255,11 +248,7 @@ export default function AllProducts() {
                         const imageKey = `image-${index}-${key}`;
                         return (
                           <Carousel.Item key={imageKey}>
-                            <img
-                              className="d-block w-100"
-                              src={url}
-                              alt=""
-                            />
+                            <img className="d-block w-100" src={url} alt="" style={{cursor:"pointer"}}/>
                           </Carousel.Item>
                         );
                       })}
@@ -267,7 +256,10 @@ export default function AllProducts() {
                   )}
                   {posts[key] && (
                     <Card.Body key={cardKey}>
-                      <p className="info-header">Size {posts[key].size} • {posts[key].category} • {posts[key].condition}</p>
+                      <p className="info-header">
+                        Size {posts[key].size} • {posts[key].category} •{" "}
+                        {posts[key].condition}
+                      </p>
                       <Card.Text>{posts[key].description}</Card.Text>
                       <Card.Text>{posts[key].brand}</Card.Text>
                       <Card.Text>${posts[key].price}</Card.Text>
@@ -295,7 +287,14 @@ export default function AllProducts() {
                           </Button>
                         )
                       ) : (
-                        <Button variant="primary">Login to chat</Button>
+                        <Button
+                          onClick={() => {
+                            navigate("/login");
+                          }}
+                          variant="primary"
+                        >
+                          Login to chat
+                        </Button>
                       )}
                     </Card.Body>
                   )}
@@ -304,6 +303,6 @@ export default function AllProducts() {
             })}
         </ul>
       </div>
-    </div >
+    </div>
   );
 }

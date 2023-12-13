@@ -38,7 +38,7 @@ export default function NavigationBar() {
           <img src={Logo} alt="Raiment" height={40} />
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/allproducts/Menswear">
