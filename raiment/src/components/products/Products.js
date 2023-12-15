@@ -6,12 +6,12 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { ref, onValue } from "firebase/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import { storage } from "../firebase";
+import { storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectUser } from "../store/userSlice";
+import { selectUser } from "../../store/userSlice";
 import { useParams } from "react-router-dom";
-import "../styles/products.css";
+import "../../styles/products.css";
 
 export default function Products() {
   let { userInput } = useParams();
@@ -106,6 +106,12 @@ export default function Products() {
 
   function handleEdit(key) {
     navigate(`/edit-listing/${key}`);
+  }
+
+  function navigateProductPage(sellerName, postKey){
+    console.log("seller name ", sellerName)
+    console.log("postKey  ", postKey)
+    navigate(`/product/${sellerName}:${postKey}`);
   }
 
   return (
@@ -255,7 +261,15 @@ export default function Products() {
                         const imageKey = `image-${index}-${key}`;
                         return (
                           <Carousel.Item key={imageKey}>
-                            <img className="d-block w-100" src={url} alt="" style={{cursor:"pointer"}}/>
+                            <img
+                              className="d-block w-100"
+                              src={url}
+                              alt=""
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                navigateProductPage(posts[key].username, key);
+                              }}
+                            />
                           </Carousel.Item>
                         );
                       })}

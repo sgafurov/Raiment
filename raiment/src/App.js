@@ -15,9 +15,9 @@ import SellerChatBox from "./components/message/SellerChatBox";
 import SignUp from "./components/account/SignUp";
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Products from "./components/Products";
-import AllProducts from "./components/AllProducts";
-import SelectedProduct from "./components/SelectedProduct";
+import Products from "./components/products/Products";
+import AllProducts from "./components/products/AllProducts";
+import SelectedProduct from "./components/products/SelectedProduct";
 
 function App() {
   let dispatch = useDispatch();
@@ -70,13 +70,11 @@ function App() {
             path="/allproducts/:category"
             element={<AllProducts />}
           />
-
           <Route
             exact
-            path="/products/:listingId"
+            path="/product/:params"
             element={<SelectedProduct />}
           />
-
           <Route
             exact
             path="/upload"

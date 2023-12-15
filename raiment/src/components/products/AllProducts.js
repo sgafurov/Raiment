@@ -6,12 +6,12 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { ref, onValue } from "firebase/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import { storage } from "../firebase";
+import { storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectUser } from "../store/userSlice";
+import { selectUser } from "../../store/userSlice";
 import { useParams } from "react-router-dom";
-import "../styles/products.css";
+import "../../styles/products.css";
 
 export default function AllProducts() {
   let { category } = useParams();
@@ -101,6 +101,12 @@ export default function AllProducts() {
 
   function handleEdit(key) {
     navigate(`/edit-listing/${key}`);
+  }
+
+  function navigateProductPage(sellerName, postKey){
+    console.log("seller name ", sellerName)
+    console.log("postKey  ", postKey)
+    navigate(`/product/${sellerName}:${postKey}`);
   }
 
   return (
@@ -248,14 +254,14 @@ export default function AllProducts() {
                         const imageKey = `image-${index}-${key}`;
                         return (
                           <Carousel.Item key={imageKey}>
-                            <img className="d-block w-100" src={url} alt="" style={{cursor:"pointer"}}/>
+                            <img className="d-block w-100" src={url} alt="" style={{cursor:"pointer"}} onClick={()=>{navigateProductPage(posts[key].username, key)}}/>
                           </Carousel.Item>
                         );
                       })}
                     </Carousel>
                   )}
                   {posts[key] && (
-                    <Card.Body key={cardKey}>
+                    <Card.Body key={cardKey} >
                       <p className="info-header">
                         Size {posts[key].size} • {posts[key].category} •{" "}
                         {posts[key].condition}
