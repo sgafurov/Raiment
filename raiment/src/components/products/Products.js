@@ -70,8 +70,32 @@ export default function Products() {
             obj.description,
             obj.description.includes(userInput)
           );
-          // if the post's title or description contains the userinput
-          if (obj.description.toLowerCase().includes(userInput.toLowerCase())) {
+
+          // Check if the post's title or description contains the userInput
+          const matchesUserInput = obj.description
+            .toLowerCase()
+            .includes(userInput.toLowerCase());
+
+          // Filtering logic based on selected filters
+          const matchesCategory =
+            selectedCategory === "Category" ||
+            obj.category === selectedCategory;
+          const matchesBrand =
+            selectedBrand === "Brand" || obj.brand === selectedBrand;
+          const matchesCondition =
+            selectedCondition === "Condition" ||
+            obj.condition === selectedCondition;
+          const matchesSize =
+            selectedSize === "Size" || obj.size === selectedSize;
+
+          // Combine user input match with filter matches
+          if (
+            matchesUserInput &&
+            matchesCategory &&
+            matchesBrand &&
+            matchesCondition &&
+            matchesSize
+          ) {
             setPosts((prevPosts) => {
               return { ...prevPosts, [postKeys[i]]: obj };
             });
@@ -82,7 +106,13 @@ export default function Products() {
       });
     }
     setKeys(postKeysArray);
-  }, [userInput]);
+  }, [
+    userInput,
+    selectedCategory,
+    selectedBrand,
+    selectedCondition,
+    selectedSize,
+  ]);
 
   const getImageUrl = async (names, postKey) => {
     try {
@@ -122,7 +152,7 @@ export default function Products() {
       </h3>
 
       <div className="filtersOuterWrapper">
-        <FilterButtons 
+        <FilterButtons
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           selectedBrand={selectedBrand}
