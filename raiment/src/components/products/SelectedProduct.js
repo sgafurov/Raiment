@@ -68,54 +68,50 @@ export default function SelectedProduct() {
   }
 
   return (
-    <div>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {imagesLinkedToPosts[postKey] && (
-          <Carousel key={`carousel-${postKey}`} interval={null}>
-            {imagesLinkedToPosts[postKey].map((url, index) => {
-              const imageKey = `image-${index}`;
-              return (
-                <Carousel.Item key={imageKey}style={{width:"500px"}}>
-                  <img className="d-block w-100" src={url} alt="" style={{width:"50px"}}/>
-                </Carousel.Item>
-              );
-            })}
-          </Carousel>
-        )}
-
-        <Card.Body key={`card-${postKey}`}>
-          <p className="info-header">
-            Size {post.size} • {post.category} • {post.condition}
-          </p>
-          <Card.Text>{post.description}</Card.Text>
-          <Card.Text>{post.brand}</Card.Text>
-          <Card.Text>${post.price}</Card.Text>
-          <Card.Text>Zipcode {post.zipcode}</Card.Text>
-
-          {user && user.username ? (
-            post.username !== user.username ? (
-              <Button
-                variant="primary"
-                onClick={() => messageSeller(post.username, postKey)}
-              >
-                Message @{post.username}
-              </Button>
-            ) : (
-              <Button variant="primary" onClick={() => handleEdit(postKey)}>
-                Edit my listing
-              </Button>
-            )
-          ) : (
-            <Button
-              onClick={() => {
-                navigate("/login");
-              }}
-              variant="primary"
-            >
-              Login to chat
-            </Button>
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-6">
+          {imagesLinkedToPosts[postKey] && (
+            <Carousel key={`carousel-${postKey}`} interval={null}>
+              {imagesLinkedToPosts[postKey].map((url, index) => {
+                const imageKey = `image-${index}`;
+                return (
+                  <Carousel.Item key={imageKey}>
+                    <img className="d-block w-100" src={url} alt="" style={{ borderRadius: "10px", objectFit: "contain" }}/>
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
           )}
-        </Card.Body>
+        </div>
+        <div className="col-md-6">
+          <Card className="mb-4" style={{ border: "none", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
+            <Card.Body>
+              <h5 className="info-header">{post.size} • {post.category} • {post.condition}</h5>
+              <Card.Text>{post.description}</Card.Text>
+              <Card.Text><strong>Brand:</strong> {post.brand}</Card.Text>
+              <Card.Text><strong>Price:</strong> ${post.price}</Card.Text>
+              <Card.Text><strong>Zipcode:</strong> {post.zipcode}</Card.Text>
+              <div className="d-flex justify-content-between">
+                {user && user.username ? (
+                  post.username !== user.username ? (
+                    <Button variant="primary" onClick={() => messageSeller(post.username, postKey)}>
+                      Message @{post.username}
+                    </Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => handleEdit(postKey)}>
+                      Edit my listing
+                    </Button>
+                  )
+                ) : (
+                  <Button onClick={() => navigate("/login")} variant="primary">
+                    Login to chat
+                  </Button>
+                )}
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
       </div>
     </div>
   );
