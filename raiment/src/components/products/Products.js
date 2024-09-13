@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { useParams } from "react-router-dom";
 import "../../styles/products.css";
+import FilterButtons from "./FilterButtons";
 
 export default function Products() {
   let { userInput } = useParams();
@@ -121,130 +122,16 @@ export default function Products() {
       </h3>
 
       <div className="filtersOuterWrapper">
-        <nav className="filtersDropdownContainer">
-          <div className="filterContainer">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                {selectedCategory}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  onClick={() => {
-                    setSelectedCategory("Category");
-                  }}
-                >
-                  --Category--
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    setSelectedCategory("Menswear");
-                  }}
-                >
-                  Menswear
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    setSelectedCategory("Womenswear");
-                  }}
-                >
-                  Womenswear
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    setSelectedCategory("Jewelry");
-                  }}
-                >
-                  Jewelry
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div className="filterContainer">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                {selectedBrand}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setSelectedBrand("Brand")}>
-                  --Brand--
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedBrand("Acne")}>
-                  Acne
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedBrand("Adidas")}>
-                  Adidas
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedBrand("Nike")}>
-                  Nike
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div className="filterContainer">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                {selectedCondition}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  onClick={() => setSelectedCondition("Condition")}
-                >
-                  --Condition--
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => setSelectedCondition("Brand new")}
-                >
-                  Brand new
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedCondition("Like new")}>
-                  Like new
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => setSelectedCondition("Used - Excellent")}
-                >
-                  Used - Excellent
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => setSelectedCondition("Used - Good")}
-                >
-                  Used - Good
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => setSelectedCondition("Used - Fair")}
-                >
-                  Used - Fair
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div className="filterContainer">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                {selectedSize}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setSelectedSize("Size")}>
-                  --Size--
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("XS")}>
-                  XS
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("S")}>
-                  S
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("M")}>
-                  M
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("L")}>
-                  L
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setSelectedSize("XL")}>
-                  XL
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        </nav>
+        <FilterButtons 
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          selectedBrand={selectedBrand}
+          setSelectedBrand={setSelectedBrand}
+          selectedCondition={selectedCondition}
+          setSelectedCondition={setSelectedCondition}
+          selectedSize={selectedSize}
+          setSelectedSize={setSelectedSize}
+        />
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
