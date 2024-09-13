@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../store/userSlice";
-import { storage } from "../firebase";
+import { selectUser } from "../../store/userSlice";
+import { storage } from "../../firebase";
 import { ref, get, off, remove, update } from "firebase/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
@@ -12,7 +12,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
-import "../styles/userDashboard.css"
+import "../../styles/userDashboard.css"
 
 export default function UserDashboard() {
   let navigate = useNavigate();

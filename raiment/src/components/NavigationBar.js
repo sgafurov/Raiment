@@ -29,79 +29,90 @@ export default function NavigationBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate(`/products/${inputText}`);
+    setInputText("");
   };
 
   return (
-    <Navbar bg="white" expand="lg" className="top-navbar">
-      <Container>
-        <Navbar.Brand as={Link} to="/">
-          <img src={Logo} alt="Raiment" height={40} />
-        </Navbar.Brand>
+    <div className="both-navbars">
+      <Navbar bg="white" expand="lg" className="top-navbar">
+        <Container className="navbar-container">
+          <div>
+            <Navbar.Brand as={Link} to="/">
+              <img src={Logo} alt="Raiment" height={40} />
+            </Navbar.Brand>
+          </div>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/allproducts/Menswear">
-              Menswear
-            </Nav.Link>
-            <Nav.Link as={Link} to="/allproducts/Womenswear">
-              Womenswear
-            </Nav.Link>
-            <Nav.Link as={Link} to="/allproducts/Jewelry">
-              Jewelry
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
+          <div>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link as={Link} to="/allproducts/Menswear">
+                  Menswear
+                </Nav.Link>
+                <Nav.Link as={Link} to="/allproducts/Womenswear">
+                  Womenswear
+                </Nav.Link>
+                <Nav.Link as={Link} to="/allproducts/Jewelry">
+                  Jewelry
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </div>
 
-        <form className="search-form" onSubmit={handleSubmit}>
-          <input
-            placeholder="Search for items..."
-            type="text"
-            name="q"
-            maxLength="2048"
-            className="input-box"
-            value={inputText}
-            onChange={handleChange}
-          />
-        </form>
-        
-        <Navbar id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {user ? (
-              <>
-                <Nav.Link as={Link} to="/upload">
-                  Upload
+          <div>
+            <form className="search-form" onSubmit={handleSubmit}>
+              <input
+                placeholder="Search for items..."
+                type="text"
+                name="q"
+                maxLength="2048"
+                className="input-box"
+                value={inputText}
+                onChange={handleChange}
+              />
+            </form>
+          </div>
+
+          <div>
+            <Navbar id="basic-navbar-nav">
+              <Nav className="me-auto">
+                {user ? (
+                  <>
+                    <Nav.Link as={Link} to="/upload">
+                      Upload
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/user-dashboard">
+                      Dashboard
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/inbox">
+                      Inbox
+                    </Nav.Link>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </Nav>
+              {user ? (
+                <div className="nav-buttons-logged-in">
+                  <Nav.Link
+                    as={Link}
+                    to="/"
+                    onClick={() => {
+                      auth.signOut();
+                    }}
+                  >
+                    <img src={LogoutIcon} alt="Log out icon" height={30} />
+                  </Nav.Link>
+                </div>
+              ) : (
+                <Nav.Link as={Link} to="/login">
+                  <img src={ProfileIcon} alt="Profile icon" height={70} />
                 </Nav.Link>
-                <Nav.Link as={Link} to="/user-dashboard">
-                  Dashboard
-                </Nav.Link>
-                <Nav.Link as={Link} to="/inbox">
-                  Inbox
-                </Nav.Link>
-              </>
-            ) : (
-              <></>
-            )}
-          </Nav>
-          {user ? (
-            <div className="nav-buttons-logged-in">
-              <Nav.Link
-                as={Link}
-                to="/"
-                onClick={() => {
-                  auth.signOut();
-                }}
-              >
-                <img src={LogoutIcon} alt="Log out icon" height={30} />
-              </Nav.Link>
-            </div>
-          ) : (
-            <Nav.Link as={Link} to="/login">
-              <img src={ProfileIcon} alt="Profile icon" height={70} />
-            </Nav.Link>
-          )}
-        </Navbar>
-      </Container>
-    </Navbar>
+              )}
+            </Navbar>
+          </div>
+        </Container>
+      </Navbar>
+    </div>
   );
 }
