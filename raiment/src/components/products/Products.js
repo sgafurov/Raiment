@@ -108,9 +108,9 @@ export default function Products() {
     navigate(`/edit-listing/${key}`);
   }
 
-  function navigateProductPage(sellerName, postKey){
-    console.log("seller name ", sellerName)
-    console.log("postKey  ", postKey)
+  function navigateProductPage(sellerName, postKey) {
+    console.log("seller name ", sellerName);
+    console.log("postKey  ", postKey);
     navigate(`/product/${sellerName}:${postKey}`);
   }
 
@@ -324,6 +324,11 @@ export default function Products() {
             })}
         </ul>
       </div>
+      {keys.length === 0 && (
+        <div className="alert alert-warning" role="alert">
+          No products found for this category.
+        </div>
+      )}
     </div>
   );
 }

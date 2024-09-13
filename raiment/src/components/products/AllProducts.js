@@ -309,6 +309,11 @@ export default function AllProducts() {
             })}
         </ul>
       </div>
+      {keys.length === 0 && (
+        <div className="alert alert-warning" role="alert">
+          No products found for this category.
+        </div>
+      )}
     </div>
   );
 }
