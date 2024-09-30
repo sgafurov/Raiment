@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Carousel from "react-bootstrap/Carousel";
 import Dropdown from "react-bootstrap/Dropdown";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, get, off } from "firebase/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { storage } from "../../firebase";
@@ -39,73 +39,85 @@ export default function Products() {
   }, [posts, keys, imagesLinkedToPosts]);
 
   const db = firebase.database();
+  const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
 
   useEffect(() => {
     var usernames = [];
-    const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
-    onValue(listingsRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log("listings data", data);
-      usernames = Object.keys(data); // top level of keys are the usernames
-      console.log("keys/usernames", usernames);
-    });
 
-    var postKeysArray = [];
-    for (let i = 0; i < usernames.length; i++) {
-      const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
-      onValue(postsRef, (snapshot) => {
-        const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
-        console.log(`${usernames[i]}'s posts`, data);
-        var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
-        console.log("keys for the posts", postKeys);
+    //NEW
+    get(listingsRef)
+      .then((snapshot) => {
+        const data = snapshot.val();
+        usernames = Object.keys(data); // top level of keys are the usernames
 
-        for (let i = 0; i < postKeys.length; i++) {
-          // access post the object linked to each key
-          const obj = data[postKeys[i]];
-          console.log("obj", obj);
-          const names = obj.images.map((image) => image.name);
-          console.log("obj images names", names);
-          console.log(
-            "obj.description.includes(userInput)",
-            obj.description,
-            obj.description.includes(userInput)
-          );
+        // OLD
+        // onValue(listingsRef, (snapshot) => {
+        //   const data = snapshot.val();
+        //   console.log("listings data", data);
+        //   usernames = Object.keys(data); // top level of keys are the usernames
+        //   console.log("keys/usernames", usernames);
+        // });
 
-          // Check if the post's title or description contains the userInput
-          const matchesUserInput = obj.description
-            .toLowerCase()
-            .includes(userInput.toLowerCase());
+        var postKeysArray = [];
+        for (let i = 0; i < usernames.length; i++) {
+          const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
+          get(postsRef).then((snapshot) => {
+            const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
+            console.log(`${usernames[i]}'s posts`, data);
+            var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
+            console.log("keys for the posts", postKeys);
 
-          // Filtering logic based on selected filters
-          const matchesCategory =
-            selectedCategory === "Category" ||
-            obj.category === selectedCategory;
-          const matchesBrand =
-            selectedBrand === "Brand" || obj.brand === selectedBrand;
-          const matchesCondition =
-            selectedCondition === "Condition" ||
-            obj.condition === selectedCondition;
-          const matchesSize =
-            selectedSize === "Size" || obj.size === selectedSize;
+            for (let i = 0; i < postKeys.length; i++) {
+              // access post the object linked to each key
+              const obj = data[postKeys[i]];
+              console.log("obj", obj);
+              const names = obj.images.map((image) => image.name);
+              console.log("obj images names", names);
+              console.log(
+                "obj.description.includes(userInput)",
+                obj.description,
+                obj.description.includes(userInput)
+              );
 
-          // Combine user input match with filter matches
-          if (
-            matchesUserInput &&
-            matchesCategory &&
-            matchesBrand &&
-            matchesCondition &&
-            matchesSize
-          ) {
-            setPosts((prevPosts) => {
-              return { ...prevPosts, [postKeys[i]]: obj };
-            });
-            getImageUrl(names, postKeys[i]);
-            postKeysArray.push(postKeys[i]);
-          }
-        }
+              // Check if the post's title or description contains the userInput
+              const matchesUserInput = obj.description
+                .toLowerCase()
+                .includes(userInput.toLowerCase());
+
+              // Filtering logic based on selected filters
+              const matchesCategory =
+                selectedCategory === "Category" ||
+                obj.category === selectedCategory;
+              const matchesBrand =
+                selectedBrand === "Brand" || obj.brand === selectedBrand;
+              const matchesCondition =
+                selectedCondition === "Condition" ||
+                obj.condition === selectedCondition;
+              const matchesSize =
+                selectedSize === "Size" || obj.size === selectedSize;
+
+              // Combine user input match with filter matches
+              if (
+                matchesUserInput &&
+                matchesCategory &&
+                matchesBrand &&
+                matchesCondition &&
+                matchesSize
+              ) {
+                setPosts((prevPosts) => {
+                  return { ...prevPosts, [postKeys[i]]: obj };
+                });
+                getImageUrl(names, postKeys[i]);
+                postKeysArray.push(postKeys[i]);
+              }
+            } // end of posts for-loop
+          }); // end of inner firebase function "get"
+        } // end of usernames for-loop
+        setKeys(postKeysArray);
+      }) // end of outer firebase function "get"
+      .catch((error) => {
+        console.log("Error fetching data:", error);
       });
-    }
-    setKeys(postKeysArray);
   }, [
     userInput,
     selectedCategory,
