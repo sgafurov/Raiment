@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
+
 import { storage } from "../../firebase";
 import { ref, get, off, remove, update } from "firebase/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
+
 import Card from "react-bootstrap/Card";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useNavigate } from "react-router-dom";
-import "../../styles/userDashboard.css"
+
+import "../../styles/userDashboard.css";
+
+import { selectUser } from "../../store/userSlice";
 
 export default function UserDashboard() {
   let navigate = useNavigate();
@@ -104,9 +108,9 @@ export default function UserDashboard() {
 
   return (
     <div>
-      <div style={{paddingLeft: "32px"}}>
-      <h1>{`Hi ${user.username}!`}</h1>
-      <h3>My posts</h3>
+      <div style={{ paddingLeft: "32px" }}>
+        <h1>{`Hi ${user.username}!`}</h1>
+        <h3>My posts</h3>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -117,43 +121,46 @@ export default function UserDashboard() {
               const cardKey = `card-${key}`; // Unique key for each Card
               return (
                 <li key={index} className="item">
-                <Col className="d-flex justify-content-center">
-                  <div key={index}>
-                    <Card key={cardKey}>
-                      {imagesLinkedToPosts[key] && (
-                        <Carousel key={carouselKey} interval={null}>
-                          {imagesLinkedToPosts[key].map((url, index) => {
-                            const imageKey = `image-${index}-${key}`;
-                            return (
-                              <Carousel.Item key={imageKey}>
-                                <img
-                                  className="d-block w-100"
-                                  src={url}
-                                  alt=""
-                                />
-                              </Carousel.Item>
-                            );
-                          })}
-                        </Carousel>
-                      )}
-                      {posts[key] && (
-                        <Card.Body key={cardKey}>
-                          <p className="info-header">Size {posts[key].size} • {posts[key].category} • {posts[key].condition}</p>
-                          <Card.Text>{posts[key].description}</Card.Text>
-                          <Card.Text>{posts[key].brand}</Card.Text>
-                          <Card.Text>${posts[key].price}</Card.Text>
-                          <Card.Text>Zipcode {posts[key].zipcode}</Card.Text>
-                          <Button onClick={() => handleEdit(key)}>
-                            Edit
-                          </Button>{" "}
-                          <Button onClick={() => handleDelete(key)}>
-                            Delete
-                          </Button>
-                        </Card.Body>
-                      )}
-                    </Card>
-                  </div>
-                </Col>
+                  <Col className="d-flex justify-content-center">
+                    <div key={index}>
+                      <Card key={cardKey}>
+                        {imagesLinkedToPosts[key] && (
+                          <Carousel key={carouselKey} interval={null}>
+                            {imagesLinkedToPosts[key].map((url, index) => {
+                              const imageKey = `image-${index}-${key}`;
+                              return (
+                                <Carousel.Item key={imageKey}>
+                                  <img
+                                    className="d-block w-100"
+                                    src={url}
+                                    alt=""
+                                  />
+                                </Carousel.Item>
+                              );
+                            })}
+                          </Carousel>
+                        )}
+                        {posts[key] && (
+                          <Card.Body key={cardKey}>
+                            <p className="info-header">
+                              Size {posts[key].size} • {posts[key].category} •{" "}
+                              {posts[key].condition}
+                            </p>
+                            <Card.Text>{posts[key].description}</Card.Text>
+                            <Card.Text>{posts[key].brand}</Card.Text>
+                            <Card.Text>${posts[key].price}</Card.Text>
+                            <Card.Text>Zipcode {posts[key].zipcode}</Card.Text>
+                            <Button onClick={() => handleEdit(key)}>
+                              Edit
+                            </Button>{" "}
+                            <Button onClick={() => handleDelete(key)}>
+                              Delete
+                            </Button>
+                          </Card.Body>
+                        )}
+                      </Card>
+                    </div>
+                  </Col>
                 </li>
               );
             })}
