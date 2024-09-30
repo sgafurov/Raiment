@@ -25,15 +25,15 @@ export default function UserDashboard() {
   const [keys, setKeys] = useState([]);
   const [imagesLinkedToPosts, setImagesLinkedToPosts] = useState({});
 
+  const db = firebase.database();
+  const dataRef = ref(db, `listings/${user.username}/`);
+
   useEffect(() => {
     console.log("imagesLinkedToPosts", imagesLinkedToPosts);
     console.log("posts", posts);
   }, [imagesLinkedToPosts, posts]);
 
   useEffect(() => {
-    const db = firebase.database();
-    const dataRef = ref(db, `listings/${user.username}/`);
-
     get(dataRef)
       .then((snapshot) => {
         const data = snapshot.val();
