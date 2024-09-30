@@ -64,28 +64,28 @@ export default function UserDashboard() {
         console.log("Error fetching data:", error);
       });
 
-    const getImageUrl = async (names, postKey) => {
-      try {
-        for (let i = 0; i < names.length; i++) {
-          const imageRef = storage.ref().child(names[i]);
-          const url = await imageRef.getDownloadURL();
-          console.log("getting image url for", names[i]);
-          names[i] = url;
-        }
-        console.log("names urlArray", names);
-        setImagesLinkedToPosts((prevArray) => {
-          return { ...prevArray, [postKey]: names };
-        });
-      } catch (error) {
-        console.log("Error getting image URL:", error);
-      }
-    };
-
     // Clean up the listener to avoid registering it multiple times
     return () => {
       off(dataRef);
     };
   }, []);
+
+  const getImageUrl = async (names, postKey) => {
+    try {
+      for (let i = 0; i < names.length; i++) {
+        const imageRef = storage.ref().child(names[i]);
+        const url = await imageRef.getDownloadURL();
+        console.log("getting image url for", names[i]);
+        names[i] = url;
+      }
+      console.log("names urlArray", names);
+      setImagesLinkedToPosts((prevArray) => {
+        return { ...prevArray, [postKey]: names };
+      });
+    } catch (error) {
+      console.log("Error getting image URL:", error);
+    }
+  };
 
   function handleDelete(key) {
     if (window.confirm("Are you sure you want to delete this listing?")) {
