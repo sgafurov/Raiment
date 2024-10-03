@@ -164,6 +164,13 @@ export default function Products() {
     }
   };
 
+  const resetFilters = () => {
+    setSelectedCategory("Category");
+    setSelectedBrand("Brand");
+    setSelectedCondition("Condition");
+    setSelectedSize("Size");
+  };
+
   function messageSeller(seller, key) {
     navigate(`/messageAsBuyer/${seller}:${key}`);
   }
@@ -180,12 +187,12 @@ export default function Products() {
 
   return (
     <div>
-      <h3 className="resultsTitle">
+      <h3 className="results-title">
         {isSearchPath && `Showing results for ${userInput.toLowerCase()}`}
         {isCategoryPath && `Showing results for ${category}`}
       </h3>
 
-      <div className="filtersOuterWrapper">
+      <div className="filters-outer-wrapper">
         <FilterButtons
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -196,6 +203,9 @@ export default function Products() {
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
+        <Button variant="secondary" onClick={resetFilters}>
+          Reset Filters
+        </Button>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>

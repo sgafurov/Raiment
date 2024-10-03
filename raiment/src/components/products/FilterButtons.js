@@ -12,8 +12,8 @@ const FilterButtons = ({
   setSelectedSize,
 }) => {
   return (
-    <nav className="filtersDropdownContainer">
-      <div className="filterContainer">
+    <nav className="filters-dropdown-container">
+      <div className="filter-container">
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             {selectedCategory}
@@ -34,7 +34,7 @@ const FilterButtons = ({
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <div className="filterContainer">
+      <div className="filter-container">
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             {selectedBrand}
@@ -55,7 +55,7 @@ const FilterButtons = ({
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <div className="filterContainer">
+      <div className="filter-container">
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             {selectedCondition}
@@ -82,7 +82,7 @@ const FilterButtons = ({
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <div className="filterContainer">
+      <div className="filter-container">
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             {selectedSize}

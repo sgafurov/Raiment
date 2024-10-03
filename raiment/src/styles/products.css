@@ -17,7 +17,7 @@ p.card-text {
     margin: 0 !important
 }
 
-.resultsTitle {
+.results-title {
     padding-left: 32px;
 }
 
@@ -38,22 +38,17 @@ p.card-text {
     /* margin-bottom: 8px; */
 }
 
-
-/* NEW */
-
-.filtersOuterWrapper {
+.filters-outer-wrapper {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 16px;
+    margin: 16px 0 16px 0;
     padding-left: 32px;
 }
 
-.filtersDropdownContainer {
+.filters-dropdown-container {
     display: flex;
 }
 
-.filterContainer {
+.filter-container {
     margin-right: 16px;
 }
 
