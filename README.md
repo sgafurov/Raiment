@@ -6,7 +6,7 @@ Post And Sell Clothes Locally: https://raiment.netlify.app/
 
 Overview of the site and user dashboard
 
-![landing and dashboard](https://github.com/user-attachments/assets/a337a02a-f321-45a8-94ca-655a533095a6)
+![landing and dashboard](https://github.com/user-attachments/assets/89424b1a-0eb2-4f72-8e3b-122a1db86d89)
 
 ## Search
 
