@@ -30,8 +30,10 @@ function App() {
     { path: "/login", element: user ? <UserDashboard /> : <Login /> },
     { path: "/signup", element: user ? <UserDashboard /> : <SignUp /> },
     { path: "/user-dashboard", element: user ? <UserDashboard /> : <Login /> },
-    { path: "/products/:userInput", element: <Products /> },
-    { path: "/allproducts/:category", element: <AllProducts /> },
+    { path: "/products/search/:userInput", element: <Products /> },
+    { path: "/products/category/:category", element: <Products /> },
+    // { path: "/products/:userInput", element: <Products /> },
+    // { path: "/allproducts/:category", element: <AllProducts /> },
     { path: "/product/:params", element: <SelectedProduct /> },
     { path: "/upload", element: user ? <CreateListing /> : <Login /> },
     { path: "/edit-listing/:key", element: user ? <EditListing /> : <Login /> },
@@ -39,7 +41,7 @@ function App() {
     { path: "/messageAsBuyer/:params", element: user ? <BuyerChatBox /> : <Login /> },
     { path: "/messageAsSeller/:params", element: user ? <SellerChatBox /> : <Login /> },
   ];
-  
+
   //check if user is logged in
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {

@@ -23,7 +23,7 @@ export default function NavigationBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/products/${inputText}`);
+    navigate(`/products/user/${inputText}`);
     setInputText("");
   };
 
@@ -38,9 +38,10 @@ export default function NavigationBar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/allproducts/Menswear">Menswear</Nav.Link>
-              <Nav.Link as={Link} to="/allproducts/Womenswear">Womenswear</Nav.Link>
-              <Nav.Link as={Link} to="/allproducts/Jewelry">Jewelry</Nav.Link>
+            <Nav.Link as={Link} to="/products/category/menswear">Menswear</Nav.Link>
+              {/* <Nav.Link as={Link} to="/allproducts/Menswear">Menswear</Nav.Link> */}
+              {/* <Nav.Link as={Link} to="/allproducts/Womenswear">Womenswear</Nav.Link> */}
+              {/* <Nav.Link as={Link} to="/allproducts/Jewelry">Jewelry</Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
 
