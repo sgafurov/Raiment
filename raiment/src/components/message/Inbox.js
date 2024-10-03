@@ -14,6 +14,7 @@ import { storage } from "../../firebase";
 import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import "../../styles/inbox.css"
 
 export default function Inbox() {
   const [messageThreads, setMessageThreads] = useState([]);
@@ -119,7 +120,7 @@ export default function Inbox() {
   }
 
   return (
-    <div>
+    <div className="inbox">
       <h3>Messages</h3>
       <style>
         {`

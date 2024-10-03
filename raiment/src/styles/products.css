@@ -1,3 +1,8 @@
+.products-container {
+    max-width: 1140px;
+    margin: 0 auto; /* Centers the container */
+    padding: 15px; 
+}
 .items-grid {
     display: grid;
     gap: 16px;
@@ -73,9 +78,3 @@ p.card-text {
     border-bottom-style: solid;
     border-bottom-color: rgb(243, 243, 243);
     }
-
-.products-container {
-    max-width: 1140px;
-    margin: 0 auto; /* Centers the container */
-    padding: 15px; 
-}

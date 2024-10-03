@@ -107,7 +107,7 @@ export default function UserDashboard() {
   }
 
   return (
-    <div>
+    <div className="dashboard">
       <div style={{ paddingLeft: "32px" }}>
         <h1>{`Hi ${user.username}!`}</h1>
         <h3>My posts</h3>

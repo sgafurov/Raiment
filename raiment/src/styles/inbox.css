@@ -1,0 +1,6 @@
+.inbox {
+    max-width: 1140px;
+    margin: 0 auto; /* Centers the container */
+    padding: 15px; 
+    text-align: center;
+}
