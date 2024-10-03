@@ -38,10 +38,15 @@ export default function NavigationBar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-            <Nav.Link as={Link} to="/products/category/Menswear">Menswear</Nav.Link>
-              {/* <Nav.Link as={Link} to="/allproducts/Menswear">Menswear</Nav.Link> */}
-              {/* <Nav.Link as={Link} to="/allproducts/Womenswear">Womenswear</Nav.Link> */}
-              {/* <Nav.Link as={Link} to="/allproducts/Jewelry">Jewelry</Nav.Link> */}
+              <Nav.Link as={Link} to="/products/category/Menswear">
+                Menswear
+              </Nav.Link>
+              <Nav.Link as={Link} to="/products/category/Womenswear">
+                Womenswear
+              </Nav.Link>
+              <Nav.Link as={Link} to="/products/category/Jewelry">
+                Jewelry
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
 
@@ -61,19 +66,21 @@ export default function NavigationBar() {
             <Nav className="me-auto">
               {user && (
                 <>
-                  <Nav.Link as={Link} to="/upload">Upload</Nav.Link>
-                  <Nav.Link as={Link} to="/user-dashboard">Dashboard</Nav.Link>
-                  <Nav.Link as={Link} to="/inbox">Inbox</Nav.Link>
+                  <Nav.Link as={Link} to="/upload">
+                    Upload
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/user-dashboard">
+                    Dashboard
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/inbox">
+                    Inbox
+                  </Nav.Link>
                 </>
               )}
             </Nav>
             {user ? (
               <div className="nav-buttons-logged-in">
-                <Nav.Link
-                  as={Link}
-                  to="/"
-                  onClick={() => auth.signOut()}
-                >
+                <Nav.Link as={Link} to="/" onClick={() => auth.signOut()}>
                   <img src={LogoutIcon} alt="Log out icon" height={30} />
                 </Nav.Link>
               </div>
