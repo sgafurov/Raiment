@@ -8,19 +8,17 @@ Overview of the site and user dashboard
 
 ![landing and dashboard](https://github.com/user-attachments/assets/89424b1a-0eb2-4f72-8e3b-122a1db86d89)
 
-## Search
+## View, Search & Filter Products
 
-View all listings or filter by name
+View all listings or find item by name. Also further filter items.
 
-![search products](https://github.com/sgafurov/Raiment/assets/78608476/e7eec0e5-ccc1-4ffe-8c8b-5a9965bce132)
-
+![products](https://github.com/user-attachments/assets/8d4a4281-b00a-40df-8994-2154b48af691)
 
 ## Create and Edit Listing
 
 Upload images and add text to your listing, and edit them after
 
 ![create-and-edit-listing](https://github.com/sgafurov/Raiment/assets/78608476/80eb35e7-ba78-4340-9843-ea95c471ed93)
-
 
 ## Send Message
 
@@ -31,5 +29,3 @@ https://github.com/sgafurov/Raiment/assets/78608476/10627644-00a9-4c77-8eca-108d
 
 ### View and Reply
 https://github.com/sgafurov/Raiment/assets/78608476/c5a75113-eea4-428c-9d36-9a1eb7c2cc86
-
-
