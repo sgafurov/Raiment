@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { ref, get } from "firebase/database";
+import { ref, get, off } from "firebase/database";
 import { storage } from "../../firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
@@ -16,9 +16,23 @@ import FilterButtons from "./FilterButtons";
 import "../../styles/products.css";
 
 export default function Products() {
-  let { userInput } = useParams();
+  let { userInput, category } = useParams();
 
   let navigate = useNavigate();
+  let location = useLocation();
+
+  // Check the pathname to determine which parameter to use
+  const isSearchPath = location.pathname.startsWith("/products/search");
+  const isCategoryPath = location.pathname.startsWith("/products/category");
+
+  // Proceed based on the path
+  if (isSearchPath) {
+    // Handle search logic with userInput
+    console.log("Search input:", userInput);
+  } else if (isCategoryPath) {
+    // Handle category logic with category
+    console.log("Category:", category);
+  }
 
   const user = useSelector(selectUser);
 
@@ -41,30 +55,21 @@ export default function Products() {
   const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
 
   useEffect(() => {
-    var usernames = [];
+    // var usernames = [];
 
-    //NEW
     get(listingsRef)
       .then((snapshot) => {
         const data = snapshot.val();
-        usernames = Object.keys(data); // top level of keys are the usernames
+        const usernames = Object.keys(data); // top level of keys are the usernames
+        const postKeysArray = [];
 
-        // OLD
-        // onValue(listingsRef, (snapshot) => {
-        //   const data = snapshot.val();
-        //   console.log("listings data", data);
-        //   usernames = Object.keys(data); // top level of keys are the usernames
-        //   console.log("keys/usernames", usernames);
-        // });
-
-        var postKeysArray = [];
         for (let i = 0; i < usernames.length; i++) {
           const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
-          
+
           get(postsRef).then((snapshot) => {
             const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
             console.log(`${usernames[i]}'s posts`, data);
-            var postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
+            const postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
             console.log("keys for the posts", postKeys);
 
             for (let i = 0; i < postKeys.length; i++) {
@@ -73,11 +78,6 @@ export default function Products() {
               console.log("obj", obj);
               const names = obj.images.map((image) => image.name);
               console.log("obj images names", names);
-
-              // Check if the post's title or description contains the userInput
-              const matchesUserInput = obj.description
-                .toLowerCase()
-                .includes(userInput.toLowerCase());
 
               // Filtering logic based on selected filters
               const matchesCategory =
@@ -91,19 +91,41 @@ export default function Products() {
               const matchesSize =
                 selectedSize === "Size" || obj.size === selectedSize;
 
-              // Combine user input match with filter matches
-              if (
-                matchesUserInput &&
-                matchesCategory &&
-                matchesBrand &&
-                matchesCondition &&
-                matchesSize
-              ) {
-                setPosts((prevPosts) => {
-                  return { ...prevPosts, [postKeys[i]]: obj };
-                });
-                getImageUrl(names, postKeys[i]);
-                postKeysArray.push(postKeys[i]);
+              if (isSearchPath) {
+                // Check if the post's title or description contains the userInput
+                const matchesUserInput = obj.description
+                  .toLowerCase()
+                  .includes(userInput.toLowerCase());
+
+                // Combine user input match with filter matches
+                if (
+                  matchesUserInput &&
+                  matchesCategory &&
+                  matchesBrand &&
+                  matchesCondition &&
+                  matchesSize
+                ) {
+                  setPosts((prevPosts) => {
+                    return { ...prevPosts, [postKeys[i]]: obj };
+                  });
+                  getImageUrl(names, postKeys[i]);
+                  postKeysArray.push(postKeys[i]);
+                }
+              } else if (isCategoryPath) {
+                // find posts depending on if user clicked on menswear, womenswear, or jewelry tab
+                if (
+                  obj.category == category &&
+                  matchesCategory &&
+                  matchesBrand &&
+                  matchesCondition &&
+                  matchesSize
+                ) {
+                  setPosts((prevPosts) => {
+                    return { ...prevPosts, [postKeys[i]]: obj };
+                  });
+                  getImageUrl(names, postKeys[i]);
+                  postKeysArray.push(postKeys[i]);
+                }
               }
             } // end of posts for-loop
           }); // end of inner firebase function "get"
@@ -113,12 +135,16 @@ export default function Products() {
       .catch((error) => {
         console.log("Error fetching data:", error);
       });
+    return () => {
+      off(listingsRef);
+    };
   }, [
     userInput,
     selectedCategory,
     selectedBrand,
     selectedCondition,
     selectedSize,
+    category,
   ]);
 
   const getImageUrl = async (names, postKey) => {
@@ -155,7 +181,8 @@ export default function Products() {
   return (
     <div>
       <h3 className="resultsTitle">
-        Showing results for "{userInput.toLowerCase()}"
+        {isSearchPath && `Showing results for ${userInput.toLowerCase()}`}
+        {isCategoryPath && `Showing results for ${category}`}
       </h3>
 
       <div className="filtersOuterWrapper">

@@ -16,7 +16,6 @@ import SignUp from "./components/account/SignUp";
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Products from "./components/products/Products";
-import AllProducts from "./components/products/AllProducts";
 import SelectedProduct from "./components/products/SelectedProduct";
 
 
@@ -32,8 +31,6 @@ function App() {
     { path: "/user-dashboard", element: user ? <UserDashboard /> : <Login /> },
     { path: "/products/search/:userInput", element: <Products /> },
     { path: "/products/category/:category", element: <Products /> },
-    // { path: "/products/:userInput", element: <Products /> },
-    // { path: "/allproducts/:category", element: <AllProducts /> },
     { path: "/product/:params", element: <SelectedProduct /> },
     { path: "/upload", element: user ? <CreateListing /> : <Login /> },
     { path: "/edit-listing/:key", element: user ? <EditListing /> : <Login /> },
