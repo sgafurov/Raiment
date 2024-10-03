@@ -16,6 +16,8 @@ import FilterButtons from "./FilterButtons";
 import "../../styles/products.css";
 
 export default function Products() {
+  const user = useSelector(selectUser);
+
   let { userInput, category } = useParams();
 
   let navigate = useNavigate();
@@ -24,17 +26,6 @@ export default function Products() {
   // Check the pathname to determine which parameter to use
   const isSearchPath = location.pathname.startsWith("/products/search");
   const isCategoryPath = location.pathname.startsWith("/products/category");
-
-  // Proceed based on the path
-  if (isSearchPath) {
-    // Handle search logic with userInput
-    console.log("Search input:", userInput);
-  } else if (isCategoryPath) {
-    // Handle category logic with category
-    console.log("Category:", category);
-  }
-
-  const user = useSelector(selectUser);
 
   const [posts, setPosts] = useState({});
   const [keys, setKeys] = useState([]);
@@ -55,85 +46,14 @@ export default function Products() {
   const listingsRef = ref(db, "listings/"); // get all of the keys in the database under "listings/"" (usernames are the keys)
 
   useEffect(() => {
-    // var usernames = [];
-
     get(listingsRef)
       .then((snapshot) => {
         const data = snapshot.val();
         const usernames = Object.keys(data); // top level of keys are the usernames
-        const postKeysArray = [];
-
-        for (let i = 0; i < usernames.length; i++) {
-          const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
-
-          get(postsRef).then((snapshot) => {
-            const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
-            console.log(`${usernames[i]}'s posts`, data);
-            const postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
-            console.log("keys for the posts", postKeys);
-
-            for (let i = 0; i < postKeys.length; i++) {
-              // access post the object linked to each key
-              const obj = data[postKeys[i]];
-              console.log("obj", obj);
-              const names = obj.images.map((image) => image.name);
-              console.log("obj images names", names);
-
-              // Filtering logic based on selected filters
-              const matchesCategory =
-                selectedCategory === "Category" ||
-                obj.category === selectedCategory;
-              const matchesBrand =
-                selectedBrand === "Brand" || obj.brand === selectedBrand;
-              const matchesCondition =
-                selectedCondition === "Condition" ||
-                obj.condition === selectedCondition;
-              const matchesSize =
-                selectedSize === "Size" || obj.size === selectedSize;
-
-              if (isSearchPath) {
-                // Check if the post's title or description contains the userInput
-                const matchesUserInput = obj.description
-                  .toLowerCase()
-                  .includes(userInput.toLowerCase());
-
-                // Combine user input match with filter matches
-                if (
-                  matchesUserInput &&
-                  matchesCategory &&
-                  matchesBrand &&
-                  matchesCondition &&
-                  matchesSize
-                ) {
-                  setPosts((prevPosts) => {
-                    return { ...prevPosts, [postKeys[i]]: obj };
-                  });
-                  getImageUrl(names, postKeys[i]);
-                  postKeysArray.push(postKeys[i]);
-                }
-              } else if (isCategoryPath) {
-                // find posts depending on if user clicked on menswear, womenswear, or jewelry tab
-                if (
-                  obj.category == category &&
-                  matchesCategory &&
-                  matchesBrand &&
-                  matchesCondition &&
-                  matchesSize
-                ) {
-                  setPosts((prevPosts) => {
-                    return { ...prevPosts, [postKeys[i]]: obj };
-                  });
-                  getImageUrl(names, postKeys[i]);
-                  postKeysArray.push(postKeys[i]);
-                }
-              }
-            } // end of posts for-loop
-          }); // end of inner firebase function "get"
-        } // end of usernames for-loop
-        setKeys(postKeysArray);
-      }) // end of outer firebase function "get"
+        fetchPosts(usernames);
+      })
       .catch((error) => {
-        console.log("Error fetching data:", error);
+        console.error("Error fetching data:", error);
       });
     return () => {
       off(listingsRef);
@@ -146,6 +66,71 @@ export default function Products() {
     selectedSize,
     category,
   ]);
+
+  //  fetches posts for each user in db
+  const fetchPosts = async (usernames) => {
+    const postKeysArray = [];
+    for (let i = 0; i < usernames.length; i++) {
+      const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
+      const snapshot = await get(postsRef);
+      const data = snapshot.val(); // user's listings: { "key1": {post object}, "key2": {post object} }
+      processPosts(data, postKeysArray);
+    }
+    setKeys(postKeysArray);
+  };
+
+  // process each post by getting info, images, and storing posts in array
+  const processPosts = (data, postKeysArray) => {
+    const postKeys = Object.keys(data); // an array of keys for each post [ "key1", "key2" ]
+    for (let i = 0; i < postKeys.length; i++) {
+      const obj = data[postKeys[i]]; // access post object linked to each key
+      const names = obj.images.map((image) => image.name);
+
+      if (shouldInclude(obj)) {
+        setPosts((prevPosts) => {
+          return { ...prevPosts, [postKeys[i]]: obj };
+        });
+        getImageUrl(names, postKeys[i]);
+        postKeysArray.push(postKeys[i]);
+      }
+    }
+  };
+
+  // checks if post should be included based on if the user searched for it, or selected category
+  const shouldInclude = (obj) => {
+    // Filtering logic based on selected filters
+    const matchesCategory =
+      selectedCategory === "Category" || obj.category === selectedCategory;
+    const matchesBrand =
+      selectedBrand === "Brand" || obj.brand === selectedBrand;
+    const matchesCondition =
+      selectedCondition === "Condition" || obj.condition === selectedCondition;
+    const matchesSize = selectedSize === "Size" || obj.size === selectedSize;
+
+    if (isSearchPath) {
+      // Check if the post's title or description contains the userInput
+      const matchesUserInput = obj.description
+        .toLowerCase()
+        .includes(userInput.toLowerCase());
+      // only finds and includes posts based on user inpht and filters
+      return (
+        matchesUserInput &&
+        matchesCategory &&
+        matchesBrand &&
+        matchesCondition &&
+        matchesSize
+      );
+    } else if (isCategoryPath) {
+      // only finds and includes posts based on matching category and filters
+      return (
+        obj.category == category &&
+        matchesCategory &&
+        matchesBrand &&
+        matchesCondition &&
+        matchesSize
+      );
+    }
+  };
 
   const getImageUrl = async (names, postKey) => {
     try {
@@ -243,13 +228,11 @@ export default function Products() {
                         {posts[key].condition}
                       </p>
                       <Card.Text>{posts[key].description}</Card.Text>
-                      <Card.Text>{posts[key].brand}</Card.Text>
-                      <Card.Text>${posts[key].price}</Card.Text>
-                      <Card.Text>Zipcode {posts[key].zipcode}</Card.Text>
+                      <Card.Text>
+                        {posts[key].brand} • ${posts[key].price} • Location
+                        {posts[key].zipcode}
+                      </Card.Text>
 
-                      {/* <Card.Text style={{ fontWeight: 'bold' }}>${posts[key].price}</Card.Text>
-                      <Card.Text>{posts[key].size.toUpperCase()}</Card.Text>
-                      <Card.Text>{posts[key].brand}</Card.Text> */}
                       {user && user.username ? (
                         posts[key].username !== user.username ? (
                           <Button
