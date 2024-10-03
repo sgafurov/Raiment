@@ -171,7 +171,7 @@ export default function Products() {
   }
 
   return (
-    <div>
+    <div className="products-container">
       <h3 className="results-title">
         {isSearchPath && `Showing results for ${userInput.toLowerCase()}`}
         {isCategoryPath && `Showing results for ${category}`}
@@ -229,7 +229,7 @@ export default function Products() {
                       </p>
                       <Card.Text>{posts[key].description}</Card.Text>
                       <Card.Text>
-                        {posts[key].brand} • ${posts[key].price} • Location
+                        {posts[key].brand} • ${posts[key].price} • Location{" "}
                         {posts[key].zipcode}
                       </Card.Text>
 

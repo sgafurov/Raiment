@@ -2,7 +2,7 @@
     display: grid;
     gap: 16px;
     margin: 0px;
-    grid-template-columns: repeat(4, minmax(0px, 1fr));
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
     padding-top: 10px;
     padding-left: 32px;
     padding-right: 32px;
@@ -73,3 +73,9 @@ p.card-text {
     border-bottom-style: solid;
     border-bottom-color: rgb(243, 243, 243);
     }
+
+.products-container {
+    max-width: 1140px;
+    margin: 0 auto; /* Centers the container */
+    padding: 15px; 
+}
