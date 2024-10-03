@@ -19,10 +19,27 @@ import Products from "./components/products/Products";
 import AllProducts from "./components/products/AllProducts";
 import SelectedProduct from "./components/products/SelectedProduct";
 
+
+
 function App() {
   let dispatch = useDispatch();
   const user = useSelector(selectUser);
 
+  const routes = [
+    { path: "/", element: <Landing /> },
+    { path: "/login", element: user ? <UserDashboard /> : <Login /> },
+    { path: "/signup", element: user ? <UserDashboard /> : <SignUp /> },
+    { path: "/user-dashboard", element: user ? <UserDashboard /> : <Login /> },
+    { path: "/products/:userInput", element: <Products /> },
+    { path: "/allproducts/:category", element: <AllProducts /> },
+    { path: "/product/:params", element: <SelectedProduct /> },
+    { path: "/upload", element: user ? <CreateListing /> : <Login /> },
+    { path: "/edit-listing/:key", element: user ? <EditListing /> : <Login /> },
+    { path: "/inbox", element: user ? <Inbox /> : <Login /> },
+    { path: "/messageAsBuyer/:params", element: user ? <BuyerChatBox /> : <Login /> },
+    { path: "/messageAsSeller/:params", element: user ? <SellerChatBox /> : <Login /> },
+  ];
+  
   //check if user is logged in
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
@@ -48,54 +65,9 @@ function App() {
       <Router>
         <NavigationBar />
         <Routes>
-          <Route exact path="/" element={<Landing />} />
-          <Route
-            exact
-            path="/login"
-            element={user ? <UserDashboard /> : <Login />}
-          />
-          <Route
-            exact
-            path="/signup"
-            element={user ? <UserDashboard /> : <SignUp />}
-          />
-          <Route
-            exact
-            path="/user-dashboard"
-            element={user ? <UserDashboard /> : <Login />}
-          />
-          <Route exact path="/products/:userInput" element={<Products />} />
-          <Route
-            exact
-            path="/allproducts/:category"
-            element={<AllProducts />}
-          />
-          <Route
-            exact
-            path="/product/:params"
-            element={<SelectedProduct />}
-          />
-          <Route
-            exact
-            path="/upload"
-            element={user ? <CreateListing /> : <Login />}
-          />
-          <Route
-            exact
-            path="/edit-listing/:key"
-            element={user ? <EditListing /> : <Login />}
-          />
-          <Route exact path="/inbox" element={user ? <Inbox /> : <Login />} />
-          <Route
-            exact
-            path="/messageAsBuyer/:params"
-            element={user ? <BuyerChatBox /> : <Login />}
-          />
-          <Route
-            exact
-            path="/messageAsSeller/:params"
-            element={user ? <SellerChatBox /> : <Login />}
-          />
+          {routes.map((route, index) => (
+            <Route key={index} exact path={route.path} element={route.element} />
+          ))}
         </Routes>
       </Router>
     </div>

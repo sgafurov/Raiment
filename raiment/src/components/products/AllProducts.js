@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { ref, onValue, get, off } from "firebase/database";
+import { ref, get, off } from "firebase/database";
 import { storage } from "../../firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
@@ -10,7 +10,6 @@ import "firebase/compat/database";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Carousel from "react-bootstrap/Carousel";
-import Dropdown from "react-bootstrap/Dropdown";
 
 import { selectUser } from "../../store/userSlice";
 import FilterButtons from "./FilterButtons";

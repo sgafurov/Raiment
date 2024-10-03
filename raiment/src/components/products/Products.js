@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { ref, get } from "firebase/database";
+import { storage } from "../../firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/database";
+
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Carousel from "react-bootstrap/Carousel";
-import Dropdown from "react-bootstrap/Dropdown";
-import { ref, onValue, get, off } from "firebase/database";
-import firebase from "firebase/compat/app";
-import "firebase/compat/database";
-import { storage } from "../../firebase";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 import { selectUser } from "../../store/userSlice";
-import { useParams } from "react-router-dom";
-import "../../styles/products.css";
 import FilterButtons from "./FilterButtons";
+import "../../styles/products.css";
 
 export default function Products() {
   let { userInput } = useParams();
-
-  console.log("userInput", userInput);
 
   let navigate = useNavigate();
 
@@ -61,6 +60,7 @@ export default function Products() {
         var postKeysArray = [];
         for (let i = 0; i < usernames.length; i++) {
           const postsRef = ref(db, "listings/" + usernames[i] + "/"); // process all the listings for each user
+          
           get(postsRef).then((snapshot) => {
             const data = snapshot.val(); // object: { "key1": {post object}, "key2": {post object} }
             console.log(`${usernames[i]}'s posts`, data);
@@ -73,11 +73,6 @@ export default function Products() {
               console.log("obj", obj);
               const names = obj.images.map((image) => image.name);
               console.log("obj images names", names);
-              console.log(
-                "obj.description.includes(userInput)",
-                obj.description,
-                obj.description.includes(userInput)
-              );
 
               // Check if the post's title or description contains the userInput
               const matchesUserInput = obj.description
